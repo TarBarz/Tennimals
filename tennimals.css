@@ -1,5 +1,6 @@
 #game
 {
+	background-image: url("tenniscourt1.png");
 	margin-left: auto;
 	margin-right: auto;
 	width: 1280px;
@@ -9,5 +10,5 @@
 
 body
 {
-	background-color: blue;
+	background-color: indigo;
 }
