@@ -1,0 +1,13 @@
+#game
+{
+	margin-left: auto;
+	margin-right: auto;
+	width: 1280px;
+	height: 640px;
+	background-color: green;
+}
+
+body
+{
+	background-color: indigo;
+}
