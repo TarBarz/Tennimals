@@ -2,13 +2,23 @@ var canvas = document.querySelector("canvas");
 canvas.width = 1280;
 canvas.height = 640;
 var surface = canvas.getContext("2d");
-var player = {x:120, y:128, speed:6};
-var player2 = {x:1160, y:640-128, speed:6};
+var player = {x:120, y:128, speed:4};
+var player2 = {x:1160, y:640-128, speed:4};
+var ball = {x: 630, y:310, xspeed:-3, yspeed:-1, speed:2};
 var playerSprite = new Image();
 playerSprite.src = "tennimalscharplaceholder.png";
 var player2Sprite = new Image();
 player2Sprite.src = "tennimalscharplaceholder.png";
+
+var ballSprite = new Image();
+ballSprite.src = "ballplaceholder.png";
+
 var interval;
+var collInt1;
+var collInt2;
+
+var p1nocontact = false;
+var p2nocontact = false;
 
 var upPressed = false;
 var downPressed = false;
@@ -25,7 +35,7 @@ window.addEventListener("keyup", keyUp);
 window.addEventListener("keydown", p2KeyDown);
 window.addEventListener("keyup", p2KeyUp);
 
-
+window.addEventListener("keydown", debugReset); //delete this from final version
 
 startGame();
 
@@ -38,6 +48,8 @@ function update()
 {
 	movePlayer();
 	movePlayer2();
+	checkCollision();
+	moveBall();
 	render();
 	//console.log(player.x);
 	//console.log(player.y);
@@ -69,11 +81,124 @@ function movePlayer2()
 		player2.x += player2.speed;
 }
 
+function moveBall()
+{
+	ball.x += ball.xspeed * ball.speed;
+	ball.y += ball.yspeed * ball.speed;
+}
+
 function render()
 {
 	surface.clearRect(0,0,1280,640)
 	surface.drawImage(playerSprite, player.x, player.y);
 	surface.drawImage(player2Sprite, player2.x, player2.y);
+	surface.drawImage(ballSprite, ball.x, ball.y);
+}
+
+function checkCollision() //we can maybe add an if statement to make it only check one player's collision at a time if necessary
+{
+	checkP1Collision();
+	checkP2Collision();
+}
+
+function checkP1Collision()
+{
+	if(ball.x < player.x + 64 && ball.x > player.x + 32 && ball.y < player.y + 64 && ball.y + 20 > player.y && p1nocontact == false)
+	{
+		if (rightPressed == true && upPressed == false && downPressed == false)
+		{
+			ball.xspeed = 3;
+			ball.yspeed = 0;
+		}
+		else if (rightPressed == true && upPressed == true && downPressed == true)
+		{
+			ball.xspeed = 3;
+			ball.yspeed = 0;
+		}
+		else if (rightPressed == true && upPressed == true && downPressed == false)
+		{
+			ball.xspeed = 3;
+			ball.yspeed = -1;
+		}
+		else if (rightPressed == true && upPressed == false && downPressed == true)
+		{
+			ball.xspeed = 3;
+			ball.yspeed = 1
+		}
+		else if (rightPressed == false && upPressed == true && downPressed == false)
+		{
+			ball.xspeed = 3;
+			ball.yspeed = -2;
+		}
+		else if (rightPressed == false && upPressed == false && downPressed == true)
+		{
+			ball.xspeed = 3;
+			ball.yspeed = 2;
+		}
+		else
+		{
+		ball.xspeed *= -1;
+		ball.yspeed *= -1;
+		}
+		p1nocontact = true;
+		collInt1 = setInterval(p1flash, 200);
+	}
+}
+
+function checkP2Collision()
+{
+	if(ball.x + 20 > player2.x && ball.x + 20 < player2.x + 32 && ball.y < player2.y + 64 && ball.y + 20 > player2.y && p2nocontact == false)
+	{
+		if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == false)
+		{
+			ball.xspeed = -3;
+			ball.yspeed = 0;
+		}
+		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == true)
+		{
+			ball.xspeed = -3;
+			ball.yspeed = 0;
+		}
+		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == false)
+		{
+			ball.xspeed = -3;
+			ball.yspeed = -1;
+		}
+		else if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == true)
+		{
+			ball.xspeed = -3;
+			ball.yspeed = 1
+		}
+		else if (p2LeftPressed == false && p2UpPressed == true && p2DownPressed == false)
+		{
+			ball.xspeed = -3;
+			ball.yspeed = -2;
+		}
+		else if (p2LeftPressed == false && p2UpPressed == false && p2DownPressed == true)
+		{
+			ball.xspeed = -3;
+			ball.yspeed = 2;
+		}
+		else
+		{
+			ball.xspeed *= -1;
+			ball.yspeed *= -1;
+		}
+		p2nocontact = true;
+		collInt2 = setInterval(p2flash, 200);
+	}
+}
+
+function p1flash()
+{
+	p1nocontact = false;
+	clearInterval(collInt1);
+}
+
+function p2flash()
+{
+	p2nocontact = false;
+	clearInterval(collInt2);
 }
 
 function keyDown(event)
@@ -153,4 +278,22 @@ function p2KeyUp(event)
 			p2RightPressed = false;
 			break;
 	} 
+}
+
+function debugReset(event) //delete this from final version
+{
+	switch (event.keyCode)
+	{
+		case 81:
+			player.x = 120;
+			player.y = 128;
+			player2.x = 1160;
+			player2.y = 640-128;
+			ball.x = 630;
+			ball.y = 310;
+			ball.xspeed = -3;
+			ball.yspeed = -1;
+			ball.speed = 2;
+			break;
+	}
 }
