@@ -20,6 +20,12 @@ var collInt2;
 var p1nocontact = false;
 var p2nocontact = false;
 
+var lastHit = 2; //1: ball last touched by player 1, 2: by player 2
+var spawnDirection = 1; //1: ball spawns towards player 1, 2: towards player2
+
+var p1Score = 0;
+var p2Score = 0;
+
 var upPressed = false;
 var downPressed = false;
 var leftPressed = false;
@@ -99,6 +105,7 @@ function checkCollision() //we can maybe add an if statement to make it only che
 {
 	checkP1Collision();
 	checkP2Collision();
+	checkBounds();
 }
 
 function checkP1Collision()
@@ -138,8 +145,9 @@ function checkP1Collision()
 		else
 		{
 		ball.xspeed *= -1;
-		ball.yspeed *= -1;
+		ball.yspeed *= 1; //maybe change this to -1?
 		}
+		lastHit = 1;
 		p1nocontact = true;
 		collInt1 = setInterval(p1flash, 200);
 	}
@@ -182,10 +190,25 @@ function checkP2Collision()
 		else
 		{
 			ball.xspeed *= -1;
-			ball.yspeed *= -1;
+			ball.yspeed *= 1; //maybe change this to -1?
 		}
+		lastHit = 2;
 		p2nocontact = true;
 		collInt2 = setInterval(p2flash, 200);
+	}
+}
+
+function checkBounds()
+{
+	if (ball.x <= -20 || ball.x >= 1280 || ball.y <= -20 || ball.y >= 640)
+	{
+		if (ball.x <= 320)
+			scoreP2();
+		else if (ball.x >= 860)
+			scoreP1();
+		else
+			outOfBounds();
+		resetPositions();
 	}
 }
 
@@ -199,6 +222,32 @@ function p2flash()
 {
 	p2nocontact = false;
 	clearInterval(collInt2);
+}
+
+function scoreP1()
+{
+	p1Score += 1;
+	spawnDirection = 2;
+	console.log("Player 1 scores");
+	resetPositions();
+}
+
+function scoreP2()
+{
+	p2Score += 1;
+	spawnDirection = 1;
+	console.log("Player 2 scores");
+	resetPositions();
+}
+
+function outOfBounds()
+{
+	if (lastHit == 1)
+		spawnDirection = 2;
+	else if (lastHit == 2)
+		spawnDirection = 1;
+	console.log("Out of bounds");
+	resetPositions();
 }
 
 function keyDown(event)
@@ -285,15 +334,28 @@ function debugReset(event) //delete this from final version
 	switch (event.keyCode)
 	{
 		case 81:
-			player.x = 120;
-			player.y = 128;
-			player2.x = 1160;
-			player2.y = 640-128;
-			ball.x = 630;
-			ball.y = 310;
-			ball.xspeed = -3;
-			ball.yspeed = -1;
-			ball.speed = 2;
+			resetPositions();
 			break;
 	}
+}
+
+function resetPositions()
+{
+	player.x = 120;
+	player.y = 128;
+	player2.x = 1160;
+	player2.y = 640-128;
+	ball.x = 630;
+	ball.y = 310;
+	if (spawnDirection == 1)
+	{
+		ball.xspeed = -3;
+		ball.yspeed = -1
+	}
+	else if (spawnDirection == 2)
+	{
+		ball.xspeed = 3;
+		ball.yspeed = 1;
+	}
+	ball.speed = 2;
 }
