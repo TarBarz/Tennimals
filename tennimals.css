@@ -1,3 +1,9 @@
+@font-face
+{
+	font-family: BoldTennisFont;
+	src: url(BoldTennisFont.ttf);
+}
+
 #game
 {
 	background-image: url("tenniscourt1.png");
@@ -11,4 +17,10 @@
 body
 {
 	background-color: indigo;
+}
+
+p
+{
+	margin-left: 600px;
+	font-family: BoldTennisFont;
 }

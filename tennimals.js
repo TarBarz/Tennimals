@@ -36,6 +36,9 @@ var p2DownPressed = false;
 var p2LeftPressed = false;
 var p2RightPressed = false;
 
+var textOutput = document.getElementById("displayText");
+var textInterval;
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 window.addEventListener("keydown", p2KeyDown);
@@ -228,6 +231,11 @@ function scoreP1()
 {
 	p1Score += 1;
 	spawnDirection = 2;
+	textOutput.innerHTML = "Player 1 Scored!";
+	
+	textInterval = setInterval(clearText, 2000);
+	//textOutput.innerHTML = "Player 1 Serve!";
+	//textInterval = setInterval(clearText, 2000);
 	console.log("Player 1 scores");
 	resetPositions();
 }
@@ -236,6 +244,10 @@ function scoreP2()
 {
 	p2Score += 1;
 	spawnDirection = 1;
+	textOutput.innerHTML = "Player 2 Scored!";
+	textInterval = setInterval(clearText, 2000);
+	//textOutput.innerHTML = "Player 2 Serve!";
+	//textInterval = setInterval(clearText, 2000);
 	console.log("Player 2 scores");
 	resetPositions();
 }
@@ -246,8 +258,16 @@ function outOfBounds()
 		spawnDirection = 2;
 	else if (lastHit == 2)
 		spawnDirection = 1;
+	textOutput.innerHTML = "Out of Bounds!";
+	textInterval = setInterval(clearText, 2000);
 	console.log("Out of bounds");
 	resetPositions();
+}
+
+function clearText()
+{
+	textOutput.innerHTML = " ";
+	clearInterval(textInterval);
 }
 
 function keyDown(event)
