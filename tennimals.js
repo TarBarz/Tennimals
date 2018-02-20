@@ -3,7 +3,7 @@ canvas.width = 1280;
 canvas.height = 640;
 var surface = canvas.getContext("2d");
 var player = {x:120, y:128, speed:4};
-var player2 = {x:1160, y:640-128, speed:4};
+var player2 = {x:1160-64, y:640-128-64, speed:4};
 var ball = {x: 630, y:310, xspeed:-3, yspeed:-1, speed:2};
 var playerSprite = new Image();
 playerSprite.src = "tennimalscharplaceholder.png";
@@ -343,8 +343,8 @@ function resetPositions()
 {
 	player.x = 120;
 	player.y = 128;
-	player2.x = 1160;
-	player2.y = 640-128;
+	player2.x = 1160-64;
+	player2.y = 640-128-64;
 	ball.x = 630;
 	ball.y = 310;
 	if (spawnDirection == 1)
