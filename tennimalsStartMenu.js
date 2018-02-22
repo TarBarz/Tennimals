@@ -10,15 +10,15 @@ var PlayGame = false;//Varable to Move to the Player select screen
 var canvas = document.querySelector("canvas"); 
 canvas.width = //TBD;
 canvas.height = //TBD;
-var MenuSurface = canvas.getContext("2d");
+MenuSurface = canvas.getContext("2d");
 
 function Menu()
 {
-	if (//PlayGame = true)
+	if (/*PlayGame = true*/)
 	{
 		//move to screen select
 	}
-	if (//ExitGame = true)
+	if (/*ExitGame = true*/)
 	{
 		//Exit Game and maybe move to credit screen
 	}
