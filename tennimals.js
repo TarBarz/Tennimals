@@ -2,8 +2,8 @@ var canvas = document.querySelector("canvas");
 canvas.width = 1280;
 canvas.height = 640;
 var surface = canvas.getContext("2d");
-var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4};
-var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4};
+var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4}; //ylighthit is for when you're moving at a diagonal,
+var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4}; //yheavyhit is for when you're moving straight up/down
 var ball = {x: 630, y:310, xspeed:-3, yspeed:-1, speed:2};
 var playerSprite = new Image();
 playerSprite.src = "tennimalscharplaceholder.png";
@@ -13,12 +13,21 @@ player2Sprite.src = "tennimalscharplaceholder.png";
 var ballSprite = new Image();
 ballSprite.src = "ballplaceholder.png";
 
+var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, id:1}; //each character is assigned an id number for reference, e.g. in
+var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.5, speed:3, id:2}; //the setP1Character function
+var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:2, speed:5, id:3};
+var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, id:4};
+var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, speed:6, id:5};
+var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, id:0};
+
 var interval;
 var collInt1;
 var collInt2;
 
 var p1nocontact = false;
 var p2nocontact = false;
+
+var characterCycle = 1; //delete this from final version, it's just for swapCharacters function.
 
 var lastHit = 2; //1: ball last touched by player 1, 2: by player 2
 var spawnDirection = 1; //1: ball spawns towards player 1, 2: towards player2
@@ -45,6 +54,7 @@ window.addEventListener("keydown", p2KeyDown);
 window.addEventListener("keyup", p2KeyUp);
 
 window.addEventListener("keydown", debugReset); //delete this from final version
+window.addEventListener("keydown", swapCharacters); //delete this from final version
 
 startGame();
 
@@ -117,7 +127,7 @@ function checkP1Collision()
 	{
 		if (rightPressed == true && upPressed == false && downPressed == false)
 		{
-			ball.xspeed = player.xhit;
+			ball.xspeed = player.xhit+1;
 			ball.yspeed = 0;
 		}
 		else if (rightPressed == true && upPressed == true && downPressed == true)
@@ -152,7 +162,7 @@ function checkP1Collision()
 		}
 		lastHit = 1;
 		p1nocontact = true;
-		collInt1 = setInterval(p1flash, 200);
+		collInt1 = setInterval(p1flash, 1000);
 	}
 }
 
@@ -162,7 +172,7 @@ function checkP2Collision()
 	{
 		if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == false)
 		{
-			ball.xspeed = -player2.xhit;
+			ball.xspeed = -player2.xhit-1;
 			ball.yspeed = 0;
 		}
 		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == true)
@@ -197,7 +207,7 @@ function checkP2Collision()
 		}
 		lastHit = 2;
 		p2nocontact = true;
-		collInt2 = setInterval(p2flash, 200);
+		collInt2 = setInterval(p2flash, 1000);
 	}
 }
 
@@ -378,4 +388,116 @@ function resetPositions()
 		ball.yspeed = 1;
 	}
 	ball.speed = 2;
+}
+//var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, id:1};
+function setP1Character(x)
+{
+	if (x == 1) //Leona
+	{
+		player.xhit = leonaStats.xhit;
+		player.ylighthit = leonaStats.ylighthit;
+		player.yheavyhit = leonaStats.yheavyhit;
+		player.speed = leonaStats.speed;
+		console.log("Leona");
+	}
+	else if (x == 2) //Penny
+	{
+		player.xhit = pennyStats.xhit;
+		player.ylighthit = pennyStats.ylighthit;
+		player.yheavyhit = pennyStats.yheavyhit;
+		player.speed = pennyStats.speed;
+		console.log("Penny");
+	}
+	else if (x == 3) //Archie
+	{
+		player.xhit = archieStats.xhit;
+		player.ylighthit = archieStats.ylighthit;
+		player.yheavyhit = archieStats.yheavyhit;
+		player.speed = archieStats.speed;
+		console.log("Archie");
+	}
+	else if (x == 4) //Perry
+	{
+		player.xhit = perryStats.xhit;
+		player.ylighthit = perryStats.ylighthit;
+		player.yheavyhit = perryStats.yheavyhit;
+		player.speed = perryStats.speed;
+		console.log("Perry");
+	}
+	else if (x == 5) //Ophelia
+	{
+		player.xhit = opheliaStats.xhit;
+		player.ylighthit = opheliaStats.ylighthit;
+		player.yheavyhit = opheliaStats.yheavyhit;
+		player.speed = opheliaStats.speed;
+		console.log("Ophelia");
+	}
+	else //default
+	{
+		player.xhit = defaultStats.xhit;
+		player.ylighthit = defaultStats.ylighthit;
+		player.yheavyhit = defaultStats.yheavyhit;
+		player.speed = defaultStats.speed;
+		console.log("default");
+	}
+}
+
+function setP2Character(x)
+{
+	if (x == 1) //Leona
+	{
+		player2.xhit = leonaStats.xhit;
+		player2.ylighthit = leonaStats.ylighthit;
+		player2.yheavyhit = leonaStats.yheavyhit;
+		player2.speed = leonaStats.speed;
+	}
+	else if (x == 2) //Penny
+	{
+		player2.xhit = pennyStats.xhit;
+		player2.ylighthit = pennyStats.ylighthit;
+		player2.yheavyhit = pennyStats.yheavyhit;
+		player2.speed = pennyStats.speed;		
+	}
+	else if (x == 3) //Archie
+	{
+		player2.xhit = archieStats.xhit;
+		player2.ylighthit = archieStats.ylighthit;
+		player2.yheavyhit = archieStats.yheavyhit;
+		player2.speed = archieStats.speed;		
+	}
+	else if (x == 4) //Perry
+	{
+		player2.xhit = perryStats.xhit;
+		player2.ylighthit = perryStats.ylighthit;
+		player2.yheavyhit = perryStats.yheavyhit;
+		player2.speed = perryStats.speed;
+	}
+	else if (x == 5) //Ophelia
+	{
+		player2.xhit = opheliaStats.xhit;
+		player2.ylighthit = opheliaStats.ylighthit;
+		player2.yheavyhit = opheliaStats.yheavyhit;
+		player2.speed = opheliaStats.speed;
+	}
+	else //default
+	{
+		player2.xhit = defaultStats.xhit;
+		player2.ylighthit = defaultStats.ylighthit;
+		player2.yheavyhit = defaultStats.yheavyhit;
+		player2.speed = defaultStats.speed;
+	}
+}
+
+function swapCharacters() //this is for testing purposes, remove from final version
+{
+	switch (event.keyCode)
+	{
+		case 77: //cycles P1 through each character every time you press M
+			setP1Character(characterCycle);
+			if (characterCycle < 5)
+				characterCycle++;
+			else
+				characterCycle = 0;
+			break;
+	}
 }
