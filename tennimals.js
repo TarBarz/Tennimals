@@ -2,8 +2,8 @@ var canvas = document.querySelector("canvas");
 canvas.width = 1280;
 canvas.height = 640;
 var surface = canvas.getContext("2d");
-var player = {x:120, y:128, speed:4};
-var player2 = {x:1160-64, y:640-128-64, speed:4};
+var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4};
+var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4};
 var ball = {x: 630, y:310, xspeed:-3, yspeed:-1, speed:2};
 var playerSprite = new Image();
 playerSprite.src = "tennimalscharplaceholder.png";
@@ -117,33 +117,33 @@ function checkP1Collision()
 	{
 		if (rightPressed == true && upPressed == false && downPressed == false)
 		{
-			ball.xspeed = 3;
+			ball.xspeed = player.xhit;
 			ball.yspeed = 0;
 		}
 		else if (rightPressed == true && upPressed == true && downPressed == true)
 		{
-			ball.xspeed = 3;
+			ball.xspeed = player.xhit;
 			ball.yspeed = 0;
 		}
 		else if (rightPressed == true && upPressed == true && downPressed == false)
 		{
-			ball.xspeed = 3;
-			ball.yspeed = -1;
+			ball.xspeed = player.xhit;
+			ball.yspeed = -player.ylighthit;
 		}
 		else if (rightPressed == true && upPressed == false && downPressed == true)
 		{
-			ball.xspeed = 3;
-			ball.yspeed = 1
+			ball.xspeed = player.xhit;
+			ball.yspeed = player.ylighthit;
 		}
 		else if (rightPressed == false && upPressed == true && downPressed == false)
 		{
-			ball.xspeed = 3;
-			ball.yspeed = -2;
+			ball.xspeed = player.xhit;
+			ball.yspeed = -player.yheavyhit;
 		}
 		else if (rightPressed == false && upPressed == false && downPressed == true)
 		{
-			ball.xspeed = 3;
-			ball.yspeed = 2;
+			ball.xspeed = player.xhit;
+			ball.yspeed = player.yheavyhit;
 		}
 		else
 		{
@@ -162,33 +162,33 @@ function checkP2Collision()
 	{
 		if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == false)
 		{
-			ball.xspeed = -3;
+			ball.xspeed = -player2.xhit;
 			ball.yspeed = 0;
 		}
 		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == true)
 		{
-			ball.xspeed = -3;
+			ball.xspeed = -player2.xhit;
 			ball.yspeed = 0;
 		}
 		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == false)
 		{
-			ball.xspeed = -3;
-			ball.yspeed = -1;
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = -player2.ylighthit;
 		}
 		else if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == true)
 		{
-			ball.xspeed = -3;
-			ball.yspeed = 1
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = player2.ylighthit;
 		}
 		else if (p2LeftPressed == false && p2UpPressed == true && p2DownPressed == false)
 		{
-			ball.xspeed = -3;
-			ball.yspeed = -2;
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = -player2.yheavyhit;
 		}
 		else if (p2LeftPressed == false && p2UpPressed == false && p2DownPressed == true)
 		{
-			ball.xspeed = -3;
-			ball.yspeed = 2;
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = player2.yheavyhit;
 		}
 		else
 		{
