@@ -13,12 +13,12 @@ player2Sprite.src = "tennimalscharplaceholder.png";
 var ballSprite = new Image();
 ballSprite.src = "ballplaceholder.png";
 
-var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, id:1}; //each character is assigned an id number for reference, e.g. in
-var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.5, speed:3, id:2}; //the setP1Character function
-var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:2, speed:5, id:3};
-var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, id:4};
-var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, speed:6, id:5};
-var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, id:0};
+var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"tennimalscharplaceholder.png", id:1}; //each character is assigned an id number for reference, e.g. in
+var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.5, speed:3, img:"tennimalscharplaceholder.png", id:2}; //the setP1Character function
+var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:2, speed:5, img:"tennimalscharplaceholder.png", id:3};
+var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder.png", id:4};
+var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"tennimalscharplaceholder.png", speed:6, id:5};
+var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder.png", speed:4, id:0};
 
 var interval;
 var collInt1;
@@ -398,6 +398,7 @@ function setP1Character(x)
 		player.ylighthit = leonaStats.ylighthit;
 		player.yheavyhit = leonaStats.yheavyhit;
 		player.speed = leonaStats.speed;
+		playerSprite.src = leonaStats.img;
 		console.log("Leona");
 	}
 	else if (x == 2) //Penny
@@ -406,6 +407,7 @@ function setP1Character(x)
 		player.ylighthit = pennyStats.ylighthit;
 		player.yheavyhit = pennyStats.yheavyhit;
 		player.speed = pennyStats.speed;
+		playerSprite.src = pennyStats.img;
 		console.log("Penny");
 	}
 	else if (x == 3) //Archie
@@ -414,6 +416,7 @@ function setP1Character(x)
 		player.ylighthit = archieStats.ylighthit;
 		player.yheavyhit = archieStats.yheavyhit;
 		player.speed = archieStats.speed;
+		playerSprite.src = archieStats.img;
 		console.log("Archie");
 	}
 	else if (x == 4) //Perry
@@ -422,6 +425,7 @@ function setP1Character(x)
 		player.ylighthit = perryStats.ylighthit;
 		player.yheavyhit = perryStats.yheavyhit;
 		player.speed = perryStats.speed;
+		playerSprite.src = perryStats.img;
 		console.log("Perry");
 	}
 	else if (x == 5) //Ophelia
@@ -430,6 +434,7 @@ function setP1Character(x)
 		player.ylighthit = opheliaStats.ylighthit;
 		player.yheavyhit = opheliaStats.yheavyhit;
 		player.speed = opheliaStats.speed;
+		playerSprite.src = opheliaStats.img;
 		console.log("Ophelia");
 	}
 	else //default
@@ -438,6 +443,7 @@ function setP1Character(x)
 		player.ylighthit = defaultStats.ylighthit;
 		player.yheavyhit = defaultStats.yheavyhit;
 		player.speed = defaultStats.speed;
+		playerSprite.src = defaultStats.img;
 		console.log("default");
 	}
 }
@@ -450,6 +456,7 @@ function setP2Character(x)
 		player2.ylighthit = leonaStats.ylighthit;
 		player2.yheavyhit = leonaStats.yheavyhit;
 		player2.speed = leonaStats.speed;
+		player2Sprite.src = leonaStats.img;
 	}
 	else if (x == 2) //Penny
 	{
@@ -457,13 +464,15 @@ function setP2Character(x)
 		player2.ylighthit = pennyStats.ylighthit;
 		player2.yheavyhit = pennyStats.yheavyhit;
 		player2.speed = pennyStats.speed;		
+		player2Sprite.src = pennyStats.img;
 	}
 	else if (x == 3) //Archie
 	{
 		player2.xhit = archieStats.xhit;
 		player2.ylighthit = archieStats.ylighthit;
 		player2.yheavyhit = archieStats.yheavyhit;
-		player2.speed = archieStats.speed;		
+		player2.speed = archieStats.speed;
+		player2Sprite.src = archieStats.img; 		
 	}
 	else if (x == 4) //Perry
 	{
@@ -471,6 +480,7 @@ function setP2Character(x)
 		player2.ylighthit = perryStats.ylighthit;
 		player2.yheavyhit = perryStats.yheavyhit;
 		player2.speed = perryStats.speed;
+		player2Sprite.src = perryStats.img;
 	}
 	else if (x == 5) //Ophelia
 	{
@@ -478,6 +488,7 @@ function setP2Character(x)
 		player2.ylighthit = opheliaStats.ylighthit;
 		player2.yheavyhit = opheliaStats.yheavyhit;
 		player2.speed = opheliaStats.speed;
+		player2Sprite.src = opheliaStats.img;
 	}
 	else //default
 	{
@@ -485,6 +496,7 @@ function setP2Character(x)
 		player2.ylighthit = defaultStats.ylighthit;
 		player2.yheavyhit = defaultStats.yheavyhit;
 		player2.speed = defaultStats.speed;
+		player2Sprite.src = defaultStats.img;
 	}
 }
 
