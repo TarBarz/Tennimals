@@ -49,9 +49,9 @@ p
 	color: white;
 }
 
-.btn
+#playGame
 {
-	border: 2px solid black;
+	border: 2px solid #d3d3d3;
 	background-color: white;
 	color: black;
 	text-align: center;
@@ -66,26 +66,29 @@ p
 	margin-right: auto;
 }
 
-.playGame
-{
-	border-color: lightgrey;
-	/*margin-left: auto;
-	margin-right: auto;*/
-}
-
-.playGame:hover
+#playGame:hover
 {
 	background: grey;
 }
 
-.exitGame
+#exitGame
 {
-	border-color: lightsteelblue;
-	/*margin-left: auto;
-	margin-right: auto;*/
+	border: 2px solid #b0c4de;
+	background-color: white;
+	color: black;
+	text-align: center;
+	padding: 14px 28px;
+	font-size: 16px;
+	margin: 5px;
+	cursor: pointer;
+	transition-duration: 0.5s;
+	width: 150px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
 
-.exitGame:hover
+#exitGame:hover
 {
 	background: steelblue;
 }

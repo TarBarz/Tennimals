@@ -10,23 +10,39 @@ var inputMenu;
 var ExitGame;//Variable to Exit Game
 var PlayGame;//Variable to Move to the Player select screen
 var canvas = document.getElementById("menuCanvas"); 
-var playButton = document.getElementsByClassName("btn playGame");
-var exitButton = document.getElementsByClassName("btn exitGame");
+var playButton = document.getElementById("playGame");
+var exitButton = document.getElementById("exitGame");
 var displayTitle = document.getElementById("title");
 var menuMusic = document.getElementById("menuAudio").autoplay;
 canvas.width = 1280; //TBD
 canvas.height = 640; //TBD
 menuSurface = canvas.getContext("2d");
-playButton.addEventListener("click", clickPlay);
+playButton.addEventListener("click", function clickPlay()
+{
+	if (playButton.click)
+	{
+		import ("tennimals.js");
+		console.log("play game!");
+	}
+});
 
-playAudio();
-displayMenu();
-clickPlay();
+exitButton.addEventListener("click", function clickPlay()
+{
+	if (exitButton.click)
+	{
+		close();
+		console.log("exit game!");
+	}
+});
 
-function playAudio()
+//playAudio();
+//displayMenu();
+//clickPlay();
+
+/* function playAudio()
 {
 	menuMusic.play();
-}
+} */
 /*function Menu()
 {
 	if (PlayGame = true)
@@ -44,11 +60,11 @@ function displayMenu()
 	//interval = setInterval(update, 33.34);
 	//Where the canvas goes 
 }
-function clickPlay()
+/* function clickPlay()
 {
 	if (playButton.onclick == true)
 	{
 		console.log("play game!");
 	}
-}
+} */
 
