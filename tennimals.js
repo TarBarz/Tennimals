@@ -17,7 +17,7 @@ var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leonastati
 var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.5, speed:3, img:"pennystatic.png", id:2}; //the setP1Character function
 var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:2, speed:5, img:"archiestatic.png", id:3};
 var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perrystatic.png", id:4};
-var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"tennimalscharplaceholder.png", speed:6, id:5};
+var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"opheliastatic.png", speed:6, id:5};
 var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder.png", speed:4, id:0};
 
 var interval;
