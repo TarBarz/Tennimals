@@ -9,25 +9,25 @@ var displayMenu;
 var inputMenu;
 var ExitGame;//Variable to Exit Game
 var PlayGame;//Variable to Move to the Player select screen
-var canvas = document.querySelector("menuCanvas"); 
+var canvas = document.getElementById("menuCanvas"); 
 var playButton = document.getElementsByClassName("btn playGame");
 var exitButton = document.getElementsByClassName("btn exitGame");
-var displayTitle = document.getElementById("title").innerHTML.display;
+var displayTitle = document.getElementById("title");
 var menuMusic = document.getElementById("menuAudio").autoplay;
 canvas.width = 1280; //TBD
 canvas.height = 640; //TBD
 menuSurface = canvas.getContext("2d");
-window.addEventListener("keydown", keyDown);
-window.addEventListener("keyup", keyUp);
+playButton.addEventListener("click", clickPlay);
 
 playAudio();
 displayMenu();
+clickPlay();
 
 function playAudio()
 {
 	menuMusic.play();
 }
-function Menu()
+/*function Menu()
 {
 	if (PlayGame = true)
 	{
@@ -37,41 +37,18 @@ function Menu()
 	{
 		//Exit Game and maybe move to credit screen
 	}
-}
+}*/
 function displayMenu()
 {
 	menuSurface.fillRect(0,0,1280,640);
-	displayTitle;
-	playButton;
-	exitButton;
 	//interval = setInterval(update, 33.34);
 	//Where the canvas goes 
 }
-function update ()
+function clickPlay()
 {
-	
-}
-function keyDown(event)
-{
-	case 49:
-			PlayGame = true;
-			break;
-	case 50:
-			ExitGame = true;
-			break;
-}
-function keyUp(event)
-{
-	case 49:
-			PlayGame = false;
-			break;
-	case 50:
-			ExitGame = false;
-			break;
-}
-
-function render()
-{
-
+	if (playButton.onclick == true)
+	{
+		console.log("play game!");
+	}
 }
 
