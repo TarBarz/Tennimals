@@ -9,13 +9,24 @@ var displayMenu;
 var inputMenu;
 var ExitGame;//Variable to Exit Game
 var PlayGame;//Variable to Move to the Player select screen
-var canvas = document.querySelector("canvas"); 
-canvas.width = //TBD;
-canvas.height = //TBD;
-MenuSurface = canvas.getContext("2d");
+var canvas = document.querySelector("menuCanvas"); 
+var playButton = document.getElementsByClassName("btn playGame");
+var exitButton = document.getElementsByClassName("btn exitGame");
+var displayTitle = document.getElementById("title").innerHTML.display;
+var menuMusic = document.getElementById("menuAudio").autoplay;
+canvas.width = 1280; //TBD
+canvas.height = 640; //TBD
+menuSurface = canvas.getContext("2d");
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 
+playAudio();
+displayMenu();
+
+function playAudio()
+{
+	menuMusic.play();
+}
 function Menu()
 {
 	if (PlayGame = true)
@@ -29,7 +40,16 @@ function Menu()
 }
 function displayMenu()
 {
+	menuSurface.fillRect(0,0,1280,640);
+	displayTitle;
+	playButton;
+	exitButton;
+	//interval = setInterval(update, 33.34);
 	//Where the canvas goes 
+}
+function update ()
+{
+	
 }
 function keyDown(event)
 {
@@ -48,5 +68,10 @@ function keyUp(event)
 	case 50:
 			ExitGame = false;
 			break;
+}
+
+function render()
+{
+
 }
 
