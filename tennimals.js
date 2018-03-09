@@ -2,8 +2,8 @@ var canvas = document.querySelector("canvas");
 canvas.width = 1280;
 canvas.height = 640;
 var surface = canvas.getContext("2d");
-var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4}; //ylighthit is for when you're moving at a diagonal,
-var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4}; //yheavyhit is for when you're moving straight up/down
+var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder"}; //ylighthit is for when you're moving at a diagonal,
+var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder"}; //yheavyhit is for when you're moving straight up/down
 var ball = {x: 630, y:310, xspeed:-3, yspeed:-1, speed:2};
 var playerSprite = new Image();
 playerSprite.src = "tennimalscharplaceholder.png";
@@ -13,12 +13,12 @@ player2Sprite.src = "tennimalscharplaceholder.png";
 var ballSprite = new Image();
 ballSprite.src = "ballplaceholder.png";
 
-var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leonastatic.png", id:1}; //each character is assigned an id number for reference, e.g. in
-var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.5, speed:3, img:"pennystatic.png", id:2}; //the setP1Character function
-var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:2, speed:5, img:"archiestatic.png", id:3};
-var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perrystatic.png", id:4};
-var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"opheliastatic.png", speed:6, id:5};
-var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder.png", speed:4, id:0};
+var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leonastatic", id:1}; //each character is assigned an id number for reference, e.g. in
+var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.5, speed:3, img:"pennystatic", id:2}; //the setP1Character function
+var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:2, speed:5, img:"archiestatic", id:3};
+var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perrystatic", id:4};
+var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"opheliastatic", speed:6, id:5};
+var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder", speed:4, id:0};
 
 var interval;
 var collInt1;
@@ -28,6 +28,7 @@ var p1nocontact = false;
 var p2nocontact = false;
 
 var characterCycle = 1; //delete this from final version, it's just for swapCharacters function.
+var characterCycle2 = 1; //delete this from final version
 
 var lastHit = 2; //1: ball last touched by player 1, 2: by player 2
 var spawnDirection = 1; //1: ball spawns towards player 1, 2: towards player2
@@ -109,6 +110,10 @@ function moveBall()
 function render()
 {
 	surface.clearRect(0,0,1280,640)
+	CheckP1Sprite();
+	CheckP2Sprite();
+	//playerSprite.src = player.img + ".png";
+	//player2Sprite.src = player2.img + ".png";
 	surface.drawImage(playerSprite, player.x, player.y);
 	surface.drawImage(player2Sprite, player2.x, player2.y);
 	surface.drawImage(ballSprite, ball.x, ball.y);
@@ -119,6 +124,30 @@ function checkCollision() //we can maybe add an if statement to make it only che
 	checkP1Collision();
 	checkP2Collision();
 	checkBounds();
+}
+
+function CheckP1Sprite()
+{
+	if (rightPressed == true && upPressed == false && downPressed == false)
+		playerSprite.src = player.img + "r.png";
+	else if (leftPressed == true && upPressed == false && downPressed == false)
+		playerSprite.src = player.img + "l.png";
+	else if (downPressed == true && leftPressed == false && rightPressed == false)
+		playerSprite.src = player.img + ".png";
+	else if (upPressed == true && leftPressed == false && rightPressed == false)
+		playerSprite.src = player.img + "b.png";
+}
+
+function CheckP2Sprite()
+{
+	if (p2RightPressed == true && p2UpPressed == false && p2DownPressed == false)
+		player2Sprite.src = player2.img + "r.png";
+	else if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == false)
+		player2Sprite.src = player2.img + "l.png";
+	else if (p2DownPressed == true && p2LeftPressed == false && p2RightPressed == false)
+		player2Sprite.src = player2.img + ".png";
+	else if (p2UpPressed == true && p2LeftPressed == false && p2RightPressed == false)
+		player2Sprite.src = player2.img + "b.png";
 }
 
 function checkP1Collision()
@@ -398,7 +427,7 @@ function setP1Character(x)
 		player.ylighthit = leonaStats.ylighthit;
 		player.yheavyhit = leonaStats.yheavyhit;
 		player.speed = leonaStats.speed;
-		playerSprite.src = leonaStats.img;
+		player.img = leonaStats.img;
 		console.log("Leona");
 	}
 	else if (x == 2) //Penny
@@ -407,7 +436,7 @@ function setP1Character(x)
 		player.ylighthit = pennyStats.ylighthit;
 		player.yheavyhit = pennyStats.yheavyhit;
 		player.speed = pennyStats.speed;
-		playerSprite.src = pennyStats.img;
+		player.img = pennyStats.img;
 		console.log("Penny");
 	}
 	else if (x == 3) //Archie
@@ -416,7 +445,7 @@ function setP1Character(x)
 		player.ylighthit = archieStats.ylighthit;
 		player.yheavyhit = archieStats.yheavyhit;
 		player.speed = archieStats.speed;
-		playerSprite.src = archieStats.img;
+		player.img = archieStats.img;
 		console.log("Archie");
 	}
 	else if (x == 4) //Perry
@@ -425,7 +454,7 @@ function setP1Character(x)
 		player.ylighthit = perryStats.ylighthit;
 		player.yheavyhit = perryStats.yheavyhit;
 		player.speed = perryStats.speed;
-		playerSprite.src = perryStats.img;
+		player.img = perryStats.img;
 		console.log("Perry");
 	}
 	else if (x == 5) //Ophelia
@@ -434,7 +463,7 @@ function setP1Character(x)
 		player.ylighthit = opheliaStats.ylighthit;
 		player.yheavyhit = opheliaStats.yheavyhit;
 		player.speed = opheliaStats.speed;
-		playerSprite.src = opheliaStats.img;
+		player.img = opheliaStats.img;
 		console.log("Ophelia");
 	}
 	else //default
@@ -443,9 +472,10 @@ function setP1Character(x)
 		player.ylighthit = defaultStats.ylighthit;
 		player.yheavyhit = defaultStats.yheavyhit;
 		player.speed = defaultStats.speed;
-		playerSprite.src = defaultStats.img;
+		player.img = defaultStats.img;
 		console.log("default");
 	}
+	playerSprite.src = player.img + ".png";
 }
 
 function setP2Character(x)
@@ -456,7 +486,7 @@ function setP2Character(x)
 		player2.ylighthit = leonaStats.ylighthit;
 		player2.yheavyhit = leonaStats.yheavyhit;
 		player2.speed = leonaStats.speed;
-		player2Sprite.src = leonaStats.img;
+		player2.img = leonaStats.img;
 	}
 	else if (x == 2) //Penny
 	{
@@ -464,7 +494,7 @@ function setP2Character(x)
 		player2.ylighthit = pennyStats.ylighthit;
 		player2.yheavyhit = pennyStats.yheavyhit;
 		player2.speed = pennyStats.speed;		
-		player2Sprite.src = pennyStats.img;
+		player2.img = pennyStats.img;
 	}
 	else if (x == 3) //Archie
 	{
@@ -472,7 +502,7 @@ function setP2Character(x)
 		player2.ylighthit = archieStats.ylighthit;
 		player2.yheavyhit = archieStats.yheavyhit;
 		player2.speed = archieStats.speed;
-		player2Sprite.src = archieStats.img; 		
+		player2.img = archieStats.img; 		
 	}
 	else if (x == 4) //Perry
 	{
@@ -480,7 +510,7 @@ function setP2Character(x)
 		player2.ylighthit = perryStats.ylighthit;
 		player2.yheavyhit = perryStats.yheavyhit;
 		player2.speed = perryStats.speed;
-		player2Sprite.src = perryStats.img;
+		player2.img = perryStats.img;
 	}
 	else if (x == 5) //Ophelia
 	{
@@ -488,7 +518,7 @@ function setP2Character(x)
 		player2.ylighthit = opheliaStats.ylighthit;
 		player2.yheavyhit = opheliaStats.yheavyhit;
 		player2.speed = opheliaStats.speed;
-		player2Sprite.src = opheliaStats.img;
+		player2.img = opheliaStats.img;
 	}
 	else //default
 	{
@@ -496,8 +526,9 @@ function setP2Character(x)
 		player2.ylighthit = defaultStats.ylighthit;
 		player2.yheavyhit = defaultStats.yheavyhit;
 		player2.speed = defaultStats.speed;
-		player2Sprite.src = defaultStats.img;
+		player2.img = defaultStats.img;
 	}
+	player2Sprite.src = player2.img + ".png";
 }
 
 function swapCharacters() //this is for testing purposes, remove from final version
@@ -510,6 +541,13 @@ function swapCharacters() //this is for testing purposes, remove from final vers
 				characterCycle++;
 			else
 				characterCycle = 0;
+			break;
+		case 78:
+			setP2Character(characterCycle2);
+			if (characterCycle2 < 5)
+				characterCycle2++;
+			else
+				characterCycle2 = 0;
 			break;
 	}
 }
