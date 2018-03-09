@@ -35,6 +35,7 @@ var spawnDirection = 1; //1: ball spawns towards player 1, 2: towards player2
 
 var p1Score = 0;
 var p2Score = 0;
+var targetScore = 8; //score to reach to win the game
 
 var upPressed = false;
 var downPressed = false;
@@ -232,7 +233,7 @@ function checkP2Collision()
 		else
 		{
 			ball.xspeed *= -1;
-			ball.yspeed *= 1; //maybe change this to -1?
+			ball.yspeed *= 1;
 		}
 		lastHit = 2;
 		p2nocontact = true;
@@ -250,6 +251,7 @@ function checkBounds()
 			scoreP1();
 		else
 			outOfBounds();
+		CheckScores();
 		resetPositions();
 	}
 }
@@ -301,6 +303,24 @@ function outOfBounds()
 	textInterval = setInterval(clearText, 2000);
 	console.log("Out of bounds");
 	resetPositions();
+}
+
+function CheckScores()
+{
+	if (p1Score >= targetScore)
+		p1Wins();
+	else if (p2Score >= targetScore)
+		p2Wins();
+}
+
+function p1Wins()
+{
+	window.close();
+}
+
+function p2Wins()
+{
+	window.close();
 }
 
 function clearText()
