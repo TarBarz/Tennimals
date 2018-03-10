@@ -27,6 +27,10 @@ var collInt2;
 var p1nocontact = false;
 var p2nocontact = false;
 
+var ding = document.getElementById("ding");
+var scoresound = document.getElementById("scoresound");
+var oobsound = document.getElementById("flub");
+
 var characterCycle = 1; //delete this from final version, it's just for swapCharacters function.
 var characterCycle2 = 1; //delete this from final version
 
@@ -193,6 +197,7 @@ function checkP1Collision()
 		lastHit = 1;
 		p1nocontact = true;
 		collInt1 = setInterval(p1flash, 1000);
+		ding.play();
 	}
 }
 
@@ -238,6 +243,7 @@ function checkP2Collision()
 		lastHit = 2;
 		p2nocontact = true;
 		collInt2 = setInterval(p2flash, 1000);
+		ding.play();
 	}
 }
 
@@ -277,6 +283,7 @@ function scoreP1()
 	textInterval = setInterval(clearText, 2000);
 	//textOutput.innerHTML = "Player 1 Serve!";
 	//textInterval = setInterval(clearText, 2000);
+	scoresound.play();
 	console.log("Player 1 scores");
 	resetPositions();
 }
@@ -289,6 +296,7 @@ function scoreP2()
 	textInterval = setInterval(clearText, 2000);
 	//textOutput.innerHTML = "Player 2 Serve!";
 	//textInterval = setInterval(clearText, 2000);
+	scoresound.play();
 	console.log("Player 2 scores");
 	resetPositions();
 }
@@ -301,6 +309,7 @@ function outOfBounds()
 		spawnDirection = 1;
 	textOutput.innerHTML = "Out of Bounds!";
 	textInterval = setInterval(clearText, 2000);
+	oobsound.play();
 	console.log("Out of bounds");
 	resetPositions();
 }
@@ -571,3 +580,4 @@ function swapCharacters() //this is for testing purposes, remove from final vers
 			break;
 	}
 }
+
