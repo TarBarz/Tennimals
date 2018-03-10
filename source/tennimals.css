@@ -1,0 +1,94 @@
+@font-face
+{
+	font-family: BoldTennisFont;
+	src: url(BoldTennisFont.ttf);
+}
+
+#game
+{
+	background-image: url("tenniscourt1.png");
+	margin-left: auto;
+	margin-right: auto;
+	width: 1280px;
+	height: 640px;
+	background-color: green;
+}
+
+#startMenu
+{
+	width: 1280px;
+	height: 640px;
+	margin-left: auto;
+	margin-right: auto;
+	background-color: lightslategrey;
+}
+
+body
+{
+	background-color: black;
+	width: 1280px;
+	height: 640px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+p
+{
+	margin-left: 600px;
+	font-family: BoldTennisFont;
+	color: white;
+}
+
+#title
+{
+	font-family: BoldTennisFont;
+	text-align: center;
+	width: 1280px;
+	margin-left: auto;
+	margin-right: auto;
+	color: white;
+}
+
+#playGame
+{
+	border: 2px solid #d3d3d3;
+	background-color: white;
+	color: black;
+	text-align: center;
+	padding: 14px 28px;
+	font-size: 16px;
+	margin: 5px;
+	cursor: pointer;
+	transition-duration: 0.5s;
+	width: 150px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#playGame:hover
+{
+	background: grey;
+}
+
+#exitGame
+{
+	border: 2px solid #b0c4de;
+	background-color: white;
+	color: black;
+	text-align: center;
+	padding: 14px 28px;
+	font-size: 16px;
+	margin: 5px;
+	cursor: pointer;
+	transition-duration: 0.5s;
+	width: 150px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#exitGame:hover
+{
+	background: steelblue;
+}
