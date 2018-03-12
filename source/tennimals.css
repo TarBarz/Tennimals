@@ -32,11 +32,41 @@ body
 	margin-right: auto;
 }
 
-p
+#displayText
 {
 	margin-left: 600px;
 	font-family: BoldTennisFont;
 	color: white;
+}
+
+#p1ScoreText
+{
+	font-family: BoldTennisFont;
+	color: white;
+}
+
+.p1Text
+{
+	display: inline;
+}
+
+#p2ScoreText
+{
+	font-family: BoldTennisFont;
+	color: white;
+	margin-left: 500px;
+}
+
+.p2Text
+{
+	display: inline;
+	
+}
+
+.scoreText
+{
+	display: inline-block;
+	margin-left: 500px;
 }
 
 a

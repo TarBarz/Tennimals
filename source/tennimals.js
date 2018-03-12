@@ -52,6 +52,8 @@ var p2LeftPressed = false;
 var p2RightPressed = false;
 
 var textOutput = document.getElementById("displayText");
+var p1Point = document.getElementById("p1ScoreCount");
+var p2Point = document.getElementById("p2ScoreCount");
 var textInterval;
 
 window.addEventListener("keydown", keyDown);
@@ -276,7 +278,7 @@ function p2flash()
 
 function scoreP1()
 {
-	p1Score += 1;
+	p1Point.innerHTML = p1Score += 1;
 	spawnDirection = 2;
 	textOutput.innerHTML = "Player 1 Scored!";
 	
@@ -290,7 +292,7 @@ function scoreP1()
 
 function scoreP2()
 {
-	p2Score += 1;
+	p2Point.innerHTML = p2Score += 1;
 	spawnDirection = 1;
 	textOutput.innerHTML = "Player 2 Scored!";
 	textInterval = setInterval(clearText, 2000);
@@ -324,11 +326,13 @@ function CheckScores()
 
 function p1Wins()
 {
+	window.alert("P1 Wins!");
 	window.close();
 }
 
 function p2Wins()
 {
+	window.alert("P2 Wins!");
 	window.close();
 }
 
