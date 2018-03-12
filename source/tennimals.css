@@ -39,6 +39,11 @@ p
 	color: white;
 }
 
+a
+{
+	text-decoration: none;
+}
+
 #title
 {
 	font-family: BoldTennisFont;
