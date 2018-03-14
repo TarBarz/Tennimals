@@ -11,7 +11,7 @@ var player2Sprite = new Image();
 player2Sprite.src = "../sprites/tennimalscharplaceholder.png";
 
 var ballSprite = new Image();
-ballSprite.src = "ballplaceholder.png";
+ballSprite.src = "TennisBall.png";
 
 var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leonastatic", name:"Leona Pryde", id:1}; //each character is assigned an id number for reference, e.g. in
 var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.5, speed:3, img:"pennystatic", name:"Penny Guinn", id:2}; //the setP1Character function
