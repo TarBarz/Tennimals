@@ -86,7 +86,7 @@ a
 
 #singlePlayer
 {
-	border: 2px solid #d3d3d3;
+	border: 2px solid #B0C4DE;
 	background-color: white;
 	color: black;
 	text-align: center;
@@ -103,12 +103,12 @@ a
 
 #singlePlayer:hover
 {
-	background: grey;
+	background: SteelBlue;
 }
 
 #versus
 {
-	border: 2px solid #E0FFFF;
+	border: 2px solid #20B2AA;
 	background-color: white;
 	color: black;
 	text-align: center;
@@ -128,9 +128,31 @@ a
 	background: DarkCyan;
 }
 
+#credits
+{
+	border: 2px solid #40E0D0;
+	background-color: white;
+	color: black;
+	text-align: center;
+	padding: 14px 28px;
+	font-size: 16px;
+	margin: 5px;
+	cursor: pointer;
+	transition-duration: 0.5s;
+	width: 150px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#credits:hover
+{
+	background: DarkTurquoise;
+}
+
 #exitGame
 {
-	border: 2px solid #b0c4de;
+	border: 2px solid #D3D3D3;
 	background-color: white;
 	color: black;
 	text-align: center;
@@ -147,5 +169,5 @@ a
 
 #exitGame:hover
 {
-	background: steelblue;
+	background: grey;
 }

@@ -2,6 +2,7 @@
 var canvas = document.getElementById("menuCanvas"); 
 var singlePlayerButton = document.getElementById("singlePlayer");
 var versusButton = document.getElementById("versus");
+var creditsButton = document.getElementById("credits");
 var exitButton = document.getElementById("exitGame");
 var displayTitle = document.getElementById("title");
 var menuMusic = document.getElementById("menuAudio").autoplay;
@@ -23,6 +24,15 @@ versusButton.addEventListener("click", function clickVersus()
 	{
 		import ("tennimals.js");
 		console.log("Versus AI!");
+	}
+});
+
+creditsButton.addEventListener("click", function clickCredits()
+{
+	if (versusButton.click)
+	{
+		//import ("tennimals.js");
+		console.log("Credits!");
 	}
 });
 
