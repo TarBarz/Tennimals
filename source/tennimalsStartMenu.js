@@ -1,22 +1,32 @@
 //Jesse/Nate
 var canvas = document.getElementById("menuCanvas"); 
-var playButton = document.getElementById("playGame");
+var singlePlayerButton = document.getElementById("singlePlayer");
+var versusButton = document.getElementById("versus");
 var exitButton = document.getElementById("exitGame");
 var displayTitle = document.getElementById("title");
 var menuMusic = document.getElementById("menuAudio").autoplay;
 canvas.width = 1280;
 canvas.height = 640; 
 menuSurface = canvas.getContext("2d");
-playButton.addEventListener("click", function clickPlay()
+singlePlayerButton.addEventListener("click", function clickSinglePlayer()
 {
-	if (playButton.click)
+	if (singlePlayerButton.click)
 	{
-		import ("tennimals.js");
-		console.log("play game!");
+		import ("tennimalsAI.js");
+		console.log("Single Player Mode!");
 	}
 });
 
-exitButton.addEventListener("click", function clickPlay()
+versusButton.addEventListener("click", function clickVersus()
+{
+	if (versusButton.click)
+	{
+		import ("tennimals.js");
+		console.log("Versus AI!");
+	}
+});
+
+exitButton.addEventListener("click", function clickExit()
 {
 	if (exitButton.click)
 	{

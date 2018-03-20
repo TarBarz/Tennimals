@@ -84,7 +84,7 @@ a
 	color: white;
 }
 
-#playGame
+#singlePlayer
 {
 	border: 2px solid #d3d3d3;
 	background-color: white;
@@ -101,9 +101,31 @@ a
 	margin-right: auto;
 }
 
-#playGame:hover
+#singlePlayer:hover
 {
 	background: grey;
+}
+
+#versus
+{
+	border: 2px solid #E0FFFF;
+	background-color: white;
+	color: black;
+	text-align: center;
+	padding: 14px 28px;
+	font-size: 16px;
+	margin: 5px;
+	cursor: pointer;
+	transition-duration: 0.5s;
+	width: 150px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#versus:hover
+{
+	background: DarkCyan;
 }
 
 #exitGame
