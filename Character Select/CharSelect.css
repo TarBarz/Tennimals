@@ -1,0 +1,33 @@
+@font-face
+{
+	font-family: BoldTennisFont;
+	src: url(BoldTennisFont.ttf);
+}
+
+#game
+{
+	background-image: url("tenniscourt1.png");
+	margin-left: auto;
+	margin-right: auto;
+	width: 1280px;
+	height: 640px;
+	background-color: green;
+}
+
+body
+{
+	background-color: indigo;
+}
+
+p
+{
+	margin-left: 600px;
+	font-family: BoldTennisFont;
+}
+th, td {
+    padding: 2px;
+}
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
