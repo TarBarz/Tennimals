@@ -74,6 +74,8 @@ function startGame()
 
 function update()
 {
+	//if (ball.x >= player2.x - 25 && ball.x >= player2.x + 5 && ball.y >= player2.y && ball.y+20 <= player2.y + 64)
+		//aiStrike();
 	movePlayer();
 	movePlayer2();
 	checkCollision();
@@ -117,52 +119,108 @@ function aiMotion()
 	p2DownPressed = false;
 	if (lastHit == 1)
 	{
-		
 		if (ball.x <= player2.x)
 		{	
-			if (player2.y >= ball.y-20 && player2.y <= ball.y+40)
+			if (player2.y >= ball.y-20 && player2.y <= ball.y+20)
 			{
 				p2LeftPressed = true;
+				player2Sprite.src = "../sprites/"+player2.img+"l.png";
 			}
-			else if (player2.y >= ball.y && player2.y <= ball.y+150)
+			else if (player2.y >= ball.y && player2.y <= ball.y+120)
 			{
 				p2LeftPressed = true;
 				p2UpPressed = true;
+				player2Sprite.src = "../sprites/"+player2.img+"l.png";
 			}
 			else if (player2.y >= ball.y)
 			{
 				p2UpPressed = true;
+				player2Sprite.src = "../sprites/"+player2.img+"b.png";
 			}
-			else if (player2.y <= ball.y && player2.y >= ball.y-130)
+			else if (player2.y <= ball.y && player2.y >= ball.y-110)
 			{
 				p2LeftPressed = true;
 				p2DownPressed = true;
+				player2Sprite.src = "../sprites/"+player2.img+"l.png";
 			}
 			else if (player2.y <= ball.y)
 			{
 				p2DownPressed = true;
+				player2Sprite.src = "../sprites/"+player2.img+".png";
 			}
 		}
 	}
 	else if (lastHit == 2)
 	{
-		if (player2.y >= ball.y+50)
+		if (player2.y >= ball.y+50 && player2.x <= 1100)
 		{
 			p2RightPressed = true;
 			p2UpPressed = true;
+			player2Sprite.src = "../sprites/"+player2.img+"r.png";
 		}
-		else if (player2.y <= ball.y-30)
+		else if (player2.y >= ball.y+50)
+		{
+			p2UpPressed = true;
+			player2Sprite.src = "../sprites/"+player2.img+"b.png";
+		}
+		else if (player2.y <= ball.y-30 && player2.x <= 1100)
 		{
 			p2RightPressed = true;
 			p2DownPressed = true;
+			player2Sprite.src = "../sprites/"+player2.img+"r.png";
+		}
+		else if (player2.y <= ball.y-30)
+		{
+			p2DownPressed = true;
+			player2Sprite.src = "../sprites/"+player2.img+".png";
 		}
 		else if (player2.x <= 1100)
 		{
 		p2RightPressed = true;
+		player2Sprite.src = "../sprites/"+player2.img+"r.png";
 		}
 	}
 
 }
+
+/*function aiStrike()
+{
+	p2LeftPressed = false;
+	p2UpPressed = false;
+	p2DownPressed = false;
+	p2RightPressed = false;
+	if (player.y <= player2.y-300 || player.y >= player2.y+364)
+	{
+		p2LeftPressed = true;
+		player2Sprite.src = "../sprites/"+player2.img+"l.png";
+	}
+	else if (player.y <= player2.y-150 && player2.y < 500)
+	{
+		p2LeftPressed = true;
+		p2DownPressed = true;
+		player2Sprite.src = "../sprites/"+player2.img+"l.png";
+	}
+	else if (player.y >= player2.y+214 && player2.y > 140)
+	{
+		p2LeftPressed = true;
+		player2Sprite.src = "../sprites/"+player2.img+"l.png";
+	}
+	else if (player.y <= player2.y && player2.y < 500)
+	{
+		p2DownPressed = true;
+		player2Sprite.src = "../sprites/"+player2.img+".png";
+	}
+	else if (player.y >= player2.y+64 && player2.y > 140)
+	{
+		p2UpPressed = true;
+		player2Sprite.src = "../sprites/"+player2.img+"b.png";
+	}
+	else
+	{
+		p2LeftPressed = true;
+		player2Sprite.src = "../sprites/"+player2.img+"l.png";
+	}
+}*/
 
 function moveBall()
 {
@@ -174,7 +232,7 @@ function render()
 {
 	surface.clearRect(0,0,1280,640)
 	CheckP1Sprite();
-	CheckP2Sprite();
+	//CheckP2Sprite();
 	//playerSprite.src = player.img + ".png";
 	//player2Sprite.src = player2.img + ".png";
 	surface.drawImage(playerSprite, player.x, player.y);
