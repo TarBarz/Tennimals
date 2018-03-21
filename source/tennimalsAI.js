@@ -14,10 +14,10 @@ var ballSprite = new Image();
 ballSprite.src = "ballplaceholder.png";
 
 var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leonastatic", name:"Leona Pryde", id:1}; //each character is assigned an id number for reference, e.g. in
-var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.5, speed:3, img:"pennystatic", name:"Penny Guinn", id:2}; //the setP1Character function
-var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:2, speed:5, img:"archiestatic", name: "Archie Teuthis", id:3};
+var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"pennystatic", name:"Penny Guinn", id:2}; //the setP1Character function
+var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:1.7, speed:5, img:"archiestatic", name: "Archie Teuthis", id:3};
 var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perrystatic", name: "Perry Stripes", id:4};
-var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"opheliastatic", speed:6, name: "Madame Ophelia", id:5};
+var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"opheliastatic", speed:5.5, name: "Madame Ophelia", id:5};
 var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder", speed:4, name: "Default", id:0};
 
 var interval;
@@ -367,9 +367,9 @@ function checkBounds()
 {
 	if (ball.x <= -20 || ball.x >= 1280 || ball.y <= -20 || ball.y >= 640)
 	{
-		if (ball.x <= 320)
+		if (ball.x <= 360)
 			scoreP2();
-		else if (ball.x >= 860)
+		else if (ball.x >= 820)
 			scoreP1();
 		else
 			outOfBounds();
