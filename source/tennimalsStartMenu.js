@@ -23,7 +23,7 @@ versusButton.addEventListener("click", function clickVersus()
 	if (versusButton.click)
 	{
 		import ("tennimals.js");
-		console.log("Versus AI!");
+		console.log("Two Player Mode!");
 	}
 });
 

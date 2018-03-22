@@ -3,6 +3,11 @@
 	font-family: BoldTennisFont;
 	src: url(BoldTennisFont.ttf);
 }
+@font-face
+{
+	font-family: BitFont;
+	src: url(BitFont.ttf);
+}
 
 #game
 {
@@ -170,4 +175,91 @@ a
 #exitGame:hover
 {
 	background: grey;
+}
+#gameCredits
+{
+	background-color: black;
+}
+#gameCreditsContent
+{
+	width: 640px;
+	height: 500px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	text-align: center;
+	color: white;
+	font-family: BitFont;
+	background-color: grey;
+}
+#creditsTitle
+{
+	font-family: BoldTennisFont;
+	color: white;
+	text-decoration: underline;
+	text-align: center;
+}
+p.nameAnimation
+{
+	animation: animateContent ease-in-out 1;
+}
+#name1
+{
+	animation-duration: 15s;
+	animation-delay: 0s;
+}
+#name2
+{
+	animation-duration: 15s;
+	animation-delay: 5s;
+}
+#name3
+{
+	animation-duration: 15s;
+	animation-delay: 10s;
+}
+#name4
+{
+	animation-duration: 15s;
+	animation-delay: 15s;
+}
+#name5
+{
+	animation-duration: 15s;
+	animation-delay: 20s;
+}
+#name6
+{
+	animation-duration: 15s;
+	animation-delay: 25s;
+}
+@keyframes animateContent
+{
+	0% {top: 500px;}
+	25% {font-size: 32px; top: 480px;}
+	50% {font-size: 24px; top: 320px;}
+	75% {font-size: 16px; top: 160px;}
+	100% {top: 0px;}
+}
+
+#menu
+{
+	border: 2px solid #B0E0E6;
+	background-color: white;
+	color: black;
+	text-align: center;
+	padding: 14px 28px;
+	font-size: 16px;
+	margin: 5px;
+	cursor: pointer;
+	transition-duration: 0.5s;
+	width: 150px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#menu:hover
+{
+	background: CadetBlue;
 }
