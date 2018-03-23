@@ -2,8 +2,8 @@ var canvas = document.querySelector("canvas");
 canvas.width = 1280;
 canvas.height = 640;
 var surface = canvas.getContext("2d");
-var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder", name:null}; //ylighthit is for when you're moving at a diagonal,
-var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder", name:null}; //yheavyhit is for when you're moving straight up/down
+var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder", name:null, id: 0}; //ylighthit is for when you're moving at a diagonal,
+var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder", name:null, id: 0}; //yheavyhit is for when you're moving straight up/down
 var ball = {x: 630, y:310, xspeed:-3, yspeed:-1, speed:2};
 var playerSprite = new Image();
 playerSprite.src = "../sprites/tennimalscharplaceholder.png";
@@ -21,8 +21,8 @@ var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"opheliastatic", s
 var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder", speed:4, name: "Default", id:0};
 
 var interval;
-var collInt1;
-var collInt2;
+//var collInt1;
+//var collInt2;
 
 var p1nocontact = false;
 var p2nocontact = false;
@@ -159,7 +159,7 @@ function CheckP2Sprite()
 
 function checkP1Collision()
 {
-	if(ball.x < player.x + 64 && ball.x > player.x + 32 && ball.y < player.y + 64 && ball.y + 20 > player.y && p1nocontact == false)
+	if(ball.x < player.x + 64 && ball.x > player.x + 32 && ball.y < player.y + 64 && ball.y + 20 > player.y && lastHit != 1)
 	{
 		if (rightPressed == true && upPressed == false && downPressed == false)
 		{
@@ -197,15 +197,15 @@ function checkP1Collision()
 		ball.yspeed *= 1; //maybe change this to -1?
 		}
 		lastHit = 1;
-		p1nocontact = true;
-		collInt1 = setInterval(p1flash, 1000);
+		//p1nocontact = true;
+		//collInt1 = setInterval(p1flash, 1000);
 		ding.play();
 	}
 }
 
 function checkP2Collision()
 {
-	if(ball.x + 20 > player2.x && ball.x + 20 < player2.x + 32 && ball.y < player2.y + 64 && ball.y + 20 > player2.y && p2nocontact == false)
+	if(ball.x + 20 > player2.x && ball.x + 20 < player2.x + 32 && ball.y < player2.y + 64 && ball.y + 20 > player2.y && lastHit != 2)
 	{
 		if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == false)
 		{
@@ -243,8 +243,8 @@ function checkP2Collision()
 			ball.yspeed *= 1;
 		}
 		lastHit = 2;
-		p2nocontact = true;
-		collInt2 = setInterval(p2flash, 1000);
+		//p2nocontact = true;
+		//collInt2 = setInterval(p2flash, 1000);
 		ding.play();
 	}
 }
@@ -264,7 +264,7 @@ function checkBounds()
 	}
 }
 
-function p1flash()
+/*function p1flash()
 {
 	p1nocontact = false;
 	clearInterval(collInt1);
@@ -274,7 +274,7 @@ function p2flash()
 {
 	p2nocontact = false;
 	clearInterval(collInt2);
-}
+}*/
 
 function scoreP1()
 {
@@ -451,7 +451,7 @@ function resetPositions()
 	}
 	ball.speed = 2;
 }
-//var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, id:1};
+
 function setP1Character(x)
 {
 	if (x == 1) //Leona
@@ -462,6 +462,7 @@ function setP1Character(x)
 		player.speed = leonaStats.speed;
 		player.img = leonaStats.img;
 		player.name = leonaStats.name;
+		player.id = leonaStats.id;
 		console.log("Leona");
 	}
 	else if (x == 2) //Penny
@@ -472,6 +473,7 @@ function setP1Character(x)
 		player.speed = pennyStats.speed;
 		player.img = pennyStats.img;
 		player.name = pennyStats.name;
+		player.id = pennyStats.id;
 		console.log("Penny");
 	}
 	else if (x == 3) //Archie
@@ -482,6 +484,7 @@ function setP1Character(x)
 		player.speed = archieStats.speed;
 		player.img = archieStats.img;
 		player.name = archieStats.name;
+		player.id = archieStats.id;
 		console.log("Archie");
 	}
 	else if (x == 4) //Perry
@@ -492,6 +495,7 @@ function setP1Character(x)
 		player.speed = perryStats.speed;
 		player.img = perryStats.img;
 		player.name = perryStats.name;
+		player.id = perryStats.id;
 		console.log("Perry");
 	}
 	else if (x == 5) //Ophelia
@@ -502,6 +506,7 @@ function setP1Character(x)
 		player.speed = opheliaStats.speed;
 		player.img = opheliaStats.img;
 		player.name = opheliaStats.name;
+		player.id = opheliaStats.id;
 		console.log("Ophelia");
 	}
 	else //default
@@ -512,6 +517,7 @@ function setP1Character(x)
 		player.speed = defaultStats.speed;
 		player.img = defaultStats.img;
 		player.name = defaultStats.name;
+		player.id = defaultStats.id;
 		console.log("default");
 	}
 	playerSprite.src = "../sprites/" + player.img + ".png";
@@ -527,6 +533,7 @@ function setP2Character(x)
 		player2.speed = leonaStats.speed;
 		player2.img = leonaStats.img;
 		player2.name = leonaStats.name;
+		player2.id = leonaStats.id;
 	}
 	else if (x == 2) //Penny
 	{
@@ -536,6 +543,7 @@ function setP2Character(x)
 		player2.speed = pennyStats.speed;		
 		player2.img = pennyStats.img;
 		player2.name = pennyStats.name;
+		player2.id = pennyStats.id;
 	}
 	else if (x == 3) //Archie
 	{
@@ -544,7 +552,8 @@ function setP2Character(x)
 		player2.yheavyhit = archieStats.yheavyhit;
 		player2.speed = archieStats.speed;
 		player2.img = archieStats.img; 	
-		player2.name = archieStats.name;		
+		player2.name = archieStats.name;
+		player2.id = archieStats.id;		
 	}
 	else if (x == 4) //Perry
 	{
@@ -554,6 +563,7 @@ function setP2Character(x)
 		player2.speed = perryStats.speed;
 		player2.img = perryStats.img;
 		player2.name = perryStats.name;
+		player2.id = perryStats.id;
 	}
 	else if (x == 5) //Ophelia
 	{
@@ -563,6 +573,7 @@ function setP2Character(x)
 		player2.speed = opheliaStats.speed;
 		player2.img = opheliaStats.img;
 		player2.name = opheliaStats.name;
+		player2.id = opheliaStats.id;
 	}
 	else //default
 	{
@@ -572,6 +583,7 @@ function setP2Character(x)
 		player2.speed = defaultStats.speed;
 		player2.img = defaultStats.img;
 		player2.name = defaultStats.name;
+		player2.id = defaultStats.id;
 	}
 	player2Sprite.src = "../sprites/" + player2.img + ".png";
 }
