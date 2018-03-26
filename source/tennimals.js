@@ -13,7 +13,7 @@ player2Sprite.src = "../sprites/tennimalscharplaceholder.png";
 var ballSprite = new Image();
 ballSprite.src = "TennisBall.png";
 
-surface.font = "BoldTennisFont";
+surface.font = "80px BoldTennisFont";
 surface.textAlign = "center";
 
 var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leona", name:"Leona Pryde", shortname:"LEONA", id:1}; //each character is assigned an id number for reference, e.g. in
@@ -58,6 +58,7 @@ var textOutput = document.getElementById("displayText");
 var p1Point = document.getElementById("p1ScoreCount");
 var p2Point = document.getElementById("p2ScoreCount");
 var textInterval;
+var drawInterval;
 
 var animSpeed = 4;
 var p1CurrentFrame = 1;
@@ -425,10 +426,9 @@ function scoreP1()
 {
 	p1Point.innerHTML = p1Score += 1;
 	spawnDirection = 2;
-	textOutput.innerHTML = player.shortname + " SCORED!";
+	//textOutput.innerHTML = player.shortname + " SCORED!";
 	clearInterval(interval);
-	surface.fillStyle = "black";
-	surface.fillText("P1 SCORED!", 640, 320);
+	drawInterval = setInterval(drawP1ScoreText, 50);
 	textInterval = setInterval(clearText, 2000);
 	//textOutput.innerHTML = "Player 1 Serve!";
 	//textInterval = setInterval(clearText, 2000);
@@ -441,10 +441,9 @@ function scoreP2()
 {
 	p2Point.innerHTML = p2Score += 1;
 	spawnDirection = 1;
-	textOutput.innerHTML = player2.shortname + " SCORED!";
+	//textOutput.innerHTML = player2.shortname + " SCORED!";
 	clearInterval(interval);
-	surface.fillStyle = "black";
-	surface.fillText("P2 SCORED!", 640, 320);
+	drawInterval = setInterval(drawP2ScoreText, 50);
 	textInterval = setInterval(clearText, 2000);
 	//textOutput.innerHTML = "Player 2 Serve!";
 	//textInterval = setInterval(clearText, 2000);
@@ -459,14 +458,33 @@ function outOfBounds()
 		spawnDirection = 2;
 	else if (lastHit == 2)
 		spawnDirection = 1;
-	textOutput.innerHTML = "OUT OF BOUNDS!";
+	//textOutput.innerHTML = "OUT OF BOUNDS!";
 	clearInterval(interval);
+	drawInterval = setInterval(drawOobText, 50);
 	surface.fillStyle = "black";
 	surface.fillText("OUT OF BOUNDS!", 640, 320);
 	textInterval = setInterval(clearText, 2000);
 	oobsound.play();
 	console.log("Out of bounds");
 	//resetPositions();
+}
+
+function drawP1ScoreText()
+{
+	surface.fillStyle = "black";
+	surface.fillText(player.shortname+" SCORED!", 640, 320);
+}
+
+function drawP2ScoreText()
+{
+	surface.fillStyle = "black";
+	surface.fillText(player2.shortname+" SCORED!", 640, 320);
+}
+
+function drawOobText()
+{
+	surface.fillStyle = "black";
+	surface.fillText("OUT OF BOUNDS!", 640, 320);
 }
 
 function CheckScores()
@@ -493,6 +511,7 @@ function clearText()
 {
 	textOutput.innerHTML = " ";
 	clearInterval(textInterval);
+	clearInterval(drawInterval);
 	interval = setInterval(update, 33.34);
 	resetPositions();
 }
