@@ -13,11 +13,11 @@ player2Sprite.src = "../sprites/tennimalscharplaceholder.png";
 var ballSprite = new Image();
 ballSprite.src = "ballplaceholder.png";
 
-var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leonastatic", name:"Leona Pryde", id:1}; //each character is assigned an id number for reference, e.g. in
-var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"pennystatic", name:"Penny Guinn", id:2}; //the setP1Character function
-var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:1.7, speed:5, img:"archiestatic", name: "Archie Teuthis", id:3};
-var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perrystatic", name: "Perry Stripes", id:4};
-var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"opheliastatic", speed:5.5, name: "Madame Ophelia", id:5};
+var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leona", name:"Leona Pryde", id:1}; //each character is assigned an id number for reference, e.g. in
+var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"penny", name:"Penny Guinn", id:2}; //the setP1Character function
+var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:1.7, speed:5, img:"archie", name: "Archie Teuthis", id:3};
+var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perry", name: "Perry Stripes", id:4};
+var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"ophelia", speed:5.5, name: "Madame Ophelia", id:5};
 var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder", speed:4, name: "Default", id:0};
 
 var interval;
@@ -55,6 +55,11 @@ var textOutput = document.getElementById("displayText");
 var p1Point = document.getElementById("p1ScoreCount");
 var p2Point = document.getElementById("p2ScoreCount");
 var textInterval;
+
+var animSpeed = 4;
+var p1CurrentFrame = 1;
+var p2CurrentFrame = 1;
+var animationInterval = setInterval(cycleFrame, 1000/animSpeed);
 
 var aiInterval;
 
@@ -124,29 +129,29 @@ function aiMotion()
 			if (player2.y >= ball.y-20 && player2.y <= ball.y+20)
 			{
 				p2LeftPressed = true;
-				player2Sprite.src = "../sprites/"+player2.img+"l.png";
+				player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
 			}
 			else if (player2.y >= ball.y && player2.y <= ball.y+120)
 			{
 				p2LeftPressed = true;
 				p2UpPressed = true;
-				player2Sprite.src = "../sprites/"+player2.img+"l.png";
+				player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
 			}
 			else if (player2.y >= ball.y)
 			{
 				p2UpPressed = true;
-				player2Sprite.src = "../sprites/"+player2.img+"b.png";
+				player2Sprite.src = "../sprites/"+player2.img+"b"+p2CurrentFrame+".png";
 			}
 			else if (player2.y <= ball.y && player2.y >= ball.y-110)
 			{
 				p2LeftPressed = true;
 				p2DownPressed = true;
-				player2Sprite.src = "../sprites/"+player2.img+"l.png";
+				player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
 			}
 			else if (player2.y <= ball.y)
 			{
 				p2DownPressed = true;
-				player2Sprite.src = "../sprites/"+player2.img+".png";
+				player2Sprite.src = "../sprites/"+player2.img+p2CurrentFrame+".png";
 			}
 		}
 	}
@@ -156,31 +161,32 @@ function aiMotion()
 		{
 			p2RightPressed = true;
 			p2UpPressed = true;
-			player2Sprite.src = "../sprites/"+player2.img+"r.png";
+			player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
 		}
 		else if (player2.y >= ball.y+50)
 		{
 			p2UpPressed = true;
-			player2Sprite.src = "../sprites/"+player2.img+"b.png";
+			player2Sprite.src = "../sprites/"+player2.img+"b"+p2CurrentFrame+".png";
 		}
 		else if (player2.y <= ball.y-30 && player2.x <= 1100)
 		{
 			p2RightPressed = true;
 			p2DownPressed = true;
-			player2Sprite.src = "../sprites/"+player2.img+"r.png";
+			player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
 		}
 		else if (player2.y <= ball.y-30)
 		{
 			p2DownPressed = true;
-			player2Sprite.src = "../sprites/"+player2.img+".png";
+			player2Sprite.src = "../sprites/"+player2.img+p2CurrentFrame+".png";
 		}
 		else if (player2.x <= 1100)
 		{
 		p2RightPressed = true;
-		player2Sprite.src = "../sprites/"+player2.img+"r.png";
+		player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
 		}
 	}
-
+	if (player2.id == 0)
+		player2Sprite.src = "../sprites/tennimalscharplaceholder.png";
 }
 
 /*function aiStrike()
@@ -249,17 +255,22 @@ function checkCollision() //we can maybe add an if statement to make it only che
 
 function CheckP1Sprite()
 {
-	if (rightPressed == true && upPressed == false && downPressed == false)
-		playerSprite.src = "../sprites/"+player.img+"r.png";
-	else if (leftPressed == true && upPressed == false && downPressed == false)
-		playerSprite.src = "../sprites/"+player.img+"l.png";
-	else if (downPressed == true && leftPressed == false && rightPressed == false)
-		playerSprite.src = "../sprites/"+player.img+".png";
-	else if (upPressed == true && leftPressed == false && rightPressed == false)
-		playerSprite.src = "../sprites/"+player.img+"b.png";
+	if (player.id != 0)
+	{
+		if (rightPressed == true)
+			playerSprite.src = "../sprites/"+player.img+"r"+p1CurrentFrame+".png";
+		else if (leftPressed == true)
+			playerSprite.src = "../sprites/"+player.img+"l"+p1CurrentFrame+".png";
+		else if (downPressed == true)
+			playerSprite.src = "../sprites/"+player.img+p1CurrentFrame+".png";
+		else if (upPressed == true)
+			playerSprite.src = "../sprites/"+player.img+"b"+p1CurrentFrame+".png";
+	}
+	else
+		playerSprite.src = "../sprites/tennimalscharplaceholder.png";
 }
 
-function CheckP2Sprite()
+/*function CheckP2Sprite()
 {
 	if (p2RightPressed == true && p2UpPressed == false && p2DownPressed == false)
 		player2Sprite.src = "../sprites/"+player2.img+"r.png";
@@ -269,7 +280,7 @@ function CheckP2Sprite()
 		player2Sprite.src = "../sprites/"+player2.img+".png";
 	else if (p2UpPressed == true && p2LeftPressed == false && p2RightPressed == false)
 		player2Sprite.src = "../sprites/"+player2.img+"b.png";
-}
+}*/
 
 function checkP1Collision()
 {
@@ -492,6 +503,24 @@ function keyUp(event)
 		case 68:
 			rightPressed = false;
 			break;
+	}
+}
+
+function cycleFrame()
+{
+	if (leftPressed == true || rightPressed == true || upPressed == true || downPressed == true)
+	{
+		if (p1CurrentFrame < 4)
+			p1CurrentFrame++;
+		else
+			p1CurrentFrame = 1;
+	}
+	if (p2LeftPressed == true || p2RightPressed == true || p2UpPressed == true || p2DownPressed == true)
+	{
+		if (p2CurrentFrame < 4)
+			p2CurrentFrame++;
+		else
+			p2CurrentFrame = 1;
 	}
 }
 
