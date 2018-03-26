@@ -11,7 +11,7 @@ var player2Sprite = new Image();
 player2Sprite.src = "../sprites/tennimalscharplaceholder.png";
 
 var ballSprite = new Image();
-ballSprite.src = "ballplaceholder.png";
+ballSprite.src = "TennisBall.png";
 
 var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leona", name:"Leona Pryde", id:1}; //each character is assigned an id number for reference, e.g. in
 var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"penny", name:"Penny Guinn", id:2}; //the setP1Character function
@@ -41,6 +41,10 @@ var p1Score = 0;
 var p2Score = 0;
 var targetScore = 8; //score to reach to win the game
 
+var p1NoMotion = false;
+var p2NoMotion = false;
+var serving = true;
+
 var upPressed = false;
 var downPressed = false;
 var leftPressed = false;
@@ -62,6 +66,7 @@ var p2CurrentFrame = 1;
 var animationInterval = setInterval(cycleFrame, 1000/animSpeed);
 
 var aiInterval;
+var aiServeCounter = 0;
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
@@ -81,15 +86,16 @@ function update()
 {
 	//if (ball.x >= player2.x - 25 && ball.x >= player2.x + 5 && ball.y >= player2.y && ball.y+20 <= player2.y + 64)
 		//aiStrike();
-	movePlayer();
-	movePlayer2();
+	if (serving == true)
+		ServeStructure();
+	else
+	{
+		movePlayer();
+		movePlayer2();
+	}
 	checkCollision();
 	moveBall();
 	render();
-	//console.log(player.x);
-	//console.log(player.y);
-	//console.log(player2.x);
-	//console.log(player2.y);
 }
 
 function movePlayer()
@@ -122,67 +128,97 @@ function aiMotion()
 	p2LeftPressed = false;
 	p2RightPressed = false;
 	p2DownPressed = false;
-	if (lastHit == 1)
+	
+	if (serving == true)
 	{
-		if (ball.x <= player2.x)
-		{	
-			if (player2.y >= ball.y-20 && player2.y <= ball.y+20)
+		player2Sprite.src = "../sprites/"+player2.img+"l2.png";
+		if (aiServeCounter < 5)
+			aiServeCounter++
+		else
+		{
+			aiServeCounter = 0;
+			if (spawnDirection==2)
 			{
-				p2LeftPressed = true;
-				player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
+				if (p2CurrentFrame < 3)
+				{
+					p2LeftPressed = true;
+					p2UpPressed = true;
+				}
+				else if (p2CurrentFrame == 3 && player2.id != 2 && player2.id != 3)
+				{
+					p2UpPressed = true;
+				}
+				else
+				{
+					p2LeftPressed = true;
+				}
 			}
-			else if (player2.y >= ball.y && player2.y <= ball.y+120)
+		}
+	}
+	else
+	{
+		if (lastHit == 1)
+		{
+			if (ball.x <= player2.x)
+			{	
+				if (player2.y >= ball.y-20 && player2.y <= ball.y+20)
+				{
+					p2LeftPressed = true;
+					player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
+				}
+				else if (player2.y >= ball.y && player2.y <= ball.y+120)
+				{
+					p2LeftPressed = true;
+					p2UpPressed = true;
+					player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
+				}
+				else if (player2.y >= ball.y)
+				{
+					p2UpPressed = true;
+					player2Sprite.src = "../sprites/"+player2.img+"b"+p2CurrentFrame+".png";
+				}
+				else if (player2.y <= ball.y && player2.y >= ball.y-110)
+				{
+					p2LeftPressed = true;
+					p2DownPressed = true;
+					player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
+				}
+				else if (player2.y <= ball.y)
+				{
+					p2DownPressed = true;
+					player2Sprite.src = "../sprites/"+player2.img+p2CurrentFrame+".png";
+				}
+			}
+		}
+		else if (lastHit == 2)
+		{
+			if (player2.y >= ball.y+50 && player2.x <= 1100)
 			{
-				p2LeftPressed = true;
+				p2RightPressed = true;
 				p2UpPressed = true;
-				player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
+				player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
 			}
-			else if (player2.y >= ball.y)
+			else if (player2.y >= ball.y+50)
 			{
 				p2UpPressed = true;
 				player2Sprite.src = "../sprites/"+player2.img+"b"+p2CurrentFrame+".png";
 			}
-			else if (player2.y <= ball.y && player2.y >= ball.y-110)
+			else if (player2.y <= ball.y-30 && player2.x <= 1100)
 			{
-				p2LeftPressed = true;
+				p2RightPressed = true;
 				p2DownPressed = true;
-				player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
+				player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
 			}
-			else if (player2.y <= ball.y)
+			else if (player2.y <= ball.y-30)
 			{
 				p2DownPressed = true;
 				player2Sprite.src = "../sprites/"+player2.img+p2CurrentFrame+".png";
 			}
-		}
-	}
-	else if (lastHit == 2)
-	{
-		if (player2.y >= ball.y+50 && player2.x <= 1100)
-		{
+			else if (player2.x <= 1100)
+			{
 			p2RightPressed = true;
-			p2UpPressed = true;
 			player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
-		}
-		else if (player2.y >= ball.y+50)
-		{
-			p2UpPressed = true;
-			player2Sprite.src = "../sprites/"+player2.img+"b"+p2CurrentFrame+".png";
-		}
-		else if (player2.y <= ball.y-30 && player2.x <= 1100)
-		{
-			p2RightPressed = true;
-			p2DownPressed = true;
-			player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
-		}
-		else if (player2.y <= ball.y-30)
-		{
-			p2DownPressed = true;
-			player2Sprite.src = "../sprites/"+player2.img+p2CurrentFrame+".png";
-		}
-		else if (player2.x <= 1100)
-		{
-		p2RightPressed = true;
-		player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
+			}
 		}
 	}
 	if (player2.id == 0)
@@ -238,9 +274,20 @@ function render()
 {
 	surface.clearRect(0,0,1280,640)
 	CheckP1Sprite();
-	//CheckP2Sprite();
 	//playerSprite.src = player.img + ".png";
 	//player2Sprite.src = player2.img + ".png";
+	playerSprite.onload = function()
+	{
+		surface.drawImage(playerSprite, player.x, player.y);
+		surface.drawImage(player2Sprite, player2.x, player2.y);
+		surface.drawImage(ballSprite, ball.x, ball.y);
+	}
+	player2Sprite.onload = function()
+	{
+		surface.drawImage(player2Sprite, player2.x, player2.y);
+		surface.drawImage(playerSprite, player.x, player.y);
+		surface.drawImage(ballSprite, ball.x, ball.y);
+	}
 	surface.drawImage(playerSprite, player.x, player.y);
 	surface.drawImage(player2Sprite, player2.x, player2.y);
 	surface.drawImage(ballSprite, ball.x, ball.y);
@@ -257,14 +304,21 @@ function CheckP1Sprite()
 {
 	if (player.id != 0)
 	{
-		if (rightPressed == true)
-			playerSprite.src = "../sprites/"+player.img+"r"+p1CurrentFrame+".png";
-		else if (leftPressed == true)
-			playerSprite.src = "../sprites/"+player.img+"l"+p1CurrentFrame+".png";
-		else if (downPressed == true)
-			playerSprite.src = "../sprites/"+player.img+p1CurrentFrame+".png";
-		else if (upPressed == true)
-			playerSprite.src = "../sprites/"+player.img+"b"+p1CurrentFrame+".png";
+		if (serving == true)
+		{
+			playerSprite.src = "../sprites/"+player.img+"r2.png";
+		}
+		else
+		{
+			if (rightPressed == true)
+				playerSprite.src = "../sprites/"+player.img+"r"+p1CurrentFrame+".png";
+			else if (leftPressed == true)
+				playerSprite.src = "../sprites/"+player.img+"l"+p1CurrentFrame+".png";
+			else if (downPressed == true)
+				playerSprite.src = "../sprites/"+player.img+p1CurrentFrame+".png";
+			else if (upPressed == true)
+				playerSprite.src = "../sprites/"+player.img+"b"+p1CurrentFrame+".png";
+		}
 	}
 	else
 		playerSprite.src = "../sprites/tennimalscharplaceholder.png";
@@ -380,7 +434,7 @@ function checkBounds()
 	{
 		if (ball.x <= 360)
 			scoreP2();
-		else if (ball.x >= 820)
+		else if (ball.x >= 920)
 			scoreP1();
 		else
 			outOfBounds();
@@ -400,6 +454,106 @@ function p2flash()
 	p2nocontact = false;
 	clearInterval(collInt2);
 }*/
+
+function ServeStructure()
+{
+	ball.xspeed = 0;
+	ball.yspeed = 0;
+	p1NoMotion = true;
+	p2NoMotion = true;
+	if (spawnDirection == 1)
+	{
+		ball.x = 120+68;
+		ball.y = 128 + 22;
+		
+		if (rightPressed == true && upPressed == false && downPressed == false)
+		{
+			ball.xspeed = player.xhit+1;
+			ball.yspeed = 0;
+			p1Served();
+		}
+		else if (rightPressed == true && upPressed == true && downPressed == false)
+		{
+			ball.xspeed = player.xhit;
+			ball.yspeed = -player.ylighthit;
+			p1Served();
+		}
+		else if (rightPressed == true && upPressed == false && downPressed == true)
+		{
+			ball.xspeed = player.xhit;
+			ball.yspeed = player.ylighthit;
+			p1Served();
+		}
+		else if (rightPressed == false && upPressed == true && downPressed == false)
+		{
+			ball.xspeed = player.xhit;
+			ball.yspeed = -player.yheavyhit;
+			p1Served();
+		}
+		else if (rightPressed == false && upPressed == false && downPressed == true)
+		{
+			ball.xspeed = player.xhit;
+			ball.yspeed = player.yheavyhit;
+			p1Served();
+		}
+	}
+	else if (spawnDirection == 2)
+	{
+		ball.x = 1072;
+		ball.y = 456 + 20;
+		
+		if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == false)
+		{
+			ball.xspeed = -player2.xhit-1;
+			ball.yspeed = 0;
+			p2Served();
+		}
+		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == false)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = -player2.ylighthit;
+			p2Served();
+		}
+		else if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == true)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = player2.ylighthit;
+			p2Served();
+		}
+		else if (p2LeftPressed == false && p2UpPressed == true && p2DownPressed == false)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = -player2.yheavyhit;
+			p2Served();
+		}
+		else if (p2LeftPressed == false && p2UpPressed == false && p2DownPressed == true)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = player2.yheavyhit;
+			p2Served();
+		}
+	}
+	//surface.drawImage(playerSprite, player.x, player.y);
+	//surface.drawImage(player2Sprite, player2.x, player2.y);
+}
+
+function p1Served()
+{
+	lastHit = 1;
+	ding.play();
+	p1NoMotion = false;
+	p2NoMotion = false;
+	serving = false;
+}
+
+function p2Served()
+{
+	lastHit = 2;
+	ding.play();
+	p1NoMotion = false;
+	p2NoMotion = false;
+	serving = false;
+}
 
 function scoreP1()
 {
@@ -540,7 +694,7 @@ function resetPositions()
 	player.y = 128;
 	player2.x = 1160-64;
 	player2.y = 640-128-64;
-	ball.x = 630;
+	/*ball.x = 630;
 	ball.y = 310;
 	if (spawnDirection == 1)
 	{
@@ -551,8 +705,10 @@ function resetPositions()
 	{
 		ball.xspeed = 3;
 		ball.yspeed = 1;
-	}
+	}*/
 	ball.speed = 2;
+	aiServeCounter = 0;
+	serving = true;
 }
 
 function setP1Character(x)
@@ -623,7 +779,7 @@ function setP1Character(x)
 		player.id = defaultStats.id;
 		console.log("default");
 	}
-	playerSprite.src = "../sprites/" + player.img + ".png";
+	playerSprite.src = "../sprites/" + player.img + "r2.png";
 }
 
 function setP2Character(x)
@@ -688,7 +844,7 @@ function setP2Character(x)
 		player2.name = defaultStats.name;
 		player2.id = defaultStats.id;
 	}
-	player2Sprite.src = "../sprites/" + player2.img + ".png";
+	player2Sprite.src = "../sprites/" + player2.img + "l2.png";
 }
 
 function swapCharacters() //this is for testing purposes, remove from final version

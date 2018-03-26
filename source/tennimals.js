@@ -61,6 +61,10 @@ var p1CurrentFrame = 1;
 var p2CurrentFrame = 1;
 var animationInterval = setInterval(cycleFrame, 1000/animSpeed);
 
+var p1NoMotion = false;
+var p2NoMotion = false;
+var serving = true;
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 window.addEventListener("keydown", p2KeyDown);
@@ -78,15 +82,16 @@ function startGame()
 
 function update()
 {
-	movePlayer();
-	movePlayer2();
+	if (serving == true)
+		ServeStructure();
+	else
+	{
+		movePlayer();
+		movePlayer2();
+	}
 	checkCollision();
 	moveBall();
 	render();
-	//console.log(player.x);
-	//console.log(player.y);
-	//console.log(player2.x);
-	//console.log(player2.y);
 }
 
 function movePlayer()
@@ -126,6 +131,18 @@ function render()
 	CheckP2Sprite();
 	//playerSprite.src = player.img + ".png";
 	//player2Sprite.src = player2.img + ".png";
+	playerSprite.onload = function()
+	{
+		surface.drawImage(playerSprite, player.x, player.y);
+		surface.drawImage(player2Sprite, player2.x, player2.y);
+		surface.drawImage(ballSprite, ball.x, ball.y);
+	}
+	player2Sprite.onload = function()
+	{
+		surface.drawImage(player2Sprite, player2.x, player2.y);
+		surface.drawImage(playerSprite, player.x, player.y);
+		surface.drawImage(ballSprite, ball.x, ball.y);
+	}
 	surface.drawImage(playerSprite, player.x, player.y);
 	surface.drawImage(player2Sprite, player2.x, player2.y);
 	surface.drawImage(ballSprite, ball.x, ball.y);
@@ -142,14 +159,21 @@ function CheckP1Sprite()
 {
 	if (player.id != 0)
 	{
-		if (rightPressed == true)
-			playerSprite.src = "../sprites/"+player.img+"r"+p1CurrentFrame+".png";
-		else if (leftPressed == true)
-			playerSprite.src = "../sprites/"+player.img+"l"+p1CurrentFrame+".png";
-		else if (downPressed == true)
-			playerSprite.src = "../sprites/"+player.img+p1CurrentFrame+".png";
-		else if (upPressed == true)
-			playerSprite.src = "../sprites/"+player.img+"b"+p1CurrentFrame+".png";
+		if (serving == true)
+		{
+			playerSprite.src = "../sprites/"+player.img+"r2.png";
+		}
+		else
+		{
+			if (rightPressed == true)
+				playerSprite.src = "../sprites/"+player.img+"r"+p1CurrentFrame+".png";
+			else if (leftPressed == true)
+				playerSprite.src = "../sprites/"+player.img+"l"+p1CurrentFrame+".png";
+			else if (downPressed == true)
+				playerSprite.src = "../sprites/"+player.img+p1CurrentFrame+".png";
+			else if (upPressed == true)
+				playerSprite.src = "../sprites/"+player.img+"b"+p1CurrentFrame+".png";
+		}
 	}
 	else
 		playerSprite.src = "../sprites/tennimalscharplaceholder.png";
@@ -159,6 +183,10 @@ function CheckP2Sprite()
 {
 	if (player2.id != 0)
 	{
+		if (serving == true)
+		{
+			player2Sprite.src = "../sprites/"+player2.img+"l2.png";
+		}
 		if (p2RightPressed == true)
 			player2Sprite.src = "../sprites/"+player2.img+"r"+p2CurrentFrame+".png";
 		else if (p2LeftPressed == true)
@@ -270,12 +298,11 @@ function checkBounds()
 	{
 		if (ball.x <= 360)
 			scoreP2();
-		else if (ball.x >= 820)
+		else if (ball.x >= 920)
 			scoreP1();
 		else
 			outOfBounds();
 		CheckScores();
-		resetPositions();
 	}
 }
 
@@ -290,6 +317,106 @@ function p2flash()
 	p2nocontact = false;
 	clearInterval(collInt2);
 }*/
+
+function ServeStructure()
+{
+	ball.xspeed = 0;
+	ball.yspeed = 0;
+	p1NoMotion = true;
+	p2NoMotion = true;
+	if (spawnDirection == 1)
+	{
+		ball.x = 120+68;
+		ball.y = 128 + 22;
+		
+		if (rightPressed == true && upPressed == false && downPressed == false)
+		{
+			ball.xspeed = player.xhit+1;
+			ball.yspeed = 0;
+			p1Served();
+		}
+		else if (rightPressed == true && upPressed == true && downPressed == false)
+		{
+			ball.xspeed = player.xhit;
+			ball.yspeed = -player.ylighthit;
+			p1Served();
+		}
+		else if (rightPressed == true && upPressed == false && downPressed == true)
+		{
+			ball.xspeed = player.xhit;
+			ball.yspeed = player.ylighthit;
+			p1Served();
+		}
+		else if (rightPressed == false && upPressed == true && downPressed == false)
+		{
+			ball.xspeed = player.xhit;
+			ball.yspeed = -player.yheavyhit;
+			p1Served();
+		}
+		else if (rightPressed == false && upPressed == false && downPressed == true)
+		{
+			ball.xspeed = player.xhit;
+			ball.yspeed = player.yheavyhit;
+			p1Served();
+		}
+	}
+	else if (spawnDirection == 2)
+	{
+		ball.x = 1072;
+		ball.y = 456 + 20;
+		
+		if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == false)
+		{
+			ball.xspeed = -player2.xhit-1;
+			ball.yspeed = 0;
+			p2Served();
+		}
+		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == false)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = -player2.ylighthit;
+			p2Served();
+		}
+		else if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == true)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = player2.ylighthit;
+			p2Served();
+		}
+		else if (p2LeftPressed == false && p2UpPressed == true && p2DownPressed == false)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = -player2.yheavyhit;
+			p2Served();
+		}
+		else if (p2LeftPressed == false && p2UpPressed == false && p2DownPressed == true)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = player2.yheavyhit;
+			p2Served();
+		}
+	}
+	//surface.drawImage(playerSprite, player.x, player.y);
+	//surface.drawImage(player2Sprite, player2.x, player2.y);
+}
+
+function p1Served()
+{
+	lastHit = 1;
+	ding.play();
+	p1NoMotion = false;
+	p2NoMotion = false;
+	serving = false;
+}
+
+function p2Served()
+{
+	lastHit = 2;
+	ding.play();
+	p1NoMotion = false;
+	p2NoMotion = false;
+	serving = false;
+}
 
 function scoreP1()
 {
@@ -438,14 +565,14 @@ function p2KeyUp(event)
 
 function cycleFrame()
 {
-	if (leftPressed == true || rightPressed == true || upPressed == true || downPressed == true)
+	if (leftPressed == true && p1NoMotion == false || rightPressed == true && p1NoMotion == false || upPressed == true && p1NoMotion == false || downPressed == true && p1NoMotion == false)
 	{
 		if (p1CurrentFrame < 4)
 			p1CurrentFrame++;
 		else
 			p1CurrentFrame = 1;
 	}
-	if (p2LeftPressed == true || p2RightPressed == true || p2UpPressed == true || p2DownPressed == true)
+	if (p2LeftPressed == true && p2NoMotion == false || p2RightPressed == true && p2NoMotion == false || p2UpPressed == true && p2NoMotion == false || p2DownPressed == true && p2NoMotion == false)
 	{
 		if (p2CurrentFrame < 4)
 			p2CurrentFrame++;
@@ -470,7 +597,7 @@ function resetPositions()
 	player.y = 128;
 	player2.x = 1160-64;
 	player2.y = 640-128-64;
-	ball.x = 630;
+	/*ball.x = 630;
 	ball.y = 310;
 	if (spawnDirection == 1)
 	{
@@ -481,8 +608,9 @@ function resetPositions()
 	{
 		ball.xspeed = 3;
 		ball.yspeed = 1;
-	}
+	}*/
 	ball.speed = 2;
+	serving = true;
 }
 
 function setP1Character(x)
@@ -553,7 +681,7 @@ function setP1Character(x)
 		player.id = defaultStats.id;
 		console.log("default");
 	}
-	playerSprite.src = "../sprites/" + player.img + ".png";
+	playerSprite.src = "../sprites/" + player.img + "r2.png";
 }
 
 function setP2Character(x)
@@ -618,7 +746,7 @@ function setP2Character(x)
 		player2.name = defaultStats.name;
 		player2.id = defaultStats.id;
 	}
-	player2Sprite.src = "../sprites/" + player2.img + ".png";
+	player2Sprite.src = "../sprites/" + player2.img + "l2.png";
 }
 
 function swapCharacters() //this is for testing purposes, remove from final version
