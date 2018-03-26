@@ -39,9 +39,10 @@ body
 
 #displayText
 {
-	margin-left: 600px;
+	margin-left: 0px;
 	font-family: BoldTennisFont;
 	color: white;
+	text-align: center;
 }
 
 #p1ScoreText
