@@ -425,6 +425,40 @@ function checkP2Collision()
 			ball.xspeed *= -1;
 			ball.yspeed *= 1;
 		}
+		/*p2LeftPressed = false;
+		p2UpPressed = false;
+		p2DownPressed = false;
+		p2RightPressed = false;
+		if (player.y <= player2.y-300 || player.y >= player2.y+364)
+		{
+			ball.xspeed = -player2.xhit-1;
+			ball.yspeed = 0;
+		}
+		else if (player.y <= player2.y-150 && player2.y < 500)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = player2.ylighthit;
+		}
+		else if (player.y >= player2.y+214 && player2.y > 140)
+		{
+			ball.xspeed = -player2.xhit-1;
+			ball.yspeed = -player2.ylighthit;
+		}
+		else if (player.y <= player2.y && player2.y < 400)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = player2.yheavyhit;
+		}
+		else if (player.y >= player2.y+64 && player2.y > 240)
+		{
+			ball.xspeed = -player2.xhit;
+			ball.yspeed = -player2.yheavyhit;
+		}
+		else
+		{
+			ball.xspeed = -player2.xhit-1;
+			ball.yspeed = 0;
+		}*/
 		lastHit = 2;
 		p2nocontact = true;
 		//collInt2 = setInterval(p2flash, 1000);
@@ -564,6 +598,7 @@ function scoreP1()
 	spawnDirection = 2;
 	//textOutput.innerHTML = player.shortname + " SCORED!";
 	clearInterval(interval);
+	clearInterval(animationInterval);
 	drawInterval = setInterval(drawP1ScoreText, 50);
 	textInterval = setInterval(clearText, 2000);
 	//textOutput.innerHTML = "Player 1 Serve!";
@@ -579,6 +614,7 @@ function scoreP2()
 	spawnDirection = 1;
 	//textOutput.innerHTML = player2.shortname + " SCORED!";
 	clearInterval(interval);
+	clearInterval(animationInterval);
 	drawInterval = setInterval(drawP2ScoreText, 50);
 	textInterval = setInterval(clearText, 2000);
 	//textOutput.innerHTML = "Player 2 Serve!";
@@ -596,6 +632,7 @@ function outOfBounds()
 		spawnDirection = 1;
 	//textOutput.innerHTML = "OUT OF BOUNDS!";
 	clearInterval(interval);
+	clearInterval(animationInterval);
 	drawInterval = setInterval(drawOobText, 50);
 	surface.fillStyle = "black";
 	surface.fillText("OUT OF BOUNDS!", 640, 320);
@@ -649,6 +686,7 @@ function clearText()
 	clearInterval(textInterval);
 	clearInterval(drawInterval);
 	interval = setInterval(update, 33.34);
+	animationInterval = setInterval(cycleFrame, 1000/animSpeed);
 	resetPositions();
 }
 
