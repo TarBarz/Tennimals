@@ -19,6 +19,14 @@
 	background-color: green;
 }
 
+#logo
+{
+	display: block;
+	margin: auto;
+	width: 600px;
+	height: 200px;
+}
+
 #startMenu
 {
 	width: 1280px;
