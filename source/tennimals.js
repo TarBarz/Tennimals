@@ -75,6 +75,10 @@ var animationInterval = setInterval(cycleFrame, 1000/animSpeed);
 var p1NoMotion = false;
 var p2NoMotion = false;
 var serving = true;
+//var canvas1 = getElementById ("canvas1";)// test
+//var canvas1Get = canvas1.getContext("2d");
+//var WIDTH = 400;
+//var HEIGHT = 300;
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
@@ -83,9 +87,12 @@ window.addEventListener("keyup", p2KeyUp);
 
 window.addEventListener("keydown", debugReset); //delete this from final version
 window.addEventListener("keydown", swapCharacters); //delete this from final version
-
+//canvas1();
 startGame();
+/*function canvas1()
+{
 
+}*/
 function startGame()
 {
 	interval = setInterval(update, 33.34);

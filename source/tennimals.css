@@ -8,7 +8,22 @@
 	font-family: BitFont;
 	src: url(BitFont.ttf);
 }
-
+#canvas1
+{
+position:relative;
+z-index: 1;
+position:absolute;
+width: 1280px;
+height: 640px;
+}
+#canvas2
+{
+position:relative;
+z-index: 2;
+position:absolute;
+width: 1280px;
+height: 640px;
+}
 #game
 {
 	background-image: url("TennisCourt.png"); 
