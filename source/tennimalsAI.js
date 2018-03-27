@@ -33,6 +33,7 @@ var p2nocontact = false;
 var ding = document.getElementById("ding");
 var scoresound = document.getElementById("scoresound");
 var oobsound = document.getElementById("flub");
+var specialsound = document.getElementById("special");
 
 var characterCycle = 1; //delete this from final version, it's just for swapCharacters function.
 var characterCycle2 = 1; //delete this from final version
@@ -43,6 +44,12 @@ var spawnDirection = 1; //1: ball spawns towards player 1, 2: towards player2
 var p1Score = 0;
 var p2Score = 0;
 var targetScore = 8; //score to reach to win the game
+
+var p1SpecialPoints = 0;
+var p2SpecialPoints = 0;
+var maxSpecialPoints = 10;
+
+var currentRally = 0;
 
 var p1NoMotion = false;
 var p2NoMotion = false;
@@ -380,6 +387,9 @@ function checkP1Collision()
 		ball.yspeed *= 1; //maybe change this to -1?
 		}
 		lastHit = 1;
+		currentRally++;
+		if (currentRally > 4)
+			incrementP1SP();
 		p1nocontact = true;
 		//collInt1 = setInterval(p1flash, 1000);
 		ding.play();
@@ -460,6 +470,9 @@ function checkP2Collision()
 			ball.yspeed = 0;
 		}*/
 		lastHit = 2;
+		currentRally++;
+		if (currentRally > 4)
+			incrementP2SP();
 		p2nocontact = true;
 		//collInt2 = setInterval(p2flash, 1000);
 		ding.play();
@@ -596,6 +609,9 @@ function scoreP1()
 {
 	p1Point.innerHTML = p1Score += 1;
 	spawnDirection = 2;
+	incrementP1SP();
+	incrementP2SP();
+	incrementP2SP();
 	//textOutput.innerHTML = player.shortname + " SCORED!";
 	clearInterval(interval);
 	clearInterval(animationInterval);
@@ -612,6 +628,9 @@ function scoreP2()
 {
 	p2Point.innerHTML = p2Score += 1;
 	spawnDirection = 1;
+	incrementP1SP();
+	incrementP1SP();
+	incrementP2SP();
 	//textOutput.innerHTML = player2.shortname + " SCORED!";
 	clearInterval(interval);
 	clearInterval(animationInterval);
@@ -627,9 +646,15 @@ function scoreP2()
 function outOfBounds()
 {
 	if (lastHit == 1)
+	{
 		spawnDirection = 2;
+		p1SpecialPoints-=2;
+	}
 	else if (lastHit == 2)
+	{
 		spawnDirection = 1;
+		p2SpecialPoints-=2;
+	}
 	//textOutput.innerHTML = "OUT OF BOUNDS!";
 	clearInterval(interval);
 	clearInterval(animationInterval);
@@ -778,7 +803,28 @@ function resetPositions()
 	}*/
 	ball.speed = 2;
 	aiServeCounter = 0;
+	currentRally = 0;
 	serving = true;
+}
+
+function incrementP1SP()
+{
+	if (p1SpecialPoints < maxSpecialPoints)
+	{
+		p1SpecialPoints++;
+		if (p1SpecialPoints == 10)
+		{specialsound.play();}
+	}
+}
+
+function incrementP2SP()
+{
+	if (p2SpecialPoints < maxSpecialPoints)
+	{
+		p2SpecialPoints++;
+		if (p2SpecialPoints == 10)
+		{specialsound.play();}
+	}
 }
 
 function setP1Character(x)
@@ -946,6 +992,10 @@ function swapCharacters() //this is for testing purposes, remove from final vers
 				characterCycle2++;
 			else
 				characterCycle2 = 0;
+			break;
+		case 48: //0
+			p1SpecialPoints = maxSpecialPoints;
+			p2SpecialPoints = maxSpecialPoints;
 			break;
 	}
 }
