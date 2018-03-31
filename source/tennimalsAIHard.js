@@ -55,6 +55,8 @@ var p1NoMotion = false;
 var p2NoMotion = false;
 var serving = true;
 
+var cantUseSpecial = false;
+
 var upPressed = false;
 var downPressed = false;
 var leftPressed = false;
@@ -498,6 +500,16 @@ function checkP2Collision()
 	}
 }
 
+function SpecialMoveP1()
+{
+	p1SpecialPoints = 0;
+}
+
+function SpecialMoveP2()
+{
+	p2SpecialPoints = 0;
+}
+
 function checkBounds()
 {
 	if (ball.x <= -20 || ball.x >= 1280 || ball.y <= -20 || ball.y >= 640)
@@ -628,6 +640,7 @@ function scoreP1()
 {
 	p1Point.innerHTML = p1Score += 1;
 	spawnDirection = 2;
+	cantUseSpecial = true;
 	incrementP1SP();
 	incrementP2SP();
 	incrementP2SP();
@@ -647,6 +660,7 @@ function scoreP2()
 {
 	p2Point.innerHTML = p2Score += 1;
 	spawnDirection = 1;
+	cantUseSpecial = true;
 	incrementP1SP();
 	incrementP1SP();
 	incrementP2SP();
@@ -681,6 +695,7 @@ function outOfBounds()
 			p2SpecialPoints--;
 	}
 	//textOutput.innerHTML = "OUT OF BOUNDS!";
+	cantUseSpecial = true;
 	clearInterval(interval);
 	clearInterval(animationInterval);
 	drawInterval = setInterval(drawOobText, 50);
@@ -733,6 +748,7 @@ function p2Wins()
 function clearText()
 {
 	textOutput.innerHTML = " ";
+	cantUseSpecial = false;
 	clearInterval(textInterval);
 	clearInterval(drawInterval);
 	interval = setInterval(update, 33.34);
@@ -757,6 +773,10 @@ function keyDown(event)
 			break;
 		case 68:
 			rightPressed = true;
+			break;
+		case 69: //E
+			if (p1SpecialPoints == 10 && cantUseSpecial == false)
+				SpecialMoveP1();
 			break;
 	} 
 }

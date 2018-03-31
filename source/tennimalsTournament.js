@@ -16,12 +16,12 @@ ballSprite.src = "TennisBall.png";
 surface.font = "80px BoldTennisFont";
 surface.textAlign = "center";
 
-var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leona", name:"Leona Pryde", shortname:"LEONA", colour: "#c75859", id:1}; //each character is assigned an id number for reference, e.g. in
-var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"penny", name:"Penny Guinn", shortname:"PENNY", colour: "#c22f9f", id:2}; //the setP1Character function
-var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:1.7, speed:5, img:"archie", name: "Archie Teuthis", shortname:"ARCHIE", colour: "#b35c42", id:3};
-var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perry", name: "Perry Stripes", shortname:"PERRY", colour: "#2d358a", id:4};
-var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"ophelia", speed:5.5, name: "Madame Ophelia", shortname:"OPHELIA", colour:"#ffbac3", id:5};
-var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder", speed:4, name: "Default", shortname:"COWSQUARE", colour: "black", id:0};
+var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leona", name:"LEONA PRYDE", shortname:"LEONA", colour: "#c75859", id:1}; //each character is assigned an id number for reference, e.g. in
+var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"penny", name:"PENNY GUINN", shortname:"PENNY", colour: "#c22f9f", id:2}; //the setP1Character function
+var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:1.7, speed:5, img:"archie", name: "ARCHIE TEUTHIS", shortname:"ARCHIE", colour: "#b35c42", id:3};
+var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perry", name: "PERRY STRIPES", shortname:"PERRY", colour: "#2d358a", id:4};
+var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"ophelia", speed:5.5, name: "MADAME OPHELIA", shortname:"OPHELIA", colour:"#ffbac3", id:5};
+var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder", speed:4, name: "DEFAULT", shortname:"COWSQUARE", colour: "black", id:0};
 
 var interval;
 //var collInt1;
@@ -54,6 +54,8 @@ var currentRally = 0;
 var p1NoMotion = false;
 var p2NoMotion = false;
 var serving = true;
+
+var cantUseSpecial = false;
 
 var upPressed = false;
 var downPressed = false;
@@ -116,6 +118,7 @@ function startRound()
 {
 	surface.clearRect(0,0,1280,640);
 	currentRally = 0;
+	cantUseSpecial = true;
 	p2SpecialPoints = 0;
 	surface.fillStyle = "black";
 	surface.font = "80px BoldTennisFont";
@@ -139,6 +142,7 @@ function startGame()
 {
 	clearInterval(introInterval);
 	serving = true;
+	cantUseSpecial = false;
 	aiInterval = setInterval(aiMotion, 300);
 	interval = setInterval(update, 33.34);
 }
@@ -548,6 +552,16 @@ function checkP2Collision()
 	}
 }
 
+function SpecialMoveP1()
+{
+	p1SpecialPoints = 0;
+}
+
+function SpecialMoveP2()
+{
+	p2SpecialPoints = 0;
+}
+
 function checkBounds()
 {
 	if (ball.x <= -20 || ball.x >= 1280 || ball.y <= -20 || ball.y >= 640)
@@ -677,6 +691,7 @@ function scoreP1()
 {
 	p1Point.innerHTML = p1Score += 1;
 	spawnDirection = 2;
+	cantUseSpecial = true;
 	incrementP1SP();
 	incrementP2SP();
 	incrementP2SP();
@@ -696,6 +711,7 @@ function scoreP2()
 {
 	p2Point.innerHTML = p2Score += 1;
 	spawnDirection = 1;
+	cantUseSpecial = true;
 	incrementP1SP();
 	incrementP1SP();
 	incrementP2SP();
@@ -730,6 +746,7 @@ function outOfBounds()
 			p2SpecialPoints--;
 	}
 	//textOutput.innerHTML = "OUT OF BOUNDS!";
+	cantUseSpecial = true;
 	clearInterval(interval);
 	clearInterval(animationInterval);
 	drawInterval = setInterval(drawOobText, 50);
@@ -798,6 +815,7 @@ function GameOver()
 function clearText()
 {
 	textOutput.innerHTML = " ";
+	cantUseSpecial = false;
 	clearInterval(textInterval);
 	clearInterval(drawInterval);
 	if (p1Score != targetScore)
@@ -824,6 +842,10 @@ function keyDown(event)
 			break;
 		case 68:
 			rightPressed = true;
+			break;
+		case 69: //E
+			if (p1SpecialPoints == 10 && cantUseSpecial == false)
+				SpecialMoveP1();
 			break;
 	} 
 }

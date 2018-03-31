@@ -79,6 +79,7 @@ var serving = true;
 //var canvas1Get = canvas1.getContext("2d");
 //var WIDTH = 400;
 //var HEIGHT = 300;
+var cantUseSpecial = false;
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
@@ -335,6 +336,16 @@ function checkP2Collision()
 	}
 }
 
+function SpecialMoveP1()
+{
+	p1SpecialPoints = 0;
+}
+
+function SpecialMoveP2()
+{
+	p2SpecialPoints = 0;
+}
+
 function checkBounds()
 {
 	if (ball.x <= -20 || ball.x >= 1280 || ball.y <= -20 || ball.y >= 640)
@@ -465,6 +476,7 @@ function scoreP1()
 {
 	p1Point.innerHTML = p1Score += 1;
 	spawnDirection = 2;
+	cantUseSpecial = true;
 	incrementP1SP();
 	incrementP2SP();
 	incrementP2SP();
@@ -483,6 +495,7 @@ function scoreP2()
 {
 	p2Point.innerHTML = p2Score += 1;
 	spawnDirection = 1;
+	cantUseSpecial = true;
 	incrementP1SP();
 	incrementP1SP();
 	incrementP2SP();
@@ -516,6 +529,7 @@ function outOfBounds()
 			p2SpecialPoints--;
 	}
 	//textOutput.innerHTML = "OUT OF BOUNDS!";
+	cantUseSpecial = true;
 	clearInterval(interval);
 	drawInterval = setInterval(drawOobText, 50);
 	surface.fillStyle = "black";
@@ -567,6 +581,7 @@ function p2Wins()
 function clearText()
 {
 	textOutput.innerHTML = " ";
+	cantUseSpecial = false;
 	clearInterval(textInterval);
 	clearInterval(drawInterval);
 	interval = setInterval(update, 33.34);
@@ -578,17 +593,21 @@ function keyDown(event)
 	switch (event.keyCode)
 	{
 
-		case 87:
+		case 87: //W
 			upPressed = true;
 			break;
-		case 83:
+		case 83: //S
 			downPressed = true;
 			break;
-		case 65:
+		case 65: //A
 			leftPressed = true;
 			break;
-		case 68:
+		case 68: //D
 			rightPressed = true;
+			break;
+		case 69: //E
+			if (p1SpecialPoints == 10 && cantUseSpecial == false)
+				SpecialMoveP1();
 			break;
 	} 
 }
@@ -598,17 +617,21 @@ function p2KeyDown(event)
 	switch (event.keyCode)
 	{
 
-		case 38:
+		case 38: //UP
 			p2UpPressed = true;
 			break;
-		case 40:
+		case 40: //DOWN
 			p2DownPressed = true;
 			break;
-		case 37:
+		case 37: //LEFT
 			p2LeftPressed = true;
 			break;
-		case 39:
+		case 39: //RIGHT
 			p2RightPressed = true;
+			break;
+		case 76: //L
+			if (p2SpecialPoints == 10)
+				SpecialMoveP2();
 			break;
 	} 
 }
