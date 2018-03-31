@@ -43,7 +43,7 @@ var spawnDirection = 1; //1: ball spawns towards player 1, 2: towards player2
 
 var p1Score = 0;
 var p2Score = 0;
-var targetScore = 8; //score to reach to win the game
+var targetScore = 5; //score to reach to win the game
 
 var p1SpecialPoints = 0;
 var p2SpecialPoints = 0;
