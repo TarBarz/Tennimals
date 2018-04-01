@@ -2,8 +2,8 @@ var canvas = document.querySelector("canvas");
 canvas.width = 1280;
 canvas.height = 640;
 var surface = canvas.getContext("2d");
-var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder", name:null, shortname:null, colour:"black", id: 0}; //ylighthit is for when you're moving at a diagonal,
-var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder", name:null, shortname:null, colour:"black", id: 0}; //yheavyhit is for when you're moving straight up/down
+var player = {x:120, y:128, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder", name:null, shortname:null, colour:"black", spimg: null, id: 0}; //ylighthit is for when you're moving at a diagonal,
+var player2 = {x:1160-64, y:640-128-64, xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"tennimalscharplaceholder", name:null, shortname:null, colour:"black", spimg: null, id: 0}; //yheavyhit is for when you're moving straight up/down
 var ball = {x: 630, y:310, xspeed:-3, yspeed:-1, speed:2};
 var playerSprite = new Image();
 playerSprite.src = "../sprites/tennimalscharplaceholder.png";
@@ -13,14 +13,25 @@ player2Sprite.src = "../sprites/tennimalscharplaceholder.png";
 var ballSprite = new Image();
 ballSprite.src = "TennisBall.png";
 
+var p1Effect = new Image();
+var p2Effect = new Image();
+var p1EffectActive = false;
+var p2EffectActive = false;
+var p1EffectInt;
+var p2EffectInt;
+var p1EffectAnimInt;
+var p2EffectAnimInt;
+var p1EffectAnimFrame = 1;
+var p1EffectAnimFrame = 1;
+
 surface.font = "80px BoldTennisFont";
 surface.textAlign = "center";
 
-var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leona", name:"Leona Pryde", shortname:"LEONA", colour: "#c75859", id:1}; //each character is assigned an id number for reference, e.g. in
-var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"penny", name:"Penny Guinn", shortname:"PENNY", colour: "#c22f9f", id:2}; //the setP1Character function
-var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:1.7, speed:5, img:"archie", name: "Archie Teuthis", shortname:"ARCHIE", colour: "#b35c42", id:3};
-var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perry", name: "Perry Stripes", shortname:"PERRY", colour: "#2d358a", id:4};
-var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"ophelia", speed:5.5, name: "Madame Ophelia", shortname:"OPHELIA", colour:"#ffbac3", id:5};
+var leonaStats = {xhit:4, ylighthit:0.5, yheavyhit:1.5, speed:4, img:"leona", name:"Leona Pryde", shortname:"LEONA", colour: "#c75859", spimg: "leonaspecialeffect", id:1}; //each character is assigned an id number for reference, e.g. in
+var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"penny", name:"Penny Guinn", shortname:"PENNY", colour: "#c22f9f", spimg: "pennyspecialeffect", id:2}; //the setP1Character function
+var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:1.7, speed:5, img:"archie", name: "Archie Teuthis", shortname:"ARCHIE", colour: "#b35c42", spimg: "archiespecialeffect", id:3};
+var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perry", name: "Perry Stripes", shortname:"PERRY", colour: "#2d358a", spimg: "perryspecialeffect", id:4};
+var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"ophelia", speed:5.5, name: "Madame Ophelia", shortname:"OPHELIA", colour:"#ffbac3", spimg: "opheliaspecialeffect", id:5};
 var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder", speed:4, name: "Default", shortname:"COWSQUARE", colour: "black", id:0};
 
 var interval;
@@ -34,6 +45,14 @@ var ding = document.getElementById("ding");
 var scoresound = document.getElementById("scoresound");
 var oobsound = document.getElementById("flub");
 var specialsound = document.getElementById("special");
+var impactsound = document.getElementById("impact");
+
+var leonaspecialsound = document.getElementById("leonasp");
+var pennyspecialsound = document.getElementById("pennysp");
+var archiespecialsound = document.getElementById("archiesp");
+var perryspecialsound = document.getElementById("perrysp");
+var opheliaspecialsound = document.getElementById("opheliasp");
+var poisonsound = document.getElementById("opheliasp2");
 
 var characterCycle = 1; //delete this from final version, it's just for swapCharacters function.
 var characterCycle2 = 1; //delete this from final version
@@ -49,7 +68,13 @@ var p1SpecialPoints = 0;
 var p2SpecialPoints = 0;
 var maxSpecialPoints = 10;
 
+var p1stunint;
+var p2stunint;
+
 var currentRally = 0;
+
+var brutalAttack = false;
+var whirlyAttack = false;
 
 var p1NoMotion = false;
 var p2NoMotion = false;
@@ -77,6 +102,11 @@ var animSpeed = 4;
 var p1CurrentFrame = 1;
 var p2CurrentFrame = 1;
 var animationInterval = setInterval(cycleFrame, 1000/animSpeed);
+
+var pennySplashArray = [0, 0, 0, 0];
+var perryWaveBasis = 0;
+var perrySineBasis = 0;
+var venom = {x: 0, y: 0, speed: 30, user: 0, active: false};
 
 var aiInterval;
 var aiServeCounter = 0;
@@ -108,30 +138,32 @@ function update()
 	}
 	checkCollision();
 	moveBall();
+	if (venom.active == true)
+		MoveVenom();
 	render();
 }
 
 function movePlayer()
 {
-	if (upPressed == true && player.y > 0)
+	if (upPressed == true && player.y > 0 && p1NoMotion == false)
 		player.y -= player.speed;
-	if (downPressed == true && player.y < 640-64)
+	if (downPressed == true && player.y < 640-64 && p1NoMotion == false)
 		player.y += player.speed;
-	if (leftPressed == true && player.x > 0)
+	if (leftPressed == true && player.x > 0 && p1NoMotion == false)
 		player.x -= player.speed;
-	if (rightPressed == true && player.x < 640-64-17)
+	if (rightPressed == true && player.x < 640-64-17 && p1NoMotion == false)
 		player.x += player.speed;
 }
 
 function movePlayer2()
 {
-	if (p2UpPressed == true && player2.y > 0)
+	if (p2UpPressed == true && player2.y > 0 && p2NoMotion == false)
 		player2.y -= player2.speed;
-	if (p2DownPressed == true && player2.y < 640-64)
+	if (p2DownPressed == true && player2.y < 640-64 && p2NoMotion == false)
 		player2.y += player2.speed;
-	if (p2LeftPressed == true && player2.x > 640+18)
+	if (p2LeftPressed == true && player2.x > 640+18 && p2NoMotion == false)
 		player2.x -= player2.speed;
-	if (p2RightPressed == true && player2.x < 1280-64)
+	if (p2RightPressed == true && player2.x < 1280-64 && p2NoMotion == false)
 		player2.x += player2.speed;
 }
 
@@ -280,7 +312,13 @@ function aiMotion()
 function moveBall()
 {
 	ball.x += ball.xspeed * ball.speed;
-	ball.y += ball.yspeed * ball.speed;
+	if (whirlyAttack == false)
+		ball.y += ball.yspeed * ball.speed;
+	else
+	{
+		perrySineBasis++;
+		ball.y = perryWaveBasis + 100 * (Math.sin(perrySineBasis*8 * (Math.PI / 180)));
+	}
 }
 
 function render()
@@ -305,6 +343,11 @@ function render()
 	surface.drawImage(player2Sprite, player2.x, player2.y);
 	surface.drawImage(ballSprite, ball.x, ball.y);
 	
+	if (p1EffectActive == true)
+		DrawP1Effect();
+	if (p2EffectActive == true)
+		DrawP2Effect();
+	
 	DrawMeters();
 }
 
@@ -325,13 +368,13 @@ function CheckP1Sprite()
 		}
 		else
 		{
-			if (rightPressed == true)
+			if (rightPressed == true && p1NoMotion == false)
 				playerSprite.src = "../sprites/"+player.img+"r"+p1CurrentFrame+".png";
-			else if (leftPressed == true)
+			else if (leftPressed == true && p1NoMotion == false)
 				playerSprite.src = "../sprites/"+player.img+"l"+p1CurrentFrame+".png";
-			else if (downPressed == true)
+			else if (downPressed == true && p1NoMotion == false)
 				playerSprite.src = "../sprites/"+player.img+p1CurrentFrame+".png";
-			else if (upPressed == true)
+			else if (upPressed == true && p1NoMotion == false)
 				playerSprite.src = "../sprites/"+player.img+"b"+p1CurrentFrame+".png";
 		}
 	}
@@ -411,9 +454,20 @@ function checkP1Collision()
 		currentRally++;
 		if (currentRally > 4)
 			incrementP1SP();
-		p1nocontact = true;
-		//collInt1 = setInterval(p1flash, 1000);
-		ding.play();
+		
+		whirlyAttack = false;
+		if (brutalAttack == false)
+			ding.play();
+		else
+		{
+			impactsound.play();
+			brutalAttack = false;
+			if (player.x-10 > 0)
+				player.x -= 10;
+			p1NoMotion = true;
+			p1stunint = setInterval(EndP1Stun, 2000);
+			ballSprite.src = "TennisBall.png";
+		}
 	}
 }
 
@@ -494,20 +548,480 @@ function checkP2Collision()
 		currentRally++;
 		if (currentRally > 4)
 			incrementP2SP();
-		p2nocontact = true;
-		//collInt2 = setInterval(p2flash, 1000);
-		ding.play();
+		
+		whirlyAttack = false;
+		if (brutalAttack == false)
+			ding.play();
+		else
+		{
+			impactsound.play();
+			brutalAttack = false;
+			if (player2.x+10 < 1280-64)
+				player2.x += 10;
+			p2NoMotion = true;
+			p2stunint = setInterval(EndP2Stun, 2000);
+			ballSprite.src = "TennisBall.png";
+		}
 	}
 }
 
 function SpecialMoveP1()
 {
 	p1SpecialPoints = 0;
+	if (player.id == 1) //Leona: Lion's Fury
+	{
+		leonaspecialsound.play();
+		p1NoMotion = true;
+		p1stunint = setInterval(EndP1Stun, 1500);
+		playerSprite.src = "../sprites/leonar1.png";
+		p1EffectActive = true;
+		p1EffectInt = setInterval(EndP1Effect, 300);
+		p1EffectAnimFrame = 1;
+		p1EffectAnimInt = setInterval(AnimateP1Effect, 50);
+		if (ball.x < player.x + 128 && ball.x > player.x + 32 && ball.y < player.y + 64 && ball.y + 20 > player.y)
+		{
+			serving = false;
+			p2NoMotion = false;
+			whirlyAttack = false;
+			ball.xspeed = 12;
+			ball.yspeed = 0;
+			lastHit = 1;
+			currentRally++;
+			brutalAttack = true;
+			ballSprite.src = "TennisBallRed.png";
+		}
+	}
+	else if (player.id == 2) //Penny: Dive Save
+	{
+		pennyspecialsound.play();
+		p1EffectActive = true;
+		p1EffectInt = setInterval(EndP1Effect, 300);
+		p1EffectAnimFrame = 1;
+		p1EffectAnimInt = setInterval(AnimateP1Effect, 50);
+		pennySplashArray[0] = player.x;
+		pennySplashArray[1] = player.y;
+		if (serving == false)
+		{
+			if (ball.x <= 640 && ball.x >= 74)
+			{
+				player.x = ball.x-74;
+				player.y = ball.y-22;
+			}
+			else if (ball.x < 74)
+			{
+				player.x = 0;
+				player.y = ball.y-22;
+			}
+			else if (ball.x > 640)
+			{
+				player.y = ball.y-22;
+			}
+			pennySplashArray[2] = player.x;
+			pennySplashArray[3] = player.y;
+		}
+	}
+	else if (player.id == 3) //Archie: Flurry Return
+	{
+		archiespecialsound.play();
+		p1NoMotion = true;
+		p1stunint = setInterval(EndP1Stun, 1500);
+		playerSprite.src = "../sprites/archier1.png";
+		p1EffectActive = true;
+		p1EffectInt = setInterval(EndP1Effect, 300);
+		p1EffectAnimFrame = 1;
+		p1EffectAnimInt = setInterval(AnimateP1Effect, 50);
+		if (ball.x < player.x + 448 && ball.x > player.x - 384 && ball.y < player.y + 448 && ball.y + 20 > player.y - 384)
+		{
+			ding.play();
+			serving = false;
+			p2NoMotion = false;
+			brutalAttack = false;
+			whirlyAttack = false;
+			ball.xspeed = player.xhit + 2;
+			ball.yspeed = 0;
+			lastHit = 1;
+			currentRally++;
+		}
+	}
+	else if (player.id == 4) //Perry: Whirligig Wave
+	{
+		perryspecialsound.play();
+		p1NoMotion = true;
+		p1stunint = setInterval(EndP1Stun, 1500);
+		playerSprite.src = "../sprites/perryr1.png";
+		p1EffectActive = true;
+		p1EffectInt = setInterval(EndP1Effect, 300);
+		p1EffectAnimFrame = 1;
+		p1EffectAnimInt = setInterval(AnimateP1Effect, 50);
+		if (ball.x < player.x + 128 && ball.x > player.x + 32 && ball.y < player.y + 64 && ball.y + 20 > player.y)
+		{
+			serving = false;
+			p2NoMotion = false;
+			ball.xspeed = player.xhit+2;
+			ball.yspeed = 0;
+			lastHit = 1;
+			whirlyAttack = true;
+			brutalArrack = false;
+			perryWaveBasis = ball.y;
+			perrySineBasis = 0;
+			currentRally++;
+		}
+	}
+	else if (player.id == 5) //Ophelia: Aristoxicity
+	{
+		opheliaspecialsound.play();
+		p1NoMotion = true;
+		p1stunint = setInterval(EndP1Stun, 1000);
+		playerSprite.src = "../sprites/opheliar1.png";
+		p1EffectActive = true;
+		p1EffectAnimFrame = 1;
+		p1Effect.src = "../sprites/opheliaspecialeffectr1.png";
+		//p1EffectAnimInt = setInterval(AnimateP1Effect, 200);
+		if (venom.active == false)
+		{
+			venom.active = true;
+			venom.user = 1;
+			venom.x = player.x+64;
+			venom.y = player.y;
+		}
+		//delete venom on contact
+		//function to slow opponent
+	}
 }
 
 function SpecialMoveP2()
 {
 	p2SpecialPoints = 0;
+	if (player2.id == 1) //Leona: Lion's Fury
+	{
+		leonaspecialsound.play();
+		p2NoMotion = true;
+		p2stunint = setInterval(EndP2Stun, 1500);
+		player2Sprite.src = "../sprites/leonal1.png";
+		p2EffectActive = true;
+		p2EffectInt = setInterval(EndP2Effect, 300);
+		p2EffectAnimFrame = 1;
+		p2EffectAnimInt = setInterval(AnimateP2Effect, 50);
+		if (ball.x + 20 > player2.x-64 && ball.x + 20 < player2.x + 32 && ball.y < player2.y + 64 && ball.y + 20 > player2.y)
+		{
+			serving = false;
+			p1NoMotion = false;
+			ball.xspeed = -12;
+			ball.yspeed = 0;
+			lastHit = 2;
+			currentRally++;
+			brutalAttack = true;
+			whirlyAttack = false;
+			ballSprite.src = "TennisBallRed.png";
+		}
+	}
+	else if (player2.id == 2) //Penny: Dive Save
+	{
+		pennyspecialsound.play();
+		p2EffectActive = true;
+		p2EffectInt = setInterval(EndP2Effect, 300);
+		p2EffectAnimFrame = 1;
+		p2EffectAnimInt = setInterval(AnimateP2Effect, 50);
+		pennySplashArray[0] = player2.x;
+		pennySplashArray[1] = player2.y;
+		if (serving == false)
+		{
+			if (ball.x >= 640 && ball.x <= 1280-74)
+			{
+				player2.x = ball.x+10;
+				player2.y = ball.y-22;
+			}
+			else if (ball.x >= 1280-74)
+			{
+				player2.x = 1280-64;
+				player2.y = ball.y-22;
+			}
+			else if (ball.x < 640)
+			{
+				player2.y = ball.y-22;
+			}
+			pennySplashArray[2] = player2.x;
+			pennySplashArray[3] = player2.y;
+		}
+	}
+	else if (player2.id == 3) //Archie: Flurry Return
+	{
+		archiespecialsound.play();
+		p2NoMotion = true;
+		p2stunint = setInterval(EndP2Stun, 1500);
+		player2Sprite.src = "../sprites/archiel1.png";
+		p2EffectActive = true;
+		p2EffectInt = setInterval(EndP2Effect, 300);
+		p2EffectAnimFrame = 1;
+		p2EffectAnimInt = setInterval(AnimateP2Effect, 50);
+		if (ball.x < player2.x + 448 && ball.x > player2.x - 384 && ball.y < player2.y + 448 && ball.y + 20 > player2.y - 384)
+		{
+			ding.play();
+			serving = false;
+			p1NoMotion = false;
+			brutalAttack = false;
+			whirlyAttack = false;
+			ball.xspeed = -player2.xhit - 2;
+			ball.yspeed = 0;
+			lastHit = 2;
+			currentRally++;
+		}
+	}
+	else if (player2.id == 4) //Perry: Whirligig Wave
+	{
+		perryspecialsound.play();
+		p2NoMotion = true;
+		p2stunint = setInterval(EndP2Stun, 1500);
+		player2Sprite.src = "../sprites/perryl1.png";
+		p2EffectActive = true;
+		p2EffectInt = setInterval(EndP2Effect, 300);
+		p2EffectAnimFrame = 1;
+		p2EffectAnimInt = setInterval(AnimateP2Effect, 50);
+		if (ball.x > player2.x - 64 && ball.x < player2.x + 32 && ball.y < player2.y + 64 && ball.y + 20 > player2.y)
+		{
+			serving = false;
+			p1NoMotion = false;
+			ball.xspeed = -player2.xhit-2;
+			ball.yspeed = 0;
+			lastHit = 2;
+			whirlyAttack = true;
+			brutalArrack = false;
+			perryWaveBasis = ball.y;
+			perrySineBasis = 0;
+			currentRally++;
+		}
+	}
+	else if (player2.id == 5) //Ophelia: Aristoxicity
+	{
+		opheliaspecialsound.play();
+		p2NoMotion = true;
+		p2stunint = setInterval(EndP2Stun, 1000);
+		player2Sprite.src = "../sprites/ophelial1.png";
+		p2EffectActive = true;
+		p2EffectAnimFrame = 1;
+		p2Effect.src = "../sprites/opheliaspecialeffectl1.png";
+		//p2EffectAnimInt = setInterval(AnimateP2Effect, 200);
+		if (venom.active == false)
+		{
+			venom.active = true;
+			venom.user = 2;
+			venom.x = player2.x-128;
+			venom.y = player2.y;
+		}
+	}
+}
+
+function EndP1Stun()
+{
+	clearInterval(p1stunint);
+	p1NoMotion = false;
+}
+
+function EndP2Stun()
+{
+	clearInterval(p2stunint);
+	p2NoMotion = false;
+}
+
+function EndP1Effect()
+{
+	p1EffectActive = false;
+	clearInterval(p1EffectInt);
+	clearInterval(p1EffectAnimInt);
+}
+
+function EndP2Effect()
+{
+	p2EffectActive = false;
+	clearInterval(p2EffectInt);
+	clearInterval(p2EffectAnimInt);
+}
+
+function AnimateP1Effect()
+{
+	if (player.id == 1)
+	{
+		if (p1EffectAnimFrame == 1)
+			p1EffectAnimFrame = 2;
+		else
+			p1EffectAnimFrame = 1;
+		p1Effect.src = "../sprites/" + player.spimg + "r" + p1EffectAnimFrame + ".png";
+	}
+	else if (player.id == 2)
+	{
+		if (p1EffectAnimFrame < 3)
+			p1EffectAnimFrame++;
+		else
+			p1EffectAnimFrame = 1;
+		p1Effect.src = "../sprites/" + player.spimg + p1EffectAnimFrame + ".png";
+	}
+	else if (player.id == 3)
+	{
+		if (p1EffectAnimFrame < 3)
+			p1EffectAnimFrame++;
+		else
+			p1EffectAnimFrame = 1;
+		p1Effect.src = "../sprites/" + player.spimg + "r" + p1EffectAnimFrame + ".png";
+	}
+	else if (player.id == 4)
+	{
+		if (p1EffectAnimFrame < 3)
+			p1EffectAnimFrame++;
+		else
+			p1EffectAnimFrame = 1;
+		p1Effect.src = "../sprites/" + player.spimg + p1EffectAnimFrame + ".png";
+	}
+	else if (player.id == 5 && venom.active == true && venom.user == 1)
+	{
+		if (p1EffectAnimFrame < 4)
+			p1EffectAnimFrame++;
+		else
+			p1EffectAnimFrame = 1;
+		p1Effect.src = "../sprites/"+player.spimg+"r"+p1EffectAnimFrame+".png";
+	}
+}
+
+function AnimateP2Effect()
+{
+	if (player2.id == 1)
+	{
+		if (p2EffectAnimFrame == 1)
+			p2EffectAnimFrame = 2;
+		else
+			p2EffectAnimFrame = 1;
+		p2Effect.src = "../sprites/" + player2.spimg + "l" + p2EffectAnimFrame + ".png";
+	}
+	else if (player2.id == 2)
+	{
+		if (p2EffectAnimFrame < 3)
+			p2EffectAnimFrame++;
+		else
+			p2EffectAnimFrame = 1;
+		p2Effect.src = "../sprites/" + player2.spimg + p2EffectAnimFrame + ".png";
+	}
+	else if (player2.id == 3)
+	{
+		if (p2EffectAnimFrame < 3)
+			p2EffectAnimFrame++;
+		else
+			p2EffectAnimFrame = 1;
+		p2Effect.src = "../sprites/" + player2.spimg + "l" + p2EffectAnimFrame + ".png";
+	}
+	else if (player2.id == 4)
+	{
+		if (p2EffectAnimFrame < 3)
+			p2EffectAnimFrame++;
+		else
+			p2EffectAnimFrame = 1;
+		p2Effect.src = "../sprites/" + player2.spimg + p2EffectAnimFrame + ".png";
+	}
+}
+
+function DrawP1Effect()
+{
+	if (player.id == 1)
+	{
+		surface.drawImage(p1Effect, player.x, player.y);
+	}
+	else if (player.id == 2)
+	{
+		surface.drawImage(p1Effect, pennySplashArray[0], pennySplashArray[1]);
+		surface.drawImage(p1Effect, pennySplashArray[2], pennySplashArray[3]);
+	}
+	else if (player.id == 3)
+	{
+		surface.drawImage(p1Effect, player.x-384, player.y-384);
+	}
+	else if (player.id == 4)
+	{
+		surface.drawImage(p1Effect, player.x+64, player.y);
+	}
+	else if (player.id == 5)
+	{
+		surface.drawImage(p1Effect, venom.x, venom.y);
+	}
+}
+
+function DrawP2Effect()
+{
+	if (player2.id == 1)
+	{
+		surface.drawImage(p2Effect, player2.x-64, player2.y);
+	}
+	else if (player2.id == 2)
+	{
+		surface.drawImage(p2Effect, pennySplashArray[0], pennySplashArray[1]);
+		surface.drawImage(p2Effect, pennySplashArray[2], pennySplashArray[3]);
+	}
+	else if (player2.id == 3)
+	{
+		surface.drawImage(p2Effect, player2.x-384, player2.y-384);
+	}
+	else if (player2.id == 4)
+	{
+		surface.drawImage(p2Effect, player2.x-64, player2.y);
+	}
+	else if (player2.id == 5)
+	{
+		surface.drawImage(p2Effect, venom.x, venom.y);
+	}
+}
+
+function MoveVenom()
+{
+	if (venom.user == 1)
+		venom.x += venom.speed;
+	if (venom.user == 2)
+		venom.x -= venom.speed;
+	if (venom.x >= 1280 || venom.x <= -128)
+		DeactivateVenom();
+	if (venom.user == 1 && venom.x + 128 > player2.x && venom.x +128 < player2.x + 64 && venom.y < player2.y + 64 && venom.y + 64 > player2.y)
+	{
+		PoisonPlayer2();
+		DeactivateVenom();
+	}
+	if (venom.user == 2 && venom.x < player.x + 64 && venom.x > player.x && venom.y < player.y + 64 && venom.y + 64 > player.y)
+	{
+		PoisonPlayer1();
+		DeactivateVenom();
+	}
+}
+
+function DeactivateVenom()
+{
+	venom.active = false;
+	venom.user = 0;
+	p1EffectActive = false;
+	p2EffectActive = false;
+	clearInterval(p1EffectAnimInt);
+}
+
+function PoisonPlayer1()
+{
+	console.log("P1 POISONED");
+	poisonsound.play();
+	player.speed -= 2;
+	p2EffectInt = setInterval(HealPoisonP1, 5000);
+}
+
+function PoisonPlayer2()
+{
+	console.log("P2 POISONED");
+	poisonsound.play();
+	player2.speed -= 2;
+	p1EffectInt = setInterval(HealPoisonP2, 5000);
+}
+
+function HealPoisonP1()
+{
+	player.speed += 2;
+	clearInterval(p2EffectInt);
+}
+
+function HealPoisonP2()
+{
+	player2.speed += 2;
+	clearInterval(p1EffectInt);
 }
 
 function checkBounds()
@@ -850,6 +1364,11 @@ function resetPositions()
 	aiServeCounter = 0;
 	currentRally = 0;
 	serving = true;
+	brutalAttack = false;
+	whirlyAttack = false;
+	if (venom.active == true)
+		venom.active = false;
+	ballSprite.src="TennisBall.png";
 }
 
 function incrementP1SP()
@@ -885,6 +1404,8 @@ function setP1Character(x)
 		player.id = leonaStats.id;
 		player.shortname = leonaStats.shortname;
 		player.colour = leonaStats.colour;
+		player.spimg = leonaStats.spimg;
+		//p1Effect.src = "../sprites/leonaspecialeffectr.png";
 		console.log("Leona");
 	}
 	else if (x == 2) //Penny
@@ -898,6 +1419,7 @@ function setP1Character(x)
 		player.id = pennyStats.id;
 		player.shortname = pennyStats.shortname;
 		player.colour = pennyStats.colour;
+		player.spimg = pennyStats.spimg;
 		console.log("Penny");
 	}
 	else if (x == 3) //Archie
@@ -911,6 +1433,7 @@ function setP1Character(x)
 		player.id = archieStats.id;
 		player.shortname = archieStats.shortname;
 		player.colour = archieStats.colour;
+		player.spimg = archieStats.spimg;
 		console.log("Archie");
 	}
 	else if (x == 4) //Perry
@@ -924,6 +1447,7 @@ function setP1Character(x)
 		player.id = perryStats.id;
 		player.shortname = perryStats.shortname;
 		player.colour = perryStats.colour;
+		player.spimg = perryStats.spimg;
 		console.log("Perry");
 	}
 	else if (x == 5) //Ophelia
@@ -937,6 +1461,7 @@ function setP1Character(x)
 		player.id = opheliaStats.id;
 		player.shortname = opheliaStats.shortname;
 		player.colour = opheliaStats.colour;
+		player.spimg = opheliaStats.spimg;
 		console.log("Ophelia");
 	}
 	else //default
@@ -967,6 +1492,8 @@ function setP2Character(x)
 		player2.name = leonaStats.name;
 		player2.shortname = leonaStats.shortname;
 		player2.colour = leonaStats.colour;
+		player2.spimg = leonaStats.spimg;
+		//p2Effect.src = "../img/leonaspecialeffectl.png";
 		player2.id = leonaStats.id;
 	}
 	else if (x == 2) //Penny
@@ -979,6 +1506,7 @@ function setP2Character(x)
 		player2.name = pennyStats.name;
 		player2.shortname = pennyStats.shortname;
 		player2.colour = pennyStats.colour;
+		player2.spimg = pennyStats.spimg;
 		player2.id = pennyStats.id;
 	}
 	else if (x == 3) //Archie
@@ -991,6 +1519,7 @@ function setP2Character(x)
 		player2.name = archieStats.name;
 		player2.shortname = archieStats.shortname;
 		player2.colour = archieStats.colour;
+		player2.spimg = archieStats.spimg;
 		player2.id = archieStats.id;		
 	}
 	else if (x == 4) //Perry
@@ -1003,6 +1532,7 @@ function setP2Character(x)
 		player2.name = perryStats.name;
 		player2.shortname = perryStats.shortname;
 		player2.colour = perryStats.colour;
+		player2.spimg = perryStats.spimg;
 		player2.id = perryStats.id;
 	}
 	else if (x == 5) //Ophelia
@@ -1015,6 +1545,7 @@ function setP2Character(x)
 		player2.name = opheliaStats.name;
 		player2.shortname = opheliaStats.shortname;
 		player2.colour = opheliaStats.colour;
+		player2.spimg = opheliaStats.spimg;
 		player2.id = opheliaStats.id;
 	}
 	else //default
