@@ -488,22 +488,26 @@ function checkP2Collision()
 		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == false)
 		{
 			ball.xspeed = -player2.xhit;
-			ball.yspeed = -player2.ylighthit;
+			if (ball.y > 100)
+				ball.yspeed = -player2.ylighthit;
 		}
 		else if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == true)
 		{
 			ball.xspeed = -player2.xhit;
-			ball.yspeed = player2.ylighthit;
+			if (ball.y < 1180)
+				ball.yspeed = player2.ylighthit;
 		}
 		else if (p2LeftPressed == false && p2UpPressed == true && p2DownPressed == false)
 		{
 			ball.xspeed = -player2.xhit;
-			ball.yspeed = -player2.yheavyhit;
+			if (ball.y > 180)
+				ball.yspeed = -player2.yheavyhit;
 		}
 		else if (p2LeftPressed == false && p2UpPressed == false && p2DownPressed == true)
 		{
 			ball.xspeed = -player2.xhit;
-			ball.yspeed = player2.yheavyhit;
+			if (ball.y < 1100)
+				ball.yspeed = player2.yheavyhit;
 		}
 		else
 		{

@@ -540,22 +540,26 @@ function checkP2Collision()
 		else if (p2LeftPressed == true && p2UpPressed == true && p2DownPressed == false)
 		{
 			ball.xspeed = -player2.xhit;
-			ball.yspeed = -player2.ylighthit;
+			if (ball.y > 100)
+				ball.yspeed = -player2.ylighthit;
 		}
 		else if (p2LeftPressed == true && p2UpPressed == false && p2DownPressed == true)
 		{
 			ball.xspeed = -player2.xhit;
-			ball.yspeed = player2.ylighthit;
+			if (ball.y < 1180)
+				ball.yspeed = player2.ylighthit;
 		}
 		else if (p2LeftPressed == false && p2UpPressed == true && p2DownPressed == false)
 		{
 			ball.xspeed = -player2.xhit;
-			ball.yspeed = -player2.yheavyhit;
+			if (ball.y > 180)
+				ball.yspeed = -player2.yheavyhit;
 		}
 		else if (p2LeftPressed == false && p2UpPressed == false && p2DownPressed == true)
 		{
 			ball.xspeed = -player2.xhit;
-			ball.yspeed = player2.yheavyhit;
+			if (ball.y < 1100)
+				ball.yspeed = player2.yheavyhit;
 		}
 		else
 		{
@@ -1202,7 +1206,8 @@ function p2Served()
 
 function scoreP1()
 {
-	p1Point.innerHTML = p1Score += 1;
+	p1Score++;
+	p1Point.innerHTML = p1Score;
 	spawnDirection = 2;
 	cantUseSpecial = true;
 	incrementP1SP();
@@ -1274,7 +1279,7 @@ function outOfBounds()
 function drawP1ScoreText()
 {
 	surface.fillStyle = "black";
-	if (p1Score < 8)
+	if (p1Score < 5)
 	{
 		surface.fillText(player.shortname+" SCORED!", 640, 320);
 	}
@@ -1641,4 +1646,3 @@ function swapCharacters() //this is for testing purposes, remove from final vers
 			break;
 	}
 }
-
