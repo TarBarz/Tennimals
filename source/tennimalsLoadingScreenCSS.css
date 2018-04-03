@@ -1,0 +1,47 @@
+body, html
+{
+	height: 100%;
+	margin: 0;
+	/*width: 1280px;*/
+}
+
+hr
+{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+@font-face
+{
+	font-family: bitfont;
+	src: url(BitFont.ttf);
+}
+
+#middle
+{
+	position: center;
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 50px;
+	text-align: center;
+}
+
+#header
+{
+	font-family: bitfont;
+	font-size: 50px;
+}
+
+#loadingBar
+{
+	width: 100%;
+	background-color: lightgrey;
+}
+
+#progress
+{
+	width: 1%;
+	height: 20px;
+	background-color: lightgreen;
+}

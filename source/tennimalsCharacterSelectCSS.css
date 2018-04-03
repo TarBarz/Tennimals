@@ -1,0 +1,97 @@
+body
+{
+	border: 3px solid;
+	height: 800px;
+	width: 1280px;
+}
+
+#characters
+{
+	border: 2px solid;
+	height: 700px;
+	margin: auto;
+	margin-top: 20px;
+	padding: 20px;
+	width: 1100px;
+}
+
+#leonaPryde
+{
+	border: 1px solid;
+	display: inline-block;
+	float: left;
+	padding: 5px;
+	width: 380px;
+}
+
+#leonaPryde:hover
+{
+	background-color:black;
+}
+
+#pennyGuinn
+{
+	border: 1px solid;
+	display: inline-block;
+	float: right;
+	padding: 5px;
+	width: 380px;
+}
+
+#pennyGuinn:hover
+{
+	background-color:black;
+}
+
+#archieTeuthis
+{
+	border: 1px solid;
+	display: inline-block;
+	float: left;
+	margin-top: 15px;
+	padding: 5px;
+	width: 380px;
+}
+
+#archieTeuthis:hover
+{
+	background-color:black;
+}
+
+#perryStripes
+{
+	border: 1px solid;
+	display: inline-block;
+	float: right;
+	margin-top: 15px;
+	padding: 5px;
+	width: 380px;
+}
+
+#perryStripes:hover
+{
+	background-color:black;
+}
+
+#madameOphelia
+{
+	border: 1px solid;
+	display: inline-block;
+	/*float: left;*/
+	margin-left: 350px;
+	margin-top: 15px;
+	padding: 5px;
+	width: 380px;
+}
+
+#madameOphelia:hover
+{
+	background-color:black;
+}
+
+.imgTag
+{
+	margin-left: auto;
+	margin-right: auto;
+	width: 130px;
+}
