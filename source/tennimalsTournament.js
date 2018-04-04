@@ -258,7 +258,15 @@ function aiMotion()
 		{
 			if (ball.x <= player2.x)
 			{	
-				if (player2.y >= ball.y-20 && player2.y <= ball.y+20)
+				if (player2.id == 1 && p2SpecialPoints == 10 && ball.x + 20 > player2.x-64 && ball.x + 20 < player2.x + 32 && ball.y < player2.y + 64 && ball.y + 20 > player2.y)
+				{
+					SpecialMoveP2();
+				}
+				else if (player2.id == 4 && p2SpecialPoints == 10 && ball.x > player2.x - 64 && ball.x < player2.x + 32 && ball.y < player2.y + 64 && ball.y + 20 > player2.y)
+				{
+					SpecialMoveP2();
+				}
+				else if (player2.y >= ball.y-20 && player2.y <= ball.y+20)
 				{
 					p2LeftPressed = true;
 					player2Sprite.src = "../sprites/"+player2.img+"l"+p2CurrentFrame+".png";
@@ -286,10 +294,22 @@ function aiMotion()
 					player2Sprite.src = "../sprites/"+player2.img+p2CurrentFrame+".png";
 				}
 			}
+			else if (player2.id == 2 && p2SpecialPoints == 10 && cantUseSpecial == false)
+			{
+				SpecialMoveP2();
+			}
+			else if (player2.id == 3 && p2SpecialPoints == 10 && cantUseSpecial == false)
+			{
+				SpecialMoveP2();
+			}
 		}
 		else if (lastHit == 2)
 		{
-			if (player2.y >= ball.y+50 && player2.x <= 1100)
+			if (player2.id == 5 && player2.y + 64 >= player.y && player2.y <= player.y + 64 && cantUseSpecial == false && p2SpecialPoints == 10)
+			{
+				SpecialMoveP2();
+			}
+			else if (player2.y >= ball.y+50 && player2.x <= 1100)
 			{
 				p2RightPressed = true;
 				p2UpPressed = true;
@@ -692,6 +712,7 @@ function SpecialMoveP1()
 			p2NoMotion = false;
 			brutalAttack = false;
 			whirlyAttack = false;
+			ballSprite.src = "TennisBall.png";
 			ball.xspeed = player.xhit + 2;
 			ball.yspeed = 0;
 			lastHit = 1;
@@ -717,6 +738,7 @@ function SpecialMoveP1()
 			lastHit = 1;
 			whirlyAttack = true;
 			brutalArrack = false;
+			ballSprite.src = "TennisBall.png";
 			perryWaveBasis = ball.y;
 			perrySineBasis = 0;
 			currentRally++;
@@ -816,6 +838,7 @@ function SpecialMoveP2()
 			p1NoMotion = false;
 			brutalAttack = false;
 			whirlyAttack = false;
+			ballSprite.src = "TennisBall.png";
 			ball.xspeed = -player2.xhit - 2;
 			ball.yspeed = 0;
 			lastHit = 2;
@@ -841,6 +864,7 @@ function SpecialMoveP2()
 			lastHit = 2;
 			whirlyAttack = true;
 			brutalArrack = false;
+			ballSprite.src = "TennisBall.png";
 			perryWaveBasis = ball.y;
 			perrySineBasis = 0;
 			currentRally++;
