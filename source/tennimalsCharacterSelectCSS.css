@@ -1,7 +1,9 @@
 body
 {
 	border: 3px solid;
-	height: 800px;
+	height: 1000px;
+	margin-left: auto;
+	margin-right: auto;
 	width: 1280px;
 }
 
@@ -15,6 +17,21 @@ body
 	width: 1100px;
 }
 
+#leonaPrydeButton
+{
+	background: url("../characterselectboxes/newcharbox1.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border: none;
+	width: 128px;
+	height: 128px;
+}
+
+#leonaPrydeButton:hover
+{
+	opacity: 0.5;
+}
+
 #leonaPryde
 {
 	border: 1px solid;
@@ -26,7 +43,7 @@ body
 
 #leonaPryde:hover
 {
-	background-color:black;
+	/*background-color:black;*/
 }
 
 #pennyGuinn
@@ -40,7 +57,22 @@ body
 
 #pennyGuinn:hover
 {
-	background-color:black;
+	/*background-color:black;*/
+}
+
+#pennyGuinnButton
+{
+	background: url("../characterselectboxes/newcharbox2.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border: none;
+	width: 128px;
+	height: 128px;
+}
+
+#pennyGuinnButton:hover
+{
+	opacity: 0.5;
 }
 
 #archieTeuthis
@@ -55,7 +87,22 @@ body
 
 #archieTeuthis:hover
 {
-	background-color:black;
+	/*background-color:black;*/
+}
+
+#archieTeuthisButton
+{
+	background: url("../characterselectboxes/newcharbox3.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border: none;
+	width: 128px;
+	height: 128px;
+}
+
+#archieTeuthisButton:hover
+{
+	opacity: 0.5;
 }
 
 #perryStripes
@@ -70,15 +117,30 @@ body
 
 #perryStripes:hover
 {
-	background-color:black;
+	/*background-color:black;*/
+}
+
+#perryStripesButton
+{
+	background: url("../characterselectboxes/newcharbox4.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border: none;
+	width: 128px;
+	height: 128px;
+}
+
+#perryStripesButton:hover
+{
+	opacity: 0.5;
 }
 
 #madameOphelia
 {
 	border: 1px solid;
 	display: inline-block;
-	/*float: left;*/
-	margin-left: 350px;
+	float: left;
+	/*margin-left: 350px;*/
 	margin-top: 15px;
 	padding: 5px;
 	width: 380px;
@@ -86,12 +148,58 @@ body
 
 #madameOphelia:hover
 {
-	background-color:black;
+	/*background-color:black;*/
+}
+
+#madameOpheliaButton
+{
+	background: url("../characterselectboxes/newcharbox5.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border: none;
+	width: 128px;
+	height: 128px;
+}
+
+#madameOpheliaButton:hover
+{
+	opacity: 0.5;
+}
+
+#randomSelect
+{
+	border: 1px solid;
+	display: inline-block;
+	float: right;
+	/*margin-left: 350px;*/
+	margin-top: 15px;
+	padding: 5px;
+	width: 380px;
+}
+
+#randomSelect:hover
+{
+	/*background-color:black;*/
+}
+
+#randomSelectButton
+{
+	background: url("../characterselectboxes/newcharboxr.png");
+	background-repeat: no-repeat;
+	cursor: pointer;
+	border: none;
+	width: 128px;
+	height: 128px;
+}
+
+#randomSelectButton:hover
+{
+	opacity: 0.5;
 }
 
 .imgTag
 {
 	margin-left: auto;
 	margin-right: auto;
-	width: 130px;
+	width: 128px;
 }
