@@ -111,6 +111,31 @@ var serving = true;
 //var HEIGHT = 300;
 var cantUseSpecial = false;
 
+//ITEM STUFF
+var item = {x: 620, y: 100, speed: 2};
+var itemSprite = new Image();
+itemSprite.src = "../sprites/powerupbox.png";
+var currentItem = 0;
+var itemState = 0; //0: inactive, 1: box, 2: actual item
+var itemOwner = 0; //1: player 1, 2: player2
+var itemEffectActive = false;
+var itemSpawnInterval;
+var itemEffectInterval;
+var itemsOn = true;
+
+var shadowAide = {x: 0, y: 0, speed: 4, strength: 5, active: false};
+var shadowAideSprite = new Image();
+
+var itemappearssound = document.getElementById("itemappears");
+var itemboxbreaks = document.getElementById("itemboxbreaks");
+var item0sound = document.getElementById("item0sound");
+var item1sound = document.getElementById("item1sound");
+var item2sound = document.getElementById("item2sound");
+var item3sound = document.getElementById("item3sound");
+var item4sound = document.getElementById("item4sound");
+var item5sound = document.getElementById("item5sound");
+var item6sound = document.getElementById("item6sound");
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 window.addEventListener("keydown", p2KeyDown);
@@ -127,6 +152,8 @@ startGame();
 function startGame()
 {
 	interval = setInterval(update, 33.34);
+	if (itemsOn = true)
+		PrepareItemBox();
 }
 
 function update()
@@ -140,8 +167,15 @@ function update()
 	}
 	checkCollision();
 	moveBall();
+	if (itemState != 0)
+	{
+		MoveItem();
+		CheckItemCollision();
+	}
 	if (venom.active == true)
 		MoveVenom();
+	if (shadowAide.active == true)
+		MoveShadowAide();
 	render();
 }
 
@@ -210,6 +244,12 @@ function render()
 	if (p2EffectActive == true)
 		DrawP2Effect();
 	
+	if (itemState != 0)
+		DrawItem();
+	
+	if (shadowAide.active == true)
+		DrawShadowAide();
+	
 	DrawMeters();
 }
 
@@ -217,6 +257,8 @@ function checkCollision() //we can maybe add an if statement to make it only che
 {
 	checkP1Collision();
 	checkP2Collision();
+	if (shadowAide.active == true)
+		CheckShadowAideCollision();
 	checkBounds();
 }
 
@@ -861,6 +903,265 @@ function HealPoisonP2()
 	clearInterval(p1EffectInt);
 }
 
+function DrawItem()
+{
+	surface.drawImage(itemSprite, item.x, item.y);
+}
+
+function MoveItem()
+{
+	if (itemState == 1)
+		item.y += item.speed;
+	else if (itemState == 2)
+	{
+		if (itemOwner == 1)
+			item.x -= item.speed;
+		else
+			item.x+=item.speed;
+	}
+}
+
+function CheckItemCollision()
+{
+	if (itemState == 1)
+	{
+		if (ball.x < item.x + 40 && ball.x + 20 > item.x && ball.y < item.y + 40 && ball.y + 20 > item.y)
+		{
+			itemOwner = lastHit;
+			itemState = 2;
+			item.speed = 2;
+			itemSprite.src = "../sprites/powerup"+currentItem+".png";
+			itemboxbreaks.play();
+		}
+		if (item.y > 640 || item.y < -40)
+			EndItem();
+	}
+	else if (itemState == 2)
+	{
+		if (itemOwner == 1)
+		{
+			if (item.x < player.x + 64 && item.x + 40 > player.x && item.y < player.y + 64 && item.y + 40 > player.y)
+			{
+				itemState = 0;
+				ActivateItemP1();
+			}
+		}
+		else if (itemOwner == 2)
+		{
+			if (item.x < player2.x + 64 && item.x + 40 > player2.x && item.y < player2.y + 64 && item.y + 40 > player2.y)
+			{
+				itemState = 0;
+				ActivateItemP2();
+			}
+		}
+		if (item.x > 1280 || item.x < 0)
+			EndItem();
+	}
+}
+
+function PrepareItemBox()
+{
+	clearInterval(itemSpawnInterval);
+	var randomtime = 10000 + Math.floor(Math.random() * 15000 + 1);
+	itemSpawnInterval = setInterval(SpawnItemBox, randomtime);
+	var randomspot = 100 + Math.floor(Math.random() * 440);
+	item.y = randomspot;
+	item.x = 620;
+	if (item.y >= 320)
+		item.speed = -2;
+	else
+		item.speed = 2;
+	currentItem = Math.floor(Math.random() * 7);
+}
+
+function SpawnItemBox()
+{
+	itemSprite.src = "../sprites/powerupbox.png";
+	itemState = 1;
+	itemappearssound.play();
+	clearInterval(itemSpawnInterval);
+}
+
+function EndItem()
+{
+	if (itemOwner == 1 && itemEffectActive == true)
+		DeactivateItemP1();
+	else if (itemOwner == 2 && itemEffectActive == true)
+		DeactivateItemP2();
+	itemState = 0;
+	itemOwner = 0;
+	PrepareItemBox();
+}
+
+function ActivateItemP1()
+{
+	itemEffectActive = true;
+	if (currentItem == 0) //STRENGTH BOOST
+	{
+		item0sound.play();
+		player.xhit += 4;
+		itemEffectInterval = setInterval(EndItem, 7000);
+	}
+	else if (currentItem == 1) //SPEED BOOST
+	{
+		item1sound.play();
+		player.speed += 2;
+		itemEffectInterval = setInterval(EndItem, 7000);
+	}
+	else if (currentItem == 2) //SNAIL TIME
+	{
+		item2sound.play();
+		player2.speed /= 2;
+		ball.speed /= 2;
+		itemEffectInterval = setInterval(EndItem, 7000);
+	}
+	else if (currentItem == 3) //SHADOW AIDE
+	{
+		item3sound.play();
+		shadowAide.active = true;
+		itemEffectInterval = setInterval(EndItem, 15000);
+	}
+	else if (currentItem == 4) //SP BOOST
+	{
+		item4sound.play();
+		for (var j = 0; j < 5; j++)
+			incrementP1SP();
+		EndItem();
+	}
+	else if (currentItem == 5) //SCORE VAMPIRE
+	{
+		item5sound.play();
+	}
+	else if (currentItem == 6) //DOUBLE POINTS
+	{
+		item6sound.play();
+	}
+}
+
+function ActivateItemP2()
+{
+	itemEffectActive = true;
+	if (currentItem == 0) //STRENGTH BOOST
+	{
+		item0sound.play();
+		player2.xhit += 4;
+		itemEffectInterval = setInterval(EndItem, 7000);
+	}
+	else if (currentItem == 1) //SPEED BOOST
+	{
+		item1sound.play();
+		player2.speed += 2;
+		itemEffectInterval = setInterval(EndItem, 7000);
+	}
+	else if (currentItem == 2) //SNAIL TIME
+	{
+		item2sound.play();
+		player.speed /= 2;
+		ball.speed /= 2;
+		itemEffectInterval = setInterval(EndItem, 7000);
+	}
+	else if (currentItem == 3) //SHADOW AIDE
+	{
+		item3sound.play();
+		shadowAide.active = true;
+		itemEffectInterval = setInterval(EndItem, 15000);
+	}
+	else if (currentItem == 4) //SP BOOST
+	{
+		item4sound.play();
+		for (var j = 0; j < 5; j++)
+			incrementP2SP();
+		EndItem();
+	}
+	else if (currentItem == 5) //SCORE VAMPIRE
+	{
+		item5sound.play();
+	}
+	else if (currentItem == 6) //DOUBLE POINTS
+	{
+		item6sound.play();
+	}
+}
+
+function DeactivateItemP1()
+{
+	clearInterval(itemEffectInterval);
+	itemEffectActive = false;
+	if (currentItem == 0)
+		player.xhit -= 4;
+	else if (currentItem == 1)
+		player.speed -=2;
+	else if (currentItem == 2)
+	{
+		player2.speed *= 2;
+		ball.speed *= 2;
+	}
+	else if (currentItem == 3)
+		shadowAide.active = false;
+}
+
+function DeactivateItemP2()
+{
+	clearInterval(itemEffectInterval);
+	itemEffectActive = false;
+	if (currentItem == 0)
+		player2.xhit -= 4;
+	else if (currentItem == 1)
+		player2.speed -= 2;
+	else if (currentItem == 2)
+	{
+		player.speed *= 2;
+		ball.speed *= 2;
+	}
+	else if (currentItem == 3)
+		shadowAide.active = false;
+}
+
+function MoveShadowAide()
+{
+	if (itemOwner == 1)
+		shadowAide.x = 100;
+	else if (itemOwner == 2)
+		shadowAide.x = 1150;
+	if (shadowAide.y < ball.y-22)
+		shadowAide.y += shadowAide.speed;
+	else if (shadowAide.y > ball.y+20)
+		shadowAide.y -= shadowAide.speed;
+}
+
+function DrawShadowAide()
+{
+	if (itemOwner == 1)
+		shadowAideSprite.src = "../sprites/shadowaider.png";
+	else if (itemOwner == 2)
+		shadowAideSprite.src = "../sprites/shadowaidel.png";
+	surface.drawImage(shadowAideSprite, shadowAide.x, shadowAide.y);
+}
+
+function CheckShadowAideCollision()
+{
+	if (itemOwner == 1 && ball.x < shadowAide.x + 30 && ball.x > shadowAide.x && ball.y < shadowAide.y + 64 && ball.y + 20 > shadowAide.y && lastHit != 1)
+	{
+		ding.play();
+		lastHit = 1;
+		currentRally++;
+		whirlyAttack = false;
+		brutalAttack = false;
+		ball.yspeed = 0;
+		ball.xspeed = shadowAide.strength;
+	}
+	else if (itemOwner == 2 && ball.x + 20 > shadowAide.x && ball.x < shadowAide.x + 30 && ball.y < shadowAide.y + 64 && ball.y + 20 > shadowAide.y && lastHit != 2)
+	{
+		ding.play();
+		lastHit = 2;
+		currentRally++;
+		whirlyAttack = false;
+		brutalAttack = false;
+		ball.yspeed = 0;
+		ball.xspeed = -shadowAide.strength;
+	}
+}
+
 function checkBounds()
 {
 	if (ball.x <= -20 || ball.x >= 1280 || ball.y <= -20 || ball.y >= 640)
@@ -874,18 +1175,6 @@ function checkBounds()
 		CheckScores();
 	}
 }
-
-/*function p1flash()
-{
-	p1nocontact = false;
-	clearInterval(collInt1);
-}
-
-function p2flash()
-{
-	p2nocontact = false;
-	clearInterval(collInt2);
-}*/
 
 function ServeStructure()
 {
@@ -990,6 +1279,15 @@ function p2Served()
 function scoreP1()
 {
 	p1Point.innerHTML = p1Score += 1;
+	if (itemOwner == 1 && p2Score > 0 && itemEffectActive == true && currentItem == 5)
+	{
+		p2Score--;
+		p2Point.innerHTML = p2Score;
+	}
+	if (p1Score != targetScore && itemEffectActive == true && currentItem == 6)
+	{
+		p1Point.innerHTML = p1Score += 1;
+	}
 	spawnDirection = 2;
 	cantUseSpecial = true;
 	incrementP1SP();
@@ -1009,6 +1307,15 @@ function scoreP1()
 function scoreP2()
 {
 	p2Point.innerHTML = p2Score += 1;
+	if (itemOwner == 2 && p1Score > 0 && itemEffectActive == true && currentItem == 5)
+	{
+		p1Score--;
+		p1Point.innerHTML = p1Score;
+	}
+	if (p2Score != targetScore && itemEffectActive == true && currentItem == 6)
+	{
+		p2Point.innerHTML = p2Score += 1;
+	}
 	spawnDirection = 1;
 	cantUseSpecial = true;
 	incrementP1SP();
@@ -1244,6 +1551,11 @@ function resetPositions()
 	if (venom.active == true)
 		venom.active = false;
 	ballSprite.src="TennisBall.png";
+	if (itemsOn == true)
+	{
+		clearInterval(itemSpawnInterval);
+		EndItem();
+	}
 }
 
 function incrementP1SP()
@@ -1459,6 +1771,27 @@ function swapCharacters() //this is for testing purposes, comment out from final
 		case 48: //0
 			p1SpecialPoints = maxSpecialPoints;
 			p2SpecialPoints = maxSpecialPoints;
+			break;
+		case 82: //R
+			currentItem = 0;
+			break;
+		case 84: //T
+			currentItem = 1;
+			break;
+		case 89: //Y
+			currentItem = 2;
+			break;
+		case 85: //U
+			currentItem = 3;
+			break;
+		case 73: //I
+			currentItem = 4;
+			break;
+		case 79: //O
+			currentItem = 5;
+			break;
+		case 80: //P
+			currentItem = 6;
 			break;
 	}
 }
