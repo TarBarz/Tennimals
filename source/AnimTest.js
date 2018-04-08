@@ -23,6 +23,10 @@ var ophelia = new Image();
 var ophelial = new Image();
 var opheliar = new Image();
 var opheliab = new Image();
+var emerald = new Image();
+var emeraldl = new Image();
+var emeraldr = new Image();
+var emeraldb = new Image();
 
 var animSpeed = 4;
 var currframe = 1;
@@ -57,6 +61,10 @@ function updateSprites()
 	ophelial.src = "../sprites/ophelial" + currframe + ".png";
 	opheliar.src = "../sprites/opheliar" + currframe + ".png";
 	opheliab.src = "../sprites/opheliab" + currframe + ".png";
+	emerald.src = "../sprites/emerald" + currframe + ".png";
+	emeraldl.src = "../sprites/emeraldl" + currframe + ".png";
+	emeraldr.src = "../sprites/emeraldr" + currframe + ".png";
+	emeraldb.src = "../sprites/emeraldb" + currframe + ".png";
 	
 	if (currframe < 4)
 		currframe++
@@ -72,20 +80,24 @@ function render()
 	surface.drawImage(leonal, 96, 216);
 	surface.drawImage(leonar, 96, 376);
 	surface.drawImage(leonab, 96, 536);
-	surface.drawImage(penny, 352, 56);
-	surface.drawImage(pennyl, 352, 216);
-	surface.drawImage(pennyr, 352, 376);
-	surface.drawImage(pennyb, 352, 536);
-	surface.drawImage(archie, 608, 56);
-	surface.drawImage(archiel, 608, 216);
-	surface.drawImage(archier, 608, 376);
-	surface.drawImage(archieb, 608, 536);
-	surface.drawImage(perry, 864, 56);
-	surface.drawImage(perryl, 864, 216);
-	surface.drawImage(perryr, 864, 376);
-	surface.drawImage(perryb, 864, 536);
-	surface.drawImage(ophelia, 1120, 56);
-	surface.drawImage(ophelial, 1120, 216);
-	surface.drawImage(opheliar, 1120, 376);
-	surface.drawImage(opheliab, 1120, 536);
+	surface.drawImage(penny, 309, 56);
+	surface.drawImage(pennyl, 309, 216);
+	surface.drawImage(pennyr, 309, 376);
+	surface.drawImage(pennyb, 309, 536);
+	surface.drawImage(archie, 522, 56);
+	surface.drawImage(archiel, 522, 216);
+	surface.drawImage(archier, 522, 376);
+	surface.drawImage(archieb, 522, 536);
+	surface.drawImage(perry, 735, 56);
+	surface.drawImage(perryl, 735, 216);
+	surface.drawImage(perryr, 735, 376);
+	surface.drawImage(perryb, 735, 536);
+	surface.drawImage(ophelia, 948, 56);
+	surface.drawImage(ophelial, 948, 216);
+	surface.drawImage(opheliar, 948, 376);
+	surface.drawImage(opheliab, 948, 536);
+	surface.drawImage(emerald, 1161, 56);
+	surface.drawImage(emeraldl, 1161, 216);
+	surface.drawImage(emeraldr, 1161, 376);
+	surface.drawImage(emeraldb, 1161, 536);
 }

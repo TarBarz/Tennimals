@@ -32,6 +32,7 @@ var pennyStats = {xhit:3, ylighthit:1, yheavyhit:2.3, speed:3.6, img:"penny", na
 var archieStats = {xhit:2.5, ylighthit:1, yheavyhit:1.7, speed:5, img:"archie", name: "Archie Teuthis", shortname:"ARCHIE", colour: "#b35c42", spimg: "archiespecialeffect", id:3};
 var perryStats = {xhit:3, ylighthit:1, yheavyhit:2, speed:4, img:"perry", name: "Perry Stripes", shortname:"PERRY", colour: "#2d358a", spimg: "perryspecialeffect", id:4};
 var opheliaStats = {xhit:2.5, ylighthit:1, yheavyhit:1.5, img:"ophelia", speed:5.5, name: "Madame Ophelia", shortname:"OPHELIA", colour:"#ffbac3", spimg: "opheliaspecialeffect", id:5};
+var emeraldStats = {xhit:5, ylighthit:1, yheavyhit: 1.8, speed: 5.8, img: "emerald", name: "Emerald Elysia", shortname: "EMERALD", colour:"#378f11", spimg: null, id:6};
 var defaultStats = {xhit:3, ylighthit:1, yheavyhit:2, img:"tennimalscharplaceholder", speed:4, name: "Default", shortname:"COWSQUARE", colour: "black", id:0};
 
 var interval;
@@ -53,6 +54,7 @@ var archiespecialsound = document.getElementById("archiesp");
 var perryspecialsound = document.getElementById("perrysp");
 var opheliaspecialsound = document.getElementById("opheliasp");
 var poisonsound = document.getElementById("opheliasp2");
+var emeraldspecialsound = document.getElementById("emeraldsp");
 
 var characterCycle = 1; //delete this from final version, it's just for swapCharacters function.
 var characterCycle2 = 1; //delete this from final version
@@ -107,6 +109,8 @@ var pennySplashArray = [0, 0, 0, 0];
 var perryWaveBasis = 0;
 var perrySineBasis = 0;
 var venom = {x: 0, y: 0, speed: 30, user: 0, active: false};
+var photosynecdoche1 = false;
+var photosynecdoche2 = false;
 
 var aiInterval;
 var aiServeCounter = 0;
@@ -226,9 +230,14 @@ function aiMotion()
 				{
 					p2UpPressed = true;
 				}
+				else if (player2.id != 6)
+				{
+					p2LeftPressed = true;
+				}
 				else
 				{
 					p2LeftPressed = true;
+					p2UpPressed = true;
 				}
 			}
 		}
@@ -237,7 +246,9 @@ function aiMotion()
 	{
 		if (lastHit == 1)
 		{
-			if (ball.x <= player2.x)
+			if (player2.id == 6 && p2SpecialPoints == 10 && photosynecdoche2 == false && cantUseSpecial == false)
+				SpecialMoveP2();
+			else if (ball.x <= player2.x)
 			{	
 				if (player2.id == 1 && p2SpecialPoints == 10 && ball.x + 20 > player2.x-64 && ball.x + 20 < player2.x + 32 && ball.y < player2.y + 64 && ball.y + 20 > player2.y)
 				{
@@ -626,7 +637,8 @@ function checkP2Collision()
 
 function SpecialMoveP1()
 {
-	p1SpecialPoints = 0;
+	if (photosynecdoche1 == false)
+		p1SpecialPoints = 0;
 	if (player.id == 1) //Leona: Lion's Fury
 	{
 		leonaspecialsound.play();
@@ -745,14 +757,24 @@ function SpecialMoveP1()
 			venom.x = player.x+64;
 			venom.y = player.y;
 		}
-		//delete venom on contact
-		//function to slow opponent
+	}
+	else if (player.id == 6 && photosynecdoche1 == false) //Emerald: Photosynecdoche
+	{
+		emeraldspecialsound.play();
+		player.img = "semerald";
+		playerSprite.src = "../sprites/semerald1.png";
+		p1SpecialPoints = 10;
+		photosynecdoche1 = true;
+		player.xhit += 2;
+		player.speed += 2;
+		player.colour = "#82fdff";
 	}
 }
 
 function SpecialMoveP2()
 {
-	p2SpecialPoints = 0;
+	if (photosynecdoche2 == false)
+		p2SpecialPoints = 0;
 	if (player2.id == 1) //Leona: Lion's Fury
 	{
 		leonaspecialsound.play();
@@ -871,6 +893,17 @@ function SpecialMoveP2()
 			venom.x = player2.x-128;
 			venom.y = player2.y;
 		}
+	}
+	else if (player2.id == 6 && photosynecdoche2 == false) //Emerald: Photosynecdoche
+	{
+		emeraldspecialsound.play();
+		player2.img = "semerald";
+		player2Sprite.src = "../sprites/semerald1.png";
+		p2SpecialPoints = 10;
+		photosynecdoche2 = true;
+		player2.xhit += 2;
+		player2.speed += 2;
+		player2.colour = "#82fdff";
 	}
 }
 
@@ -1085,6 +1118,28 @@ function HealPoisonP2()
 {
 	player2.speed += 2;
 	clearInterval(p1EffectInt);
+}
+
+function EndPhotosynecdoche()
+{
+	if (photosynecdoche1 == true)
+	{
+		player.img = "emerald";
+		p1SpecialPoints = 0;
+		photosynecdoche1 = false;
+		player.xhit -= 2;
+		player.speed -= 2;
+		player.colour = "#378f11";
+	}
+	if (photosynecdoche2 == true)
+	{
+		player2.img = "emerald";
+		p2SpecialPoints = 0;
+		photosynecdoche2 = false;
+		player2.xhit -= 2;
+		player2.speed -= 2;
+		player2.colour = "#378f11";
+	}
 }
 
 function DrawItem()
@@ -1706,6 +1761,8 @@ function resetPositions()
 		clearInterval(itemSpawnInterval);
 		EndItem();
 	}
+	if (photosynecdoche1 == true || photosynecdoche2 == true)
+		EndPhotosynecdoche();
 }
 
 function incrementP1SP()
@@ -1801,6 +1858,20 @@ function setP1Character(x)
 		player.spimg = opheliaStats.spimg;
 		console.log("Ophelia");
 	}
+	else if (x == 6) //Emerald
+	{
+		player.xhit = emeraldStats.xhit;
+		player.ylighthit = emeraldStats.ylighthit;
+		player.yheavyhit = emeraldStats.yheavyhit;
+		player.speed = emeraldStats.speed;
+		player.img = emeraldStats.img;
+		player.name = emeraldStats.name;
+		player.id = emeraldStats.id;
+		player.shortname = emeraldStats.shortname;
+		player.colour = emeraldStats.colour;
+		player.spimg = emeraldStats.spimg;
+		console.log("Emerald");
+	}
 	else //default
 	{
 		player.xhit = defaultStats.xhit;
@@ -1885,6 +1956,20 @@ function setP2Character(x)
 		player2.spimg = opheliaStats.spimg;
 		player2.id = opheliaStats.id;
 	}
+	else if (x == 6) //Emerald
+	{
+		player2.xhit = emeraldStats.xhit;
+		player2.ylighthit = emeraldStats.ylighthit;
+		player2.yheavyhit = emeraldStats.yheavyhit;
+		player2.speed = emeraldStats.speed;
+		player2.img = emeraldStats.img;
+		player2.name = emeraldStats.name;
+		player2.id = emeraldStats.id;
+		player2.shortname = emeraldStats.shortname;
+		player2.colour = emeraldStats.colour;
+		player2.spimg = emeraldStats.spimg;
+		console.log("Emerald");
+	}
 	else //default
 	{
 		player2.xhit = defaultStats.xhit;
@@ -1906,14 +1991,14 @@ function swapCharacters() //this is for testing purposes, remove from final vers
 	{
 		case 77: //cycles P1 through each character every time you press M
 			setP1Character(characterCycle);
-			if (characterCycle < 5)
+			if (characterCycle < 6)
 				characterCycle++;
 			else
 				characterCycle = 0;
 			break;
 		case 78:
 			setP2Character(characterCycle2);
-			if (characterCycle2 < 5)
+			if (characterCycle2 < 6)
 				characterCycle2++;
 			else
 				characterCycle2 = 0;
