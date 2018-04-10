@@ -52,7 +52,13 @@ var arrowLocation;
 var arrowPointsArrayX = [385, 882];
 var arrowPointsArrayY = [195, 530, 850];
 
-//window.addEventListener("keydown", keyDown);
+var counter = 0;
+var left = 0;
+var right = 0;
+
+var characterSelected = false;
+
+window.addEventListener("keydown", keyDown);
 
 surface.fillStyle = "slategrey";
 surface.fillRect(0, 0, 1280, 1000);
@@ -90,8 +96,8 @@ function drawCharacterBoxes()
 	surface.fillStyle = "white"; //Leona Pryde Character Box
 	surface.fillRect(15, 100, 380, 256);
 	
-	//surface.fillStyle = "black"; //Leona Pryde Arrow
-	//surface.fillRect(390, 210, 10, 10);
+	surface.fillStyle = "black"; //Leona Pryde Arrow
+	surface.fillRect(390, 210, 10, 10);
 	
 	surface.fillStyle = "black"; //Leona Pryde Profile Box
 	surface.fillRect(15, 276, 380, 80);
@@ -159,16 +165,16 @@ function drawCharacterBoxes()
 	surface.fillStyle = "grey"; //Random Name Tag Box
 	surface.fillRect(1016, 784, 128, 128);
 	
-	if (arrowLocation <= 5)
+	if (characterSelected == true)
 	{
-		switch (arrowLocation)
+		switch (characterSelected)
 		{
 			case 0:
-				surface.drawImage(char0img, 15, 276, 380, 80);
-				break;
+				//surface.drawImage(char0img, arrowPointsArrayX[0]-241, arrowPointsArrayY[0]-47);
+				//break;
 			case 1:
-				surface.drawImage(char1img, 15, 276, 380, 80);
-				break;
+				//surface.drawImage(char1img, 15, 276, 380, 80);
+				//break;
 			/*case 2:
 				surface.drawImage(char2img, 15, 276, 380, 80);
 				break;
@@ -233,18 +239,73 @@ function drawCharacterBoxes()
 		surface.drawImage(nameTag5img, arrowPointsArrayX[1]+4, arrowPointsArrayY[2]+62);
 	}
 	
-	
-	leftArrow.onload = function()
+	if (arrowLocation == 0)
 	{
-		surface.drawImage(leftArrow, arrowPointsArrayX[0], arrowPointsArrayY[0]);
-	};
-	//surface.drawImage(leftArrow, arrowPointsArrayX[0], arrowPointsArrayY[0], 80, 80);
+		left = 1;
+		leonaPrydeLeftArrow.onload = function()
+		{
+			
+			surface.drawImage(leonaPrydeLeftArrow, arrowPointsArrayX[0], arrowPointsArrayY[0]+3); //Leona Pryde arrow location
+		};
+		surface.drawImage(leonaPrydeLeftArrow, arrowPointsArrayX[0], arrowPointsArrayY[0]+3);
+	}
 	
-	/*leftArrow.onload = function()
+	if (arrowLocation == 2)
 	{
-		surface.drawImage(leftArrow, arrowPointsArrayX[arrowLocation]+385, arrowPointsArrayY[arrowLocation]+195, 80, 80);
-	};
-	surface.drawImage(leftArrow, arrowPointsArrayX[0], arrowPointsArrayY[0], 80, 80);*/
+		archieTeuthisLeftArrow.onload = function()
+		{
+			left = 2;
+			surface.drawImage(archieTeuthisLeftArrow, arrowPointsArrayX[0], arrowPointsArrayY[1]-12); //Archie Teuthis arrow location
+		};
+		surface.drawImage(archieTeuthisLeftArrow, arrowPointsArrayX[0], arrowPointsArrayY[1]-12);
+	}
+	
+	if (arrowLocation == 4)
+	{
+		madameOpheliaLeftArrow.onload = function()
+		{
+			left = 3;
+			surface.drawImage(madameOpheliaLeftArrow, arrowPointsArrayX[0], arrowPointsArrayY[2]-12); //Madame Ophelia arrow location
+		};
+		surface.drawImage(madameOpheliaLeftArrow, arrowPointsArrayX[0], arrowPointsArrayY[2]-12);
+	}
+	
+	if (arrowLocation == 1)
+	{
+		pennyGuinnRightArrow.onload = function()
+		{
+			right = 1;
+			surface.drawImage(pennyGuinnRightArrow, arrowPointsArrayX[1]-17, arrowPointsArrayY[0]+3); //Penny Guinn arrow location
+		};
+		surface.drawImage(pennyGuinnRightArrow, arrowPointsArrayX[1]-17, arrowPointsArrayY[0]+3);
+	}
+
+	if (arrowLocation == 3)
+	{
+		perryStripesRightArrow.onload = function()
+		{
+			right = 2;
+			surface.drawImage(perryStripesRightArrow, arrowPointsArrayX[1]-17, arrowPointsArrayY[1]-12); //Perry Stripes arrow location
+		};
+		surface.drawImage(perryStripesRightArrow, arrowPointsArrayX[1]-17, arrowPointsArrayY[1]-12);
+	}
+	
+	if (arrowLocation == 5)
+	{
+		randomPlayerRightArrow.onload = function()
+		{
+			right = 3;
+			surface.drawImage(randomPlayerRightArrow, arrowPointsArrayX[1]-17, arrowPointsArrayY[2]-12); //Random Player arrow location
+		};
+		surface.drawImage(randomPlayerRightArrow, arrowPointsArrayX[1]-17, arrowPointsArrayY[2]-12);
+	}
+	
+		surface.drawImage(char0img, arrowPointsArrayX[0]-241, arrowPointsArrayY[0]-47);
+		surface.drawImage(char1img, arrowPointsArrayX[1]+133, arrowPointsArrayY[0]-47);
+		surface.drawImage(char2img, arrowPointsArrayX[0]-241, arrowPointsArrayY[1]-52);
+		surface.drawImage(char3img, arrowPointsArrayX[1]+133, arrowPointsArrayY[1]-52);
+		surface.drawImage(char4img, arrowPointsArrayX[0]-240, arrowPointsArrayY[2]-66);
+		surface.drawImage(char5img, arrowPointsArrayX[1]+134, arrowPointsArrayY[2]-66);
 
 }
 
@@ -254,20 +315,92 @@ function keyDown()
 	{
 
 		case 87: //W
-			if (arrowLocation >= 5)
+			if (arrowLocation == 0 || arrowLocation == 2 || arrowLocation == 4)
 			{
-				arrowLocation -= 5;
+				left++;
 				drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 1 || arrowLocation == 3 || arrowLocation == 5)
+			{
+				right++;
+				//drawCharacterSelectScreen();
 			}
 			break;
 		case 83: //S
-			p1DownPressed = true;
+			if (arrowLocation == 0 || arrowLocation == 2 || arrowLocation == 4)
+			{
+				left--;
+				drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 1 || arrowLocation == 3 || arrowLocation == 5)
+			{
+				right--;
+				//drawCharacterSelectScreen();
+			}
 			break;
 		case 65: //A
-			p1LeftPressed = true;
+			if (arrowLocation == 0)
+			{
+				right = 1;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 1)
+			{
+				left = 1;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 2)
+			{
+				right = 2;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 3)
+			{
+				left = 2;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 4)
+			{
+				right = 3;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 5)
+			{
+				left = 3;
+				//drawCharacterSelectScreen();
+			}
 			break;
 		case 68: //D
-			p1RightPressed = true;
+			if (arrowLocation == 0)
+			{
+				right = 1;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 1)
+			{
+				left = 1;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 2)
+			{
+				right = 2;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 3)
+			{
+				left = 2;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 4)
+			{
+				right = 3;
+				//drawCharacterSelectScreen();
+			}
+			else if (arrowLocation == 5)
+			{
+				left = 3;
+				//drawCharacterSelectScreen();
+			}
 			break;
 	} 
 }
