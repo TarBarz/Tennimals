@@ -116,6 +116,7 @@ var serving = true;
 //var WIDTH = 400;
 //var HEIGHT = 300;
 var cantUseSpecial = false;
+var currentScreen;
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
@@ -123,8 +124,8 @@ window.addEventListener("keydown", p2KeyDown);
 window.addEventListener("keyup", p2KeyUp);
 window.addEventListener("keydown",P1CharKeyDown);
 window.addEventListener("keyup",P1CharKeyUp);
-window.addEventListener("keydown",P2CharKeyDown);
-window.addEventListener("keyup",P2CharKeyUp);
+
+
 window.addEventListener("keydown", debugReset); //delete this from final version
 //window.addEventListener("keydown", swapCharacters); //delete this from final version
 Player1Char();
@@ -1202,33 +1203,85 @@ function P1CharKeyDown(event)
 	switch (event.keyCode)
 	{
 			case 49: //1
-			P1=1;
-			P1CharPicked = true;
-			setP1Character();
+			if (currentScreen == 1)
+			{ P1=1;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=1;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
 			break;
 			case 50: //2
-			P1=2;
-			
-			setP1Character();
+			if (currentScreen == 1)
+			{ P1=2;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=2;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
 			break;
 			case 51: //3
-			P1=3;
-			
-			setP1Character();
+			if (currentScreen == 1)
+			{ P1=3;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=3;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
 			break;
 			case 52: //4
-			P1=4;
-		
-			setP1Character();
+			if (currentScreen == 1)
+			{ P1=4;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=4;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
 			break;
 			case 53: //5
-			P1=5;
-			
-			setP1Character();
+			if (currentScreen == 1)
+			{ P1=5;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=5;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
 			break;
-			case 13: //Enter
-			
-			Player2Char();
+			case 54://6
+			if (currentScreen == 2)
+			{
+				Player1Char();
+			}
 	}
 }
 function P1CharKeyUp(event)
@@ -1250,68 +1303,9 @@ function P1CharKeyUp(event)
 			case 53: //5
 			P1CharPicked = false;
 			break;
-			case 13: //Enter
+			break;
+			case 54://6
 			P1CharPicked = false;
-	}
-}
-function P2CharKeyDown(event)
-{
-	switch (event.keyCode)
-	{
-		
-			case 55: //7
-			P2=1;
-			P2CharPicked = true;
-				
-			setP2Character();
-			break;
-			case 56: //8
-			P2=2;
-			
-			setP2Character();
-			break;
-			case 57: //9
-			P2=3;
-			
-			setP2Character();
-			break;
-			case 48: //0
-			P2=4;
-		
-			setP2Character();
-			break;
-			case 189: //-
-			P2=5;
-			
-			setP2Character();
-			break;
-			case 13: //Enter
-			
-			startGame();
-			break;
-	}
-}
-function P2CharKeyUp(event)
-{
-	switch (event.keyCode)
-	{
-			case 49: //1
-			P2CharPicked = false;
-			break;
-			case 50: //2
-			P2CharPicked = false;
-			break;
-			case 51: //3
-			P2CharPicked = false;
-			break;
-			case 52: //4
-			P2CharPicked = false;
-			break;
-			case 53: //5
-			P2CharPicked = false;
-			break;
-			case 13: //Enter
-			P2CharPicked = false;
 	}
 }
 function cycleFrame()
@@ -1391,6 +1385,8 @@ function incrementP2SP()
 }
 function Player1Char()
 {
+	currentScreen = 1;
+	surface.fillStyle = "black";
 	DrawPlayer1Char();
 }
 function DrawPlayer1Char()
@@ -1407,26 +1403,19 @@ function DrawPlayer1Char()
 	surface.fillText("3 - ARCHIE", 640, 300);
 	surface.fillText("4 - PERRY", 640, 350);
 	surface.fillText("5 - Ophelia", 640, 400);
-	surface.fillText("6 - BACK", 640, 450);
 	
-}
-function Player1Check()
-{
-	surface.clearRect(0,0,1280,640);
-	surface.fillStyle = "blue";
-	surface.textAlign = "center";
-	surface.font = "30px Arial Black";
-	surface.fillText("PLAYER 1 YOU PICKED ", 640, 200);
-	surface.fillText("PRESS ENTER", 640, 250);
+	
 }
 function Player2Char()
 {
+	currentScreen = 2;
+	surface.fillStyle = "black";
 	DrawPlayer2Char();
 }
 function DrawPlayer2Char()
 {
 	surface.clearRect(0,0,1280,640);
-	surface.fillRect(0,0,1280,640)
+	surface.fillRect(0,0,1280,640);
 	surface.fillStyle = "red";
 	surface.textAlign = "center";
 	surface.font = "30px Arial Black";
@@ -1440,7 +1429,7 @@ function DrawPlayer2Char()
 	surface.fillText("6 - BACK", 640, 450);
 	
 }
-function setP1Character()
+function setP1Character(x)
 {
 	if (P1 == 1) //Leona
 	{
@@ -1532,7 +1521,7 @@ function setP1Character()
 	Player2Char();
 }
 
-function setP2Character()
+function setP2Character(x)
 {
 	if (P2 == 1) //Leona
 	{
@@ -1613,6 +1602,7 @@ function setP2Character()
 		player2.id = defaultStats.id;
 	}
 	player2Sprite.src = "../sprites/" + player2.img + "l2.png";
+	currentScreen=3;
 	startGame();
 }
 
