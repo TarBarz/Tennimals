@@ -88,6 +88,11 @@ var p2DownPressed = false;
 var p2LeftPressed = false;
 var p2RightPressed = false;
 
+var P1CharPicked = false;
+var P2CharPicked = false;
+var P1 = 0;
+var P2 = 0;
+
 var textOutput = document.getElementById("displayText");
 var p1Point = document.getElementById("p1ScoreCount");
 var p2Point = document.getElementById("p2ScoreCount");
@@ -110,8 +115,6 @@ var photosynecdoche2 = false;
 var p1NoMotion = false;
 var p2NoMotion = false;
 var serving = true;
-//var canvas1 = getElementById ("canvas1";)// test
-//var canvas1Get = canvas1.getContext("2d");
 //var WIDTH = 400;
 //var HEIGHT = 300;
 var cantUseSpecial = false;
@@ -147,13 +150,11 @@ window.addEventListener("keydown", p2KeyDown);
 window.addEventListener("keyup", p2KeyUp);
 
 window.addEventListener("keydown", debugReset); //delete this from final version
-window.addEventListener("keydown", swapCharacters); //delete this from final version
-//canvas1();
-startGame();
-/*function canvas1()
-{
-
-}*/
+//window.addEventListener("keydown", swapCharacters); //delete this from final version
+window.addEventListener("keydown",P1CharKeyDown);
+window.addEventListener("keyup",P1CharKeyUp);
+Player1Char();
+//startGame();
 function startGame()
 {
 	interval = setInterval(update, 33.34);
@@ -1436,7 +1437,6 @@ function CheckScores()
 	else if (p2Score >= targetScore)
 		p2Wins();
 }
-
 function p1Wins()
 {
 	window.alert("Player 1, " + player.name + ", Wins!");
@@ -1546,6 +1546,117 @@ function p2KeyUp(event)
 	} 
 }
 
+function P1CharKeyDown(event)
+{
+	switch (event.keyCode)
+	{
+			case 49: //1
+			if (currentScreen == 1)
+			{ P1=1;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=1;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
+			break;
+			case 50: //2
+			if (currentScreen == 1)
+			{ P1=2;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=2;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
+			break;
+			case 51: //3
+			if (currentScreen == 1)
+			{ P1=3;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=3;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
+			break;
+			case 52: //4
+			if (currentScreen == 1)
+			{ P1=4;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=4;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
+			break;
+			case 53: //5
+			if (currentScreen == 1)
+			{ P1=5;
+				
+				setP1Character();
+			}
+			else if (currentScreen == 2)
+			{ P2=5;
+				setP2Character();
+			}
+			else if (currentScreen == 3)
+			{
+				
+			}
+			break;
+			case 54://6
+			if (currentScreen == 2)
+			{
+				Player1Char();
+			}
+	}
+}
+function P1CharKeyUp(event)
+{
+	switch (event.keyCode)
+	{
+			case 49: //1
+			P1CharPicked = false;
+			break;
+			case 50: //2
+			P1CharPicked = false;
+			break;
+			case 51: //3
+			P1CharPicked = false;
+			break;
+			case 52: //4
+			P1CharPicked = false;
+			break;
+			case 53: //5
+			P1CharPicked = false;
+			break;
+			break;
+			case 54://6
+			P1CharPicked = false;
+	}
+}
+
 function cycleFrame()
 {
 	if (leftPressed == true && p1NoMotion == false || rightPressed == true && p1NoMotion == false || upPressed == true && p1NoMotion == false || downPressed == true && p1NoMotion == false)
@@ -1628,10 +1739,55 @@ function incrementP2SP()
 		{specialsound.play();}
 	}
 }
-
-function setP1Character(x)
+function Player1Char()
 {
-	if (x == 1) //Leona
+	currentScreen = 1;
+	surface.fillStyle = "black";
+	DrawPlayer1Char();
+}
+function DrawPlayer1Char()
+{
+	
+	surface.fillRect(0,0,1280,640);
+	surface.fillStyle = "blue";
+	surface.textAlign = "center";
+	surface.font = "30px Arial Black";
+	surface.fillText("PLAYER 1", 640, 50);
+	surface.fillText("Pick Character:", 640, 100);
+	surface.fillText("1 - LEONA", 640, 200);
+	surface.fillText("2 - Penny", 640, 250);
+	surface.fillText("3 - ARCHIE", 640, 300);
+	surface.fillText("4 - PERRY", 640, 350);
+	surface.fillText("5 - Ophelia", 640, 400);
+	
+	
+}
+function Player2Char()
+{
+	currentScreen = 2;
+	surface.fillStyle = "black";
+	DrawPlayer2Char();
+}
+function DrawPlayer2Char()
+{
+	surface.clearRect(0,0,1280,640);
+	surface.fillRect(0,0,1280,640);
+	surface.fillStyle = "red";
+	surface.textAlign = "center";
+	surface.font = "30px Arial Black";
+	surface.fillText("PLAYER 2", 640, 50);
+	surface.fillText("Pick Character:", 640, 100);
+	surface.fillText("1 - LEONA", 640, 200);
+	surface.fillText("2 - Penny", 640, 250);
+	surface.fillText("3 - ARCHIE", 640, 300);
+	surface.fillText("4 - PERRY", 640, 350);
+	surface.fillText("5 - Ophelia", 640, 400);
+	surface.fillText("6 - BACK", 640, 450);
+	
+}
+function setP1Character()
+{
+	if (P1 == 1) //Leona
 	{
 		player.xhit = leonaStats.xhit;
 		player.ylighthit = leonaStats.ylighthit;
@@ -1646,7 +1802,7 @@ function setP1Character(x)
 		//p1Effect.src = "../sprites/leonaspecialeffectr.png";
 		console.log("Leona");
 	}
-	else if (x == 2) //Penny
+	else if (P1 == 2) //Penny
 	{
 		player.xhit = pennyStats.xhit;
 		player.ylighthit = pennyStats.ylighthit;
@@ -1660,7 +1816,7 @@ function setP1Character(x)
 		player.spimg = pennyStats.spimg;
 		console.log("Penny");
 	}
-	else if (x == 3) //Archie
+	else if (P1 == 3) //Archie
 	{
 		player.xhit = archieStats.xhit;
 		player.ylighthit = archieStats.ylighthit;
@@ -1674,7 +1830,7 @@ function setP1Character(x)
 		player.spimg = archieStats.spimg;
 		console.log("Archie");
 	}
-	else if (x == 4) //Perry
+	else if (P1 == 4) //Perry
 	{
 		player.xhit = perryStats.xhit;
 		player.ylighthit = perryStats.ylighthit;
@@ -1688,7 +1844,7 @@ function setP1Character(x)
 		player.spimg = perryStats.spimg;
 		console.log("Perry");
 	}
-	else if (x == 5) //Ophelia
+	else if (P1 == 5) //Ophelia
 	{
 		player.xhit = opheliaStats.xhit;
 		player.ylighthit = opheliaStats.ylighthit;
@@ -1702,7 +1858,7 @@ function setP1Character(x)
 		player.spimg = opheliaStats.spimg;
 		console.log("Ophelia");
 	}
-	else if (x == 6) //Emerald
+	else if (P1 == 6) //Emerald
 	{
 		player.xhit = emeraldStats.xhit;
 		player.ylighthit = emeraldStats.ylighthit;
@@ -1730,11 +1886,12 @@ function setP1Character(x)
 		console.log("default");
 	}
 	playerSprite.src = "../sprites/" + player.img + "r2.png";
+	Player2Char();
 }
 
-function setP2Character(x)
+function setP2Character()
 {
-	if (x == 1) //Leona
+	if (P2 == 1) //Leona
 	{
 		player2.xhit = leonaStats.xhit;
 		player2.ylighthit = leonaStats.ylighthit;
@@ -1748,7 +1905,7 @@ function setP2Character(x)
 		//p2Effect.src = "../sprites/leonaspecialeffectl.png";
 		player2.id = leonaStats.id;
 	}
-	else if (x == 2) //Penny
+	else if (P2 == 2) //Penny
 	{
 		player2.xhit = pennyStats.xhit;
 		player2.ylighthit = pennyStats.ylighthit;
@@ -1761,7 +1918,7 @@ function setP2Character(x)
 		player2.spimg = pennyStats.spimg;
 		player2.id = pennyStats.id;
 	}
-	else if (x == 3) //Archie
+	else if (P2 == 3) //Archie
 	{
 		player2.xhit = archieStats.xhit;
 		player2.ylighthit = archieStats.ylighthit;
@@ -1774,7 +1931,7 @@ function setP2Character(x)
 		player2.spimg = archieStats.spimg;
 		player2.id = archieStats.id;		
 	}
-	else if (x == 4) //Perry
+	else if (P2 == 4) //Perry
 	{
 		player2.xhit = perryStats.xhit;
 		player2.ylighthit = perryStats.ylighthit;
@@ -1787,7 +1944,7 @@ function setP2Character(x)
 		player2.spimg = perryStats.spimg;
 		player2.id = perryStats.id;
 	}
-	else if (x == 5) //Ophelia
+	else if (P2 == 5) //Ophelia
 	{
 		player2.xhit = opheliaStats.xhit;
 		player2.ylighthit = opheliaStats.ylighthit;
@@ -1800,7 +1957,7 @@ function setP2Character(x)
 		player2.spimg = opheliaStats.spimg;
 		player2.id = opheliaStats.id;
 	}
-	else if (x == 6) //Emerald
+	else if (P2 == 6) //Emerald
 	{
 		player2.xhit = emeraldStats.xhit;
 		player2.ylighthit = emeraldStats.ylighthit;
@@ -1826,9 +1983,11 @@ function setP2Character(x)
 		player2.id = defaultStats.id;
 	}
 	player2Sprite.src = "../sprites/" + player2.img + "l2.png";
+	currentScreen=3;
+	startGame();
 }
 
-function swapCharacters() //this is for testing purposes, comment out from final version
+/*function swapCharacters() //this is for testing purposes, comment out from final version
 {
 	switch (event.keyCode)
 	{
@@ -1872,5 +2031,5 @@ function swapCharacters() //this is for testing purposes, comment out from final
 			currentItem = 6;
 			break;
 	}
-}
+}*/
 
