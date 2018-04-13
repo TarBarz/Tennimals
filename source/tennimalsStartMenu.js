@@ -2,6 +2,7 @@
 var canvas = document.getElementById("menuCanvas"); 
 var singlePlayerButton = document.getElementById("singlePlayer");
 var versusButton = document.getElementById("versus");
+var tournamentButton = document.getElementById("tournament");
 var creditsButton = document.getElementById("credits");
 var exitButton = document.getElementById("exitGame");
 var displayTitle = document.getElementById("title");
@@ -27,9 +28,18 @@ versusButton.addEventListener("click", function clickVersus()
 	}
 });
 
+tournamentButton.addEventListener("click", function clickTournament()
+{
+	if (tournamentButton.click)
+	{
+		import ("tennimalsTournament.js");
+		console.log("Tournament Mode!");
+	}
+});
+
 creditsButton.addEventListener("click", function clickCredits()
 {
-	if (versusButton.click)
+	if (creditsButton.click)
 	{
 		//import ("tennimals.js");
 		console.log("Credits!");

@@ -96,6 +96,8 @@ var P2 = 0;
 var textOutput = document.getElementById("displayText");
 var p1Point = document.getElementById("p1ScoreCount");
 var p2Point = document.getElementById("p2ScoreCount");
+var p1ScoreText = document.getElementById("p1ScoreText");
+var p2ScoreText = document.getElementById("p2ScoreText");
 var textInterval;
 var drawInterval;
 
@@ -134,6 +136,15 @@ var itemsOn = true;
 var shadowAide = {x: 0, y: 0, speed: 4, strength: 5, active: false};
 var shadowAideSprite = new Image();
 
+var arrow = new Image();
+arrow.src = "../sprites/rightArrow.png";
+
+var winner;
+var loser;
+var winnerCharacter;
+var victoryScreenInterval;
+var arrowLocation;
+
 var itemappearssound = document.getElementById("itemappears");
 var itemboxbreaks = document.getElementById("itemboxbreaks");
 var item0sound = document.getElementById("item0sound");
@@ -157,9 +168,17 @@ Player1Char();
 //startGame();
 function startGame()
 {
+	p1Score = 0;
+	p2Score = 0;
+	p2SpecialPoints = 0;
+	p2SpecialPoints = 0;
+	resetPositions();
+	surface.font = "80px BoldTennisFont";
+	//p1ScoreText.innerHTML = "P1 Score: ";
+	//p2ScoreText.innerHTML = "P2 Score: ";
 	interval = setInterval(update, 33.34);
-	if (itemsOn = true)
-		PrepareItemBox();
+	//if (itemsOn = true)
+		//PrepareItemBox();
 }
 
 function update()
@@ -1437,17 +1456,7 @@ function CheckScores()
 	else if (p2Score >= targetScore)
 		p2Wins();
 }
-function p1Wins()
-{
-	window.alert("Player 1, " + player.name + ", Wins!");
-	window.close();
-}
 
-function p2Wins()
-{
-	window.alert("Player 2, " + player2.name + ", Wins!");
-	window.close();
-}
 
 function clearText()
 {
@@ -1465,10 +1474,28 @@ function keyDown(event)
 	{
 
 		case 87: //W
-			upPressed = true;
+			if (currentScreen == 3)
+				upPressed = true;
+			else if (currentScreen == 4)
+			{
+				if (arrowLocation == 0)
+					arrowLocation = 1;
+				else
+					arrowLocation = 0;
+				DrawVictoryScreen();
+			}
 			break;
 		case 83: //S
-			downPressed = true;
+			if (currentScreen == 3)
+				downPressed = true;
+			else if (currentScreen == 4)
+			{
+				if (arrowLocation == 0)
+					arrowLocation = 1;
+				else
+					arrowLocation = 0;
+				DrawVictoryScreen();
+			}
 			break;
 		case 65: //A
 			leftPressed = true;
@@ -1479,6 +1506,13 @@ function keyDown(event)
 		case 69: //E
 			if (p1SpecialPoints == 10 && cantUseSpecial == false)
 				SpecialMoveP1();
+			break;
+		case 32: //SPACE
+			if (currentScreen == 4)
+				if (arrowLocation == 0)
+					Player1Char();
+				else
+					window.location.href = "tennimalsMenu.html";
 			break;
 	} 
 }
@@ -1632,6 +1666,7 @@ function P1CharKeyDown(event)
 			}
 	}
 }
+
 function P1CharKeyUp(event)
 {
 	switch (event.keyCode)
@@ -1675,7 +1710,7 @@ function cycleFrame()
 	}
 }
 
-function debugReset(event) //delete this from final version
+function debugReset(event) //comment this out from final version
 {
 	switch (event.keyCode)
 	{
@@ -1739,52 +1774,57 @@ function incrementP2SP()
 		{specialsound.play();}
 	}
 }
+
 function Player1Char()
 {
 	currentScreen = 1;
+	//p1ScoreText.innerHTML = "";
+	//p2ScoreText.innerHTML = "";
 	surface.fillStyle = "black";
 	DrawPlayer1Char();
 }
+
 function DrawPlayer1Char()
 {
-	
 	surface.fillRect(0,0,1280,640);
 	surface.fillStyle = "blue";
 	surface.textAlign = "center";
-	surface.font = "30px Arial Black";
+	surface.font = "30px BoldTennisFont";
 	surface.fillText("PLAYER 1", 640, 50);
 	surface.fillText("Pick Character:", 640, 100);
 	surface.fillText("1 - LEONA", 640, 200);
-	surface.fillText("2 - Penny", 640, 250);
+	surface.fillText("2 - PENNY", 640, 250);
 	surface.fillText("3 - ARCHIE", 640, 300);
 	surface.fillText("4 - PERRY", 640, 350);
-	surface.fillText("5 - Ophelia", 640, 400);
+	surface.fillText("5 - OPHELIA", 640, 400);
 	
 	
 }
+
 function Player2Char()
 {
 	currentScreen = 2;
 	surface.fillStyle = "black";
 	DrawPlayer2Char();
 }
+
 function DrawPlayer2Char()
 {
 	surface.clearRect(0,0,1280,640);
 	surface.fillRect(0,0,1280,640);
 	surface.fillStyle = "red";
 	surface.textAlign = "center";
-	surface.font = "30px Arial Black";
 	surface.fillText("PLAYER 2", 640, 50);
 	surface.fillText("Pick Character:", 640, 100);
 	surface.fillText("1 - LEONA", 640, 200);
-	surface.fillText("2 - Penny", 640, 250);
+	surface.fillText("2 - PENNY", 640, 250);
 	surface.fillText("3 - ARCHIE", 640, 300);
 	surface.fillText("4 - PERRY", 640, 350);
-	surface.fillText("5 - Ophelia", 640, 400);
+	surface.fillText("5 - OPHELIA", 640, 400);
 	surface.fillText("6 - BACK", 640, 450);
 	
 }
+
 function setP1Character()
 {
 	if (P1 == 1) //Leona
@@ -1985,6 +2025,65 @@ function setP2Character()
 	player2Sprite.src = "../sprites/" + player2.img + "l2.png";
 	currentScreen=3;
 	startGame();
+}
+
+function p1Wins()
+{
+	winner = 1;
+	StartVictoryScreen();
+	//window.alert("Player 1, " + player.name + ", Wins!");
+	//window.close();
+}
+
+function p2Wins()
+{
+	winner = 2;
+	StartVictoryScreen();
+	//window.alert("Player 2, " + player2.name + ", Wins!");
+	//window.close();
+}
+
+function StartVictoryScreen()
+{
+	currentScreen = 4;
+	clearInterval(update);
+	clearInterval(drawInterval);
+	clearInterval(textInterval);
+	
+	p1ScoreText.innerHTML = "";
+	p2ScoreText.innerHTML = "";
+	
+	arrowLocation = 0;
+	
+	victoryScreenInterval = setInterval(DrawVictoryScreen, 100);
+}
+
+function DrawVictoryScreen()
+{
+	clearInterval(victoryScreenInterval);
+	surface.clearRect(0,0,1280,640);
+	if (winner == 1)
+		surface.fillStyle = player.colour;
+	else if (winner == 2)
+		surface.fillStyle = player2.colour;
+	surface.fillRect(0,0,1280,640);
+	surface.fillStyle = "white";
+	surface.fillRect(390, 300, 500, 100);
+	surface.fillRect(390, 450, 500, 100);
+	surface.fillStyle = "black";
+	surface.font = "50px BoldTennisFont";
+	if (arrowLocation == 0)
+		surface.drawImage(arrow, 330, 310, 80, 80);
+	if (arrowLocation == 1)
+		surface.drawImage(arrow, 330, 460, 80, 80);
+	surface.fillText("PLAY AGAIN", 640, 370);
+	surface.fillText("QUIT", 640, 520);
+	surface.font = "60px BoldTennisFont";
+	if (winner == 1)
+		surface.fillText(player.name +" WINS!", 640, 200);
+	else if (winner == 2)
+		surface.fillText(player2.name + " WINS!", 640, 200);
+	
 }
 
 /*function swapCharacters() //this is for testing purposes, comment out from final version
