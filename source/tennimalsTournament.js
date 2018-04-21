@@ -1727,11 +1727,6 @@ function EndRound()
 	playTourney();
 }
 
-function GameOver()
-{
-	window.close();
-}
-
 function clearText()
 {
 	textOutput.innerHTML = " ";
@@ -1752,10 +1747,28 @@ function keyDown(event)
 	{
 
 		case 87:
-			upPressed = true;
+			if (currentScreen == 3)
+				upPressed = true;
+			else if (currentScreen == 5)
+			{
+				if (arrowLocation == 0)
+					arrowLocation = 1;
+				else
+					arrowLocation = 0;
+				DrawGameOver();
+			}
 			break;
 		case 83:
-			downPressed = true;
+			if (currentScreen == 3)
+				downPressed = true;
+			else if (currentScreen == 5)
+			{
+				if (arrowLocation == 0)
+					arrowLocation = 1;
+				else
+					arrowLocation = 0;
+				DrawGameOver();
+			}
 			break;
 		case 65:
 			leftPressed = true;
@@ -1770,6 +1783,11 @@ function keyDown(event)
 		case 32: //SPACE
 			if (currentScreen == 4)
 				window.location.href = "tennimalsMenu.html";
+			else if (currentScreen == 5)
+				if (arrowLocation == 0)
+					Player1Char();
+				else
+					window.location.href = "tennimalsMenu.html";
 			break;
 	} 
 }
@@ -1903,6 +1921,45 @@ function DrawVictoryScreen()
 	surface.fillText("PRESS SPACE TO QUIT", 640, 400);
 	surface.font = "60px BoldTennisFont";
 	surface.fillText("CONGRATULATIONS!", 640, 200);
+}
+
+function GameOver()
+{
+	player.x = -100;
+	player2.x = -100;
+	currentScreen = 5;
+	clearInterval(interval);
+	clearInterval(drawInterval);
+	clearInterval(textInterval);
+	
+	//p1ScoreText.innerHTML = "";
+	//p2ScoreText.innerHTML = "";
+	
+	arrowLocation = 0;
+	
+	victoryScreenInterval = setInterval(DrawGameOver, 100);
+}
+
+function DrawGameOver()
+{
+	clearInterval(victoryScreenInterval);
+	surface.clearRect(0,0,1280,640);
+	surface.fillStyle = "black";
+	surface.fillRect(0,0,1280,640);
+	surface.fillStyle = "white";
+	surface.fillRect(390, 300, 500, 100);
+	surface.fillRect(390, 450, 500, 100);
+	surface.fillStyle = "black";
+	surface.font = "50px BoldTennisFont";
+	if (arrowLocation == 0)
+		surface.drawImage(arrow, 330, 310, 80, 80);
+	if (arrowLocation == 1)
+		surface.drawImage(arrow, 330, 460, 80, 80);
+	surface.fillText("TRY AGAIN", 640, 370);
+	surface.fillText("QUIT", 640, 520);
+	surface.font = "80px BoldTennisFont";
+	surface.fillStyle = "red";
+	surface.fillText("GAME OVER", 640, 200);
 }
 
 function setP1Character(x)
