@@ -170,6 +170,8 @@ function startGame()
 {
 	p1Score = 0;
 	p2Score = 0;
+	p1Point.innerHTML = "0";
+	p2Point.innerHTML = "0";
 	p2SpecialPoints = 0;
 	p2SpecialPoints = 0;
 	resetPositions();
@@ -177,8 +179,8 @@ function startGame()
 	//p1ScoreText.innerHTML = "P1 Score: ";
 	//p2ScoreText.innerHTML = "P2 Score: ";
 	interval = setInterval(update, 33.34);
-	//if (itemsOn = true)
-		//PrepareItemBox();
+	if (itemsOn = true)
+		PrepareItemBox();
 }
 
 function update()
@@ -1523,10 +1525,28 @@ function p2KeyDown(event)
 	{
 
 		case 38: //UP
-			p2UpPressed = true;
+			if (currentScreen == 3)
+				p2UpPressed = true;
+			else if (currentScreen == 4)
+			{
+				if (arrowLocation == 0)
+					arrowLocation = 1;
+				else
+					arrowLocation = 0;
+				DrawVictoryScreen();
+			}
 			break;
 		case 40: //DOWN
-			p2DownPressed = true;
+			if (currentScreen == 3)
+				p2DownPressed = true;
+			else if (currentScreen == 4)
+			{
+				if (arrowLocation == 0)
+					arrowLocation = 1;
+				else
+					arrowLocation = 0;
+				DrawVictoryScreen();
+			}
 			break;
 		case 37: //LEFT
 			p2LeftPressed = true;
@@ -1537,6 +1557,13 @@ function p2KeyDown(event)
 		case 76: //L
 			if (p2SpecialPoints == 10)
 				SpecialMoveP2();
+			break;
+		case 13: //ENTER
+			if (currentScreen == 4)
+				if (arrowLocation == 0)
+					Player1Char();
+				else
+					window.location.href = "tennimalsMenu.html";
 			break;
 	} 
 }
@@ -1710,7 +1737,7 @@ function cycleFrame()
 	}
 }
 
-function debugReset(event) //comment this out from final version
+/*function debugReset(event) //comment this out from final version
 {
 	switch (event.keyCode)
 	{
@@ -1718,7 +1745,7 @@ function debugReset(event) //comment this out from final version
 			resetPositions();
 			break;
 	}
-}
+}*/
 
 function resetPositions()
 {
@@ -2050,8 +2077,8 @@ function StartVictoryScreen()
 	clearInterval(drawInterval);
 	clearInterval(textInterval);
 	
-	p1ScoreText.innerHTML = "";
-	p2ScoreText.innerHTML = "";
+	//p1ScoreText.innerHTML = "";
+	//p2ScoreText.innerHTML = "";
 	
 	arrowLocation = 0;
 	
@@ -2083,7 +2110,6 @@ function DrawVictoryScreen()
 		surface.fillText(player.name +" WINS!", 640, 200);
 	else if (winner == 2)
 		surface.fillText(player2.name + " WINS!", 640, 200);
-	
 }
 
 /*function swapCharacters() //this is for testing purposes, comment out from final version

@@ -134,6 +134,15 @@ var itemsOn = true;
 var shadowAide = {x: 0, y: 0, speed: 4, strength: 5, active: false};
 var shadowAideSprite = new Image();
 
+var arrow = new Image();
+arrow.src = "../sprites/rightArrow.png";
+
+var winner;
+var loser;
+var winnerCharacter;
+var victoryScreenInterval;
+var arrowLocation;
+
 var itemappearssound = document.getElementById("itemappears");
 var itemboxbreaks = document.getElementById("itemboxbreaks");
 var item0sound = document.getElementById("item0sound");
@@ -156,6 +165,15 @@ Player1Char();
 
 function startGame()
 {
+	currentScreen = 3;
+	p1Score = 0;
+	p2Score = 0;
+	p1Point.innerHTML = "0";
+	p2Point.innerHTML = "0";
+	p2SpecialPoints = 0;
+	p2SpecialPoints = 0;
+	resetPositions();
+	surface.font = "80px BoldTennisFont";
 	aiInterval = setInterval(aiMotion, 300);
 	interval = setInterval(update, 33.34);
 	if (itemsOn = true)
@@ -1646,14 +1664,57 @@ function CheckScores()
 
 function p1Wins()
 {
-	window.alert("Player 1, " + player.name + ", Wins!");
-	window.close();
+	winner = 1;
+	StartVictoryScreen();
 }
 
 function p2Wins()
 {
-	window.alert("Player 2, " + player2.name + ", Wins!");
-	window.close();
+	winner = 2;
+	StartVictoryScreen();
+}
+
+function StartVictoryScreen()
+{
+	currentScreen = 4;
+	clearInterval(update);
+	clearInterval(drawInterval);
+	clearInterval(textInterval);
+	
+	//p1ScoreText.innerHTML = "";
+	//p2ScoreText.innerHTML = "";
+	
+	arrowLocation = 0;
+	
+	victoryScreenInterval = setInterval(DrawVictoryScreen, 100);
+}
+
+function DrawVictoryScreen()
+{
+	clearInterval(victoryScreenInterval);
+	surface.clearRect(0,0,1280,640);
+	if (winner == 1)
+		surface.fillStyle = player.colour;
+	else if (winner == 2)
+		surface.fillStyle = player2.colour;
+	surface.fillRect(0,0,1280,640);
+	surface.fillStyle = "white";
+	surface.fillRect(390, 300, 500, 100);
+	surface.fillRect(390, 450, 500, 100);
+	surface.fillStyle = "black";
+	surface.font = "50px BoldTennisFont";
+	if (arrowLocation == 0)
+		surface.drawImage(arrow, 330, 310, 80, 80);
+	if (arrowLocation == 1)
+		surface.drawImage(arrow, 330, 460, 80, 80);
+	surface.fillText("PLAY AGAIN", 640, 370);
+	surface.fillText("QUIT", 640, 520);
+	surface.font = "60px BoldTennisFont";
+	if (winner == 1)
+		surface.fillText(player.name +" WINS!", 640, 200);
+	else if (winner == 2)
+		surface.fillText(player2.name + " WINS!", 640, 200);
+	
 }
 
 function clearText()
@@ -1674,10 +1735,28 @@ function keyDown(event)
 	{
 
 		case 87:
-			upPressed = true;
+			if (currentScreen == 3)
+				upPressed = true;
+			else if (currentScreen == 4)
+			{
+				if (arrowLocation == 0)
+					arrowLocation = 1;
+				else
+					arrowLocation = 0;
+				DrawVictoryScreen();
+			}
 			break;
 		case 83:
-			downPressed = true;
+			if (currentScreen == 3)
+				downPressed = true;
+			else if (currentScreen == 4)
+			{
+				if (arrowLocation == 0)
+					arrowLocation = 1;
+				else
+					arrowLocation = 0;
+				DrawVictoryScreen();
+			}
 			break;
 		case 65:
 			leftPressed = true;
@@ -1688,6 +1767,13 @@ function keyDown(event)
 		case 69: //E
 			if (p1SpecialPoints == 10 && cantUseSpecial == false)
 				SpecialMoveP1();
+			break;
+		case 32: //SPACE
+			if (currentScreen == 4)
+				if (arrowLocation == 0)
+					Player1Char();
+				else
+					window.location.href = "tennimalsMenu.html";
 			break;
 	} 
 }

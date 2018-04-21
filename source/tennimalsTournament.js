@@ -129,6 +129,15 @@ var itemsOn = true;
 var shadowAide = {x: 0, y: 0, speed: 4, strength: 5, active: false};
 var shadowAideSprite = new Image();
 
+var arrow = new Image();
+arrow.src = "../sprites/rightArrow.png";
+
+var winner;
+var loser;
+var winnerCharacter;
+var victoryScreenInterval;
+var arrowLocation;
+
 var itemappearssound = document.getElementById("itemappears");
 var itemboxbreaks = document.getElementById("itemboxbreaks");
 var item0sound = document.getElementById("item0sound");
@@ -156,6 +165,7 @@ playTourney();
 
 function playTourney()
 {
+	currentScreen = 3;
 	currentRound++;
 	currentOpponent++;
 	if (player.id == opponentArray[currentOpponent])
@@ -169,7 +179,7 @@ function playTourney()
 
 function EndTourney()
 {
-	window.close();
+	StartVictoryScreen();
 }
 
 function startRound()
@@ -1757,6 +1767,10 @@ function keyDown(event)
 			if (p1SpecialPoints == 10 && cantUseSpecial == false)
 				SpecialMoveP1();
 			break;
+		case 32: //SPACE
+			if (currentScreen == 4)
+				window.location.href = "tennimalsMenu.html";
+			break;
 	} 
 }
 
@@ -1861,6 +1875,34 @@ function incrementP2SP()
 		if (p2SpecialPoints == 10)
 		{specialsound.play();}
 	}
+}
+
+function StartVictoryScreen()
+{
+	currentScreen = 4;
+	clearInterval(update);
+	clearInterval(drawInterval);
+	clearInterval(textInterval);
+	
+	//p1ScoreText.innerHTML = "";
+	//p2ScoreText.innerHTML = "";
+	
+	arrowLocation = 0;
+	
+	victoryScreenInterval = setInterval(DrawVictoryScreen, 100);
+}
+
+function DrawVictoryScreen()
+{
+	clearInterval(victoryScreenInterval);
+	surface.clearRect(0,0,1280,640);
+	surface.fillStyle = player.colour;
+	surface.fillRect(0,0,1280,640);
+	surface.fillStyle = "black";
+	surface.font = "40px BoldTennisFont";
+	surface.fillText("PRESS SPACE TO QUIT", 640, 400);
+	surface.font = "60px BoldTennisFont";
+	surface.fillText("CONGRATULATIONS!", 640, 200);
 }
 
 function setP1Character(x)
