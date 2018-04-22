@@ -122,7 +122,7 @@ var serving = true;
 var cantUseSpecial = false;
 
 //ITEM STUFF
-var item = {x: 620, y: 100, speed: 2};
+var item = {x: 620, y: 100, speed: 1.5};
 var itemSprite = new Image();
 itemSprite.src = "../sprites/powerupbox.png";
 var currentItem = 0;
@@ -282,15 +282,21 @@ function render()
 	//player2Sprite.src = player2.img + ".png";
 	playerSprite.onload = function()
 	{
-		surface.drawImage(playerSprite, player.x, player.y);
-		surface.drawImage(player2Sprite, player2.x, player2.y);
-		surface.drawImage(ballSprite, ball.x, ball.y);
+		if (currentScreen == 3)
+		{
+			surface.drawImage(playerSprite, player.x, player.y);
+			surface.drawImage(player2Sprite, player2.x, player2.y);
+			surface.drawImage(ballSprite, ball.x, ball.y);
+		}
 	}
 	player2Sprite.onload = function()
 	{
-		surface.drawImage(player2Sprite, player2.x, player2.y);
-		surface.drawImage(playerSprite, player.x, player.y);
-		surface.drawImage(ballSprite, ball.x, ball.y);
+		if (currentScreen == 3)
+		{
+			surface.drawImage(player2Sprite, player2.x, player2.y);
+			surface.drawImage(playerSprite, player.x, player.y);
+			surface.drawImage(ballSprite, ball.x, ball.y);
+		}
 	}
 	surface.drawImage(playerSprite, player.x, player.y);
 	surface.drawImage(player2Sprite, player2.x, player2.y);
@@ -1064,7 +1070,7 @@ function CheckItemCollision()
 function PrepareItemBox()
 {
 	clearInterval(itemSpawnInterval);
-	var randomtime = 10000 + Math.floor(Math.random() * 15000 + 1);
+	var randomtime = 5000 + Math.floor(Math.random() * 12000 + 1);
 	itemSpawnInterval = setInterval(SpawnItemBox, randomtime);
 	var randomspot = 100 + Math.floor(Math.random() * 440);
 	item.y = randomspot;
