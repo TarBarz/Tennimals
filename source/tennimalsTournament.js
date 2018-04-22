@@ -224,12 +224,16 @@ function startRound()
 	surface.fillStyle = "black";
 	surface.font = "80px BoldTennisFont";
 	if (currentRound != 5)
+	{
+		document.getElementById("game").style.backgroundImage = "url('TennisCourt.png')";
 		surface.fillText("ROUND " + currentRound, 640, 320);
+	}
 	else
 	{
 		bosstheme.loop = true;
 		bosstheme.currentTime = 0;
 		bosstheme.play();
+		document.getElementById("game").style.backgroundImage = "url('../sprites/TennisCourt Shadow.png')";
 		surface.fillText("FINAL ROUND", 640, 320);
 	}
 	p1Score = 0;
