@@ -185,7 +185,7 @@ var menuding = document.getElementById("menuding");
 var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
-var charSelectTheme = document.getElementById("charselecttheme");
+var charselecttheme = document.getElementById("charselecttheme");
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
@@ -2062,6 +2062,7 @@ function Player1Char()
 	P1CharPicked = false;
 	P2CharPicked = false;
 	charselecttheme.loop = true;
+	charselecttheme.currentTime = 0;
 	charselecttheme.play();
 	clearInterval(itemSpawnInterval);
 	drawInterval = setInterval(DrawPlayer1Char, 200);

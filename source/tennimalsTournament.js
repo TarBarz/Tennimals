@@ -178,6 +178,9 @@ var menuding = document.getElementById("menuding");
 var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
+var charselecttheme = document.getElementById("charselecttheme");
+var bosstheme = document.getElementById("emeraldtheme");
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 
@@ -194,6 +197,7 @@ Player1Char();
 
 function playTourney()
 {
+	charselecttheme.pause();
 	currentScreen = 3;
 	currentRound++;
 	currentOpponent++;
@@ -222,7 +226,12 @@ function startRound()
 	if (currentRound != 5)
 		surface.fillText("ROUND " + currentRound, 640, 320);
 	else
+	{
+		bosstheme.loop = true;
+		bosstheme.currentTime = 0;
+		bosstheme.play();
 		surface.fillText("FINAL ROUND", 640, 320);
+	}
 	p1Score = 0;
 	p2Score = 0;
 	p1Point.innerHTML = 0;
@@ -1640,6 +1649,11 @@ function scoreP1()
 		p2Score--;
 		p2Point.innerHTML = p2Score;
 	}
+	if (p1Score != targetScore && itemEffectActive == true && currentItem == 6)
+	{
+		p1Score++;
+		p1Point.innerHTML = p1Score;
+	}
 	spawnDirection = 2;
 	cantUseSpecial = true;
 	incrementP1SP();
@@ -1664,6 +1678,10 @@ function scoreP2()
 	{
 		p1Score--;
 		p1Point.innerHTML = p1Score;
+	}
+	if (p2Score != targetScore && itemEffectActive == true && currentItem == 6)
+	{
+		p2Point.innerHTML = p2Score += 1;
 	}
 	spawnDirection = 1;
 	cantUseSpecial = true;
@@ -1786,6 +1804,9 @@ function Player1Char()
 	surface.font = "60px BoldTennisFont";
 	P1CharPicked = false;
 	P2CharPicked = false;
+	charselecttheme.loop = true;
+	charselecttheme.currentTime = 0;
+	charselecttheme.play();
 	currentRound = 0;
 	currentOpponent = -1;
 	clearInterval(itemSpawnInterval);
@@ -2047,6 +2068,7 @@ function incrementP2SP()
 function StartVictoryScreen()
 {
 	currentScreen = 4;
+	bosstheme.pause();
 	clearInterval(update);
 	clearInterval(drawInterval);
 	clearInterval(textInterval);
@@ -2078,6 +2100,7 @@ function GameOver()
 	clearInterval(interval);
 	clearInterval(drawInterval);
 	clearInterval(textInterval);
+	bosstheme.pause();
 	
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";

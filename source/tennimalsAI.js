@@ -183,6 +183,9 @@ var menuding = document.getElementById("menuding");
 var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
+var charselecttheme = document.getElementById("charselecttheme");
+charselecttheme.pause();
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 //window.addEventListener("keydown",P1CharKeyDown);
@@ -195,6 +198,7 @@ Player1Char();
 
 function startGame()
 {
+	charselecttheme.pause();
 	currentScreen = 3;
 	p1Score = 0;
 	p2Score = 0;
@@ -1599,6 +1603,10 @@ function scoreP1()
 		p2Score--;
 		p2Point.innerHTML = p2Score;
 	}
+	if (p1Score != targetScore && itemEffectActive == true && currentItem == 6)
+	{
+		p1Point.innerHTML = p1Score += 1;
+	}
 	spawnDirection = 2;
 	cantUseSpecial = true;
 	incrementP1SP();
@@ -1623,6 +1631,10 @@ function scoreP2()
 	{
 		p1Score--;
 		p1Point.innerHTML = p1Score;
+	}
+	if (p2Score != targetScore && itemEffectActive == true && currentItem == 6)
+	{
+		p2Point.innerHTML = p2Score += 1;
 	}
 	spawnDirection = 1;
 	cantUseSpecial = true;
@@ -2178,6 +2190,9 @@ function Player1Char()
 	surface.font = "60px BoldTennisFont";
 	P1CharPicked = false;
 	P2CharPicked = false;
+	charselecttheme.loop = true;
+	charselecttheme.currentTime = 0;
+	charselecttheme.play();
 	clearInterval(itemSpawnInterval);
 	drawInterval = setInterval(DrawPlayer1Char, 200);
 }
