@@ -46,14 +46,7 @@ creditsButton.addEventListener("click", function clickCredits()
 	}
 });
 
-exitButton.addEventListener("click", function clickExit()
-{
-	if (exitButton.click)
-	{
-		close();
-		console.log("exit game!");
-	}
-});
+
 function displayMenu()
 {
 	menuSurface.fillRect(0,0,1280,640);
