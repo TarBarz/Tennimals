@@ -180,6 +180,7 @@ var shoo = document.getElementById("shoo");
 
 var charselecttheme = document.getElementById("charselecttheme");
 var bosstheme = document.getElementById("emeraldtheme");
+var gameovertheme = document.getElementById("gameover");
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
@@ -1802,6 +1803,7 @@ function Player1Char()
 	currentScreen = 1;
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
+	gameovertheme.pause();
 	surface.fillStyle = "black";
 	surface.fillStyle = "gray";
 	surface.fillRect(0,0,1280,640);
@@ -2110,8 +2112,12 @@ function GameOver()
 	clearInterval(interval);
 	clearInterval(drawInterval);
 	clearInterval(textInterval);
+	clearInterval(itemSpawnInterval);
 	bosstheme.pause();
 	
+	gameovertheme.loop = true;
+	gameovertheme.currentTime = 0;
+	gameovertheme.play();
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
 	
