@@ -153,11 +153,41 @@ var item4sound = document.getElementById("item4sound");
 var item5sound = document.getElementById("item5sound");
 var item6sound = document.getElementById("item6sound");
 
+var selimg1 = new Image();
+selimg1.src = "../characterselectboxes/newcharbox1.png";
+var selimg2 = new Image();
+selimg2.src = "../characterselectboxes/newcharbox2.png";
+var selimg3 = new Image();
+selimg3.src = "../characterselectboxes/newcharbox3.png";
+var selimg4 = new Image();
+selimg4.src = "../characterselectboxes/newcharbox4.png";
+var selimg5 = new Image();
+selimg5.src = "../characterselectboxes/newcharbox5.png";
+var selimg6 = new Image();
+selimg6.src = "../characterselectboxes/newcharboxr.png";
+
+var p1Arrow = new Image();
+p1Arrow.src = "../sprites/p1arrow.png";
+var p2Arrow = new Image();
+p2Arrow.src = "../sprites/p2arrow.png";
+
+var statsimg1 = new Image();
+statsimg1.src = "../characterselectboxes/charstatbox1.png";
+var statsimg2 = new Image();
+statsimg2.src = "../characterselectboxes/charstatbox3.png";
+
+var p1ArrowLocation = 0;
+var p2ArrowLocation = 1;
+
+var menuding = document.getElementById("menuding");
+var fip = document.getElementById("fip");
+var shoo = document.getElementById("shoo");
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
-window.addEventListener("keydown",P1CharKeyDown);
-window.addEventListener("keyup",P1CharKeyUp);
-window.addEventListener("keydown", debugReset); //delete this from final version
+//window.addEventListener("keydown",P1CharKeyDown);
+//window.addEventListener("keyup",P1CharKeyUp);
+//window.addEventListener("keydown", debugReset); //delete this from final version
 //window.addEventListener("keydown", swapCharacters); //delete this from final version
 
 Player1Char();
@@ -1734,8 +1764,26 @@ function keyDown(event)
 	switch (event.keyCode)
 	{
 
-		case 87:
-			if (currentScreen == 3)
+		case 87: //W
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				if (p1ArrowLocation > 2)
+					p1ArrowLocation -= 3;
+				else if (p1ArrowLocation < 3)
+					p1ArrowLocation += 3;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 1 && P1CharPicked == true)
+			{
+				if (p2ArrowLocation > 2 && p2ArrowLocation-3 != p1ArrowLocation)
+					p2ArrowLocation -= 3;
+				else if (p2ArrowLocation < 3 && p2ArrowLocation+3 != p1ArrowLocation)
+					p2ArrowLocation += 3;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
 				upPressed = true;
 			else if (currentScreen == 4)
 			{
@@ -1746,8 +1794,26 @@ function keyDown(event)
 				DrawVictoryScreen();
 			}
 			break;
-		case 83:
-			if (currentScreen == 3)
+		case 83: //S
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				if (p1ArrowLocation > 2)
+					p1ArrowLocation -= 3;
+				else if (p1ArrowLocation < 3)
+					p1ArrowLocation += 3;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 1 && P1CharPicked == true)
+			{
+				if (p2ArrowLocation > 2 && p2ArrowLocation-3 != p1ArrowLocation)
+					p2ArrowLocation -= 3;
+				else if (p2ArrowLocation < 3 && p2ArrowLocation+3 != p1ArrowLocation)
+					p2ArrowLocation += 3;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
 				downPressed = true;
 			else if (currentScreen == 4)
 			{
@@ -1758,22 +1824,147 @@ function keyDown(event)
 				DrawVictoryScreen();
 			}
 			break;
-		case 65:
-			leftPressed = true;
+		case 65: //A
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				if (p1ArrowLocation == 0)
+					p1ArrowLocation = 2;
+				else if (p1ArrowLocation == 3)
+					p1ArrowLocation = 5;
+				else
+					p1ArrowLocation--;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 1 && P1CharPicked == true)
+			{
+				if (p2ArrowLocation == 0)
+				{
+					if (p1ArrowLocation == 2)
+						p2ArrowLocation = 1;
+					else
+						p2ArrowLocation = 2;
+				}
+				else if (p2ArrowLocation == 3)
+				{
+					if (p1ArrowLocation == 5)
+						p2ArrowLocation = 4;
+					else
+						p2ArrowLocation = 5;
+				}
+				else
+				{
+					if (p2ArrowLocation-1 == p1ArrowLocation)
+					{
+						if (p2ArrowLocation == 1 || p2ArrowLocation == 4)
+							p2ArrowLocation++;
+						else
+							p2ArrowLocation -= 2;
+					}
+					else
+						p2ArrowLocation--;
+				}
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
+				leftPressed = true;
 			break;
-		case 68:
-			rightPressed = true;
+		case 68: //D
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				if (p1ArrowLocation == 2)
+					p1ArrowLocation = 0;
+				else if (p1ArrowLocation == 5)
+					p1ArrowLocation = 3;
+				else
+					p1ArrowLocation++;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 1 && P1CharPicked == true)
+			{
+				if (p2ArrowLocation == 2)
+				{
+					if (p1ArrowLocation == 0)
+						p2ArrowLocation = 1;
+					else
+						p2ArrowLocation = 0;
+				}
+				else if (p2ArrowLocation == 5)
+				{
+					if (p1ArrowLocation == 3)
+						p2ArrowLocation = 4;
+					else
+						p2ArrowLocation = 3;
+				}
+				else
+				{
+					if (p2ArrowLocation+1 == p1ArrowLocation)
+					{
+						if (p2ArrowLocation == 1 || p2ArrowLocation == 4)
+							p2ArrowLocation--;
+						else
+							p2ArrowLocation += 2;
+					}
+					else
+						p2ArrowLocation++;
+				}
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
+				rightPressed = true;
 			break;
 		case 69: //E
 			if (p1SpecialPoints == 10 && cantUseSpecial == false)
 				SpecialMoveP1();
 			break;
 		case 32: //SPACE
-			if (currentScreen == 4)
+		if (currentScreen == 1 && P1CharPicked == false)
+			{
+				P1CharPicked = true;
+				if (p1ArrowLocation == 5)
+				{
+					p1ArrowLocation = Math.floor(Math.random() * 5);
+				}
+				setP1Character(p1ArrowLocation + 1);
+				if (p1ArrowLocation == 1)
+					p2ArrowLocation = 0;
+				DrawPlayer1Char();
+				menuding.play();
+			}
+			else if (currentScreen == 1 && P1CharPicked == true)
+			{
+				P2CharPicked = true;
+				if (p2ArrowLocation == 5)
+				{
+					p2ArrowLocation = Math.floor(Math.random() * 5);
+					if (p2ArrowLocation == p1ArrowLocation)
+						if (p2ArrowLocation != 4)
+							p2ArrowLocation++;
+						else
+							p2ArrowLocation--;
+				}
+				setP2Character(p2ArrowLocation + 1);
+				DrawPlayer1Char();
+				menuding.play();
+				startGame();
+			}
+			else if (currentScreen == 4)
 				if (arrowLocation == 0)
 					Player1Char();
 				else
 					window.location.href = "tennimalsMenu.html";
+			break;
+		case 8: //BACKSPACE
+			if (currentScreen == 1 && P1CharPicked == true)
+			{
+				P1CharPicked = false;
+				P2CharPicked = false;
+				shoo.play();
+				DrawPlayer1Char();
+			}
 			break;
 	} 
 }
@@ -1796,6 +1987,7 @@ function keyUp(event)
 			break;
 	}
 }
+
 function P1CharKeyDown(event)
 {
 	switch (event.keyCode)
@@ -1968,27 +2160,76 @@ function incrementP2SP()
 		{specialsound.play();}
 	}
 }
+
 function Player1Char()
 {
 	currentScreen = 1;
+	//p1ScoreText.innerHTML = "";
+	//p2ScoreText.innerHTML = "";
 	surface.fillStyle = "black";
-	DrawPlayer1Char();
+	surface.fillStyle = "gray";
+	surface.fillRect(0,0,1280,640);
+	surface.font = "60px BoldTennisFont";
+	P1CharPicked = false;
+	P2CharPicked = false;
+	clearInterval(itemSpawnInterval);
+	drawInterval = setInterval(DrawPlayer1Char, 200);
 }
+
 function DrawPlayer1Char()
 {
-	
+	clearInterval(drawInterval);
+	surface.fillStyle = "gray";
 	surface.fillRect(0,0,1280,640);
-	surface.fillStyle = "blue";
+	surface.fillStyle = "black";
 	surface.textAlign = "center";
-	surface.font = "30px Arial Black";
-	surface.fillText("PLAYER 1", 640, 50);
-	surface.fillText("Pick Character:", 640, 100);
-	surface.fillText("1 - LEONA", 640, 200);
-	surface.fillText("2 - Penny", 640, 250);
-	surface.fillText("3 - ARCHIE", 640, 300);
-	surface.fillText("4 - PERRY", 640, 350);
-	surface.fillText("5 - Ophelia", 640, 400);
+	surface.font = "60px BoldTennisFont";
+	surface.fillText("CHOOSE YOUR CHARACTER", 640, 120);
+	var pointsArrayX = [490, 640, 790, 490, 640, 790];
+	var pointsArrayY = [200, 200, 200, 400, 400, 400];
+	
+	selimg1.onload = function()
+	{surface.drawImage(selimg1, pointsArrayX[0]-64, pointsArrayY[0]);}
+	selimg2.onload = function()
+	{surface.drawImage(selimg2, pointsArrayX[1]-64, pointsArrayY[1]);}
+	selimg3.onload = function()
+	{surface.drawImage(selimg3, pointsArrayX[2]-64, pointsArrayY[2]);}
+	selimg4.onload = function()
+	{surface.drawImage(selimg4, pointsArrayX[3]-64, pointsArrayY[3]);}
+	selimg5.onload = function()
+	{surface.drawImage(selimg5, pointsArrayX[4]-64, pointsArrayY[4]);}
+	selimg6.onload = function()
+	{surface.drawImage(selimg6, pointsArrayX[5]-64, pointsArrayY[5]);}
+	
+	surface.drawImage(selimg1, pointsArrayX[0]-64, pointsArrayY[0]);
+	surface.drawImage(selimg2, pointsArrayX[1]-64, pointsArrayY[1]);
+	surface.drawImage(selimg3, pointsArrayX[2]-64, pointsArrayY[2]);
+	surface.drawImage(selimg4, pointsArrayX[3]-64, pointsArrayY[3]);
+	surface.drawImage(selimg5, pointsArrayX[4]-64, pointsArrayY[4]);
+	surface.drawImage(selimg6, pointsArrayX[5]-64, pointsArrayY[5]);
+	
+	p1Arrow.onload = function()
+	{surface.drawImage(p1Arrow, pointsArrayX[p1ArrowLocation] - 40, pointsArrayY[p1ArrowLocation] - 60, 80, 80);}
+	
+	surface.drawImage(p1Arrow, pointsArrayX[p1ArrowLocation] - 40, pointsArrayY[p1ArrowLocation] - 60, 80, 80);
+	if (P1CharPicked == true)
+		surface.drawImage(p2Arrow, pointsArrayX[p2ArrowLocation] - 40, pointsArrayY[p2ArrowLocation] - 60, 80, 80);
+	
+	statsimg1.src = "../characterselectboxes/charstatbox"+ (p1ArrowLocation + 1) + ".png";
+	statsimg2.src = "../characterselectboxes/charstatbox"+ (p2ArrowLocation + 1) + ".png";
+	
+	statsimg1.onload = function()
+	{surface.drawImage(statsimg1, 10, 220);}
+	statsimg2.onload = function()
+	{
+		if (P1CharPicked == true)
+			surface.drawImage(statsimg2, 870, 220);}
+	
+	surface.drawImage(statsimg1, 10, 220);
+	if (P1CharPicked == true)
+		surface.drawImage(statsimg2, 870, 220);
 }
+
 function setP1Character(x)
 {
 	if (x == 1) //Leona
