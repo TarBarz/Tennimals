@@ -1728,6 +1728,7 @@ function StartVictoryScreen()
 	clearInterval(update);
 	clearInterval(drawInterval);
 	clearInterval(textInterval);
+	clearInterval(itemSpawnInterval);
 	
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
@@ -1809,6 +1810,7 @@ function keyDown(event)
 					arrowLocation = 1;
 				else
 					arrowLocation = 0;
+				fip.play();
 				DrawVictoryScreen();
 			}
 			break;
@@ -1839,6 +1841,7 @@ function keyDown(event)
 					arrowLocation = 1;
 				else
 					arrowLocation = 0;
+				fip.play();
 				DrawVictoryScreen();
 			}
 			break;
@@ -1970,10 +1973,13 @@ function keyDown(event)
 				startGame();
 			}
 			else if (currentScreen == 4)
+			{
+				menuding.play();
 				if (arrowLocation == 0)
 					Player1Char();
 				else
 					window.location.href = "../Tennimals.html";
+			}
 			break;
 		case 8: //BACKSPACE
 			if (currentScreen == 1 && P1CharPicked == true)
