@@ -1931,12 +1931,12 @@ function keyDown(event)
 				playTourney();
 			}
 			else if (currentScreen == 4)
-				window.location.href = "tennimalsMenu.html";
+				window.location.href = "../Tennimals.html";
 			else if (currentScreen == 5)
 				if (arrowLocation == 0)
 					Player1Char();
 				else
-					window.location.href = "tennimalsMenu.html";
+					window.location.href = "../Tennimals.html";
 			break;
 	} 
 }

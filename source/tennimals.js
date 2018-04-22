@@ -1651,7 +1651,7 @@ function keyDown(event)
 				if (arrowLocation == 0)
 					Player1Char();
 				else
-					window.location.href = "tennimalsMenu.html";
+					window.location.href = "../Tennimals.html";
 			break;
 		case 8: //BACKSPACE
 			if (currentScreen == 1)
