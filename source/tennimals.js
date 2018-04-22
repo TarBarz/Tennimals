@@ -185,6 +185,8 @@ var menuding = document.getElementById("menuding");
 var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
+var charSelectTheme = document.getElementById("charselecttheme");
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 window.addEventListener("keydown", p2KeyDown);
@@ -198,6 +200,7 @@ Player1Char();
 //startGame();
 function startGame()
 {
+	charselecttheme.pause();
 	currentScreen = 3;
 	p1Score = 0;
 	p2Score = 0;
@@ -2058,6 +2061,8 @@ function Player1Char()
 	surface.font = "60px BoldTennisFont";
 	P1CharPicked = false;
 	P2CharPicked = false;
+	charselecttheme.loop = true;
+	charselecttheme.play();
 	clearInterval(itemSpawnInterval);
 	drawInterval = setInterval(DrawPlayer1Char, 200);
 }
