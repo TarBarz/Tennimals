@@ -155,19 +155,50 @@ var item4sound = document.getElementById("item4sound");
 var item5sound = document.getElementById("item5sound");
 var item6sound = document.getElementById("item6sound");
 
+var selimg1 = new Image();
+selimg1.src = "../characterselectboxes/newcharbox1.png";
+var selimg2 = new Image();
+selimg2.src = "../characterselectboxes/newcharbox2.png";
+var selimg3 = new Image();
+selimg3.src = "../characterselectboxes/newcharbox3.png";
+var selimg4 = new Image();
+selimg4.src = "../characterselectboxes/newcharbox4.png";
+var selimg5 = new Image();
+selimg5.src = "../characterselectboxes/newcharbox5.png";
+var selimg6 = new Image();
+selimg6.src = "../characterselectboxes/newcharboxr.png";
+
+var p1Arrow = new Image();
+p1Arrow.src = "../sprites/p1arrow.png";
+var p2Arrow = new Image();
+p2Arrow.src = "../sprites/p2arrow.png";
+
+var statsimg1 = new Image();
+statsimg1.src = "../characterselectboxes/charstatbox1.png";
+var statsimg2 = new Image();
+statsimg2.src = "../characterselectboxes/charstatbox3.png";
+
+var p1ArrowLocation = 0;
+var p2ArrowLocation = 2;
+
+var menuding = document.getElementById("menuding");
+var fip = document.getElementById("fip");
+var shoo = document.getElementById("shoo");
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 window.addEventListener("keydown", p2KeyDown);
 window.addEventListener("keyup", p2KeyUp);
 
-window.addEventListener("keydown", debugReset); //delete this from final version
+//window.addEventListener("keydown", debugReset); //delete this from final version
 //window.addEventListener("keydown", swapCharacters); //delete this from final version
-window.addEventListener("keydown",P1CharKeyDown);
-window.addEventListener("keyup",P1CharKeyUp);
+//window.addEventListener("keydown",P1CharKeyDown);
+//window.addEventListener("keyup",P1CharKeyUp);
 Player1Char();
 //startGame();
 function startGame()
 {
+	currentScreen = 3;
 	p1Score = 0;
 	p2Score = 0;
 	p1Point.innerHTML = "0";
@@ -1476,7 +1507,16 @@ function keyDown(event)
 	{
 
 		case 87: //W
-			if (currentScreen == 3)
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				if (p1ArrowLocation > 2 && p1ArrowLocation-3 != p2ArrowLocation)
+					p1ArrowLocation -= 3;
+				else if (p1ArrowLocation < 3 && p1ArrowLocation+3 != p2ArrowLocation)
+					p1ArrowLocation += 3;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
 				upPressed = true;
 			else if (currentScreen == 4)
 			{
@@ -1488,7 +1528,16 @@ function keyDown(event)
 			}
 			break;
 		case 83: //S
-			if (currentScreen == 3)
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				if (p1ArrowLocation > 2 && p1ArrowLocation-3 != p2ArrowLocation)
+					p1ArrowLocation -= 3;
+				else if (p1ArrowLocation < 3 && p1ArrowLocation+3 != p2ArrowLocation)
+					p1ArrowLocation += 3;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
 				downPressed = true;
 			else if (currentScreen == 4)
 			{
@@ -1500,21 +1549,111 @@ function keyDown(event)
 			}
 			break;
 		case 65: //A
-			leftPressed = true;
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				if (p1ArrowLocation == 0)
+				{
+					if (p2ArrowLocation == 2)
+						p1ArrowLocation = 1;
+					else
+						p1ArrowLocation = 2;
+				}
+				else if (p1ArrowLocation == 3)
+				{
+					if (p2ArrowLocation == 5)
+						p1ArrowLocation = 4;
+					else
+						p1ArrowLocation = 5;
+				}
+				else
+				{
+					if (p1ArrowLocation-1 == p2ArrowLocation)
+					{
+						if (p1ArrowLocation == 1 || p1ArrowLocation == 4)
+							p1ArrowLocation++;
+						else
+							p1ArrowLocation -= 2;
+					}
+					else
+						p1ArrowLocation--;
+				}
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
+				leftPressed = true;
 			break;
 		case 68: //D
-			rightPressed = true;
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				if (p1ArrowLocation == 2)
+				{
+					if (p2ArrowLocation == 0)
+						p1ArrowLocation = 1;
+					else
+						p1ArrowLocation = 0;
+				}
+				else if (p1ArrowLocation == 5)
+				{
+					if (p2ArrowLocation == 3)
+						p1ArrowLocation = 4;
+					else
+						p1ArrowLocation = 3;
+				}
+				else
+				{
+					if (p1ArrowLocation+1 == p2ArrowLocation)
+					{
+						if (p1ArrowLocation == 1 || p1ArrowLocation == 4)
+							p1ArrowLocation--;
+						else
+							p1ArrowLocation += 2;
+					}
+					else
+						p1ArrowLocation++;
+				}
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
+				rightPressed = true;
 			break;
 		case 69: //E
 			if (p1SpecialPoints == 10 && cantUseSpecial == false)
 				SpecialMoveP1();
 			break;
 		case 32: //SPACE
-			if (currentScreen == 4)
+			if (currentScreen == 1 && P1CharPicked == false)
+			{
+				P1CharPicked = true;
+				if (p1ArrowLocation == 5)
+				{
+					p1ArrowLocation = Math.floor(Math.random() * 5);
+					if (p1ArrowLocation == p2ArrowLocation)
+						if (p1ArrowLocation != 4)
+							p1ArrowLocation++;
+						else
+							p1ArrowLocation--;
+				}
+				setP1Character(p1ArrowLocation + 1);
+				DrawPlayer1Char();
+				menuding.play();
+				if (P2CharPicked == true)
+					startGame();
+			}
+			else if (currentScreen == 4)
 				if (arrowLocation == 0)
 					Player1Char();
 				else
 					window.location.href = "tennimalsMenu.html";
+			break;
+		case 8: //BACKSPACE
+			if (currentScreen == 1)
+			{
+				P1CharPicked = false;
+				P2CharPicked = false;
+				shoo.play();
+			}
 			break;
 	} 
 }
@@ -1525,7 +1664,16 @@ function p2KeyDown(event)
 	{
 
 		case 38: //UP
-			if (currentScreen == 3)
+			if (currentScreen == 1 && P2CharPicked == false)
+			{
+				if (p2ArrowLocation > 2 && p2ArrowLocation-3 != p1ArrowLocation)
+					p2ArrowLocation -= 3;
+				else if (p2ArrowLocation < 3 && p2ArrowLocation+3 != p1ArrowLocation)
+					p2ArrowLocation += 3;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
 				p2UpPressed = true;
 			else if (currentScreen == 4)
 			{
@@ -1537,7 +1685,16 @@ function p2KeyDown(event)
 			}
 			break;
 		case 40: //DOWN
-			if (currentScreen == 3)
+			if (currentScreen == 1 && P2CharPicked == false)
+			{
+				if (p2ArrowLocation > 2 && p2ArrowLocation-3 != p1ArrowLocation)
+					p2ArrowLocation -= 3;
+				else if (p2ArrowLocation < 3 && p2ArrowLocation+3 != p1ArrowLocation)
+					p2ArrowLocation += 3;
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
 				p2DownPressed = true;
 			else if (currentScreen == 4)
 			{
@@ -1549,9 +1706,73 @@ function p2KeyDown(event)
 			}
 			break;
 		case 37: //LEFT
-			p2LeftPressed = true;
+			if (currentScreen == 1 && P2CharPicked == false)
+			{
+				if (p2ArrowLocation == 0)
+				{
+					if (p1ArrowLocation == 2)
+						p2ArrowLocation = 1;
+					else
+						p2ArrowLocation = 2;
+				}
+				else if (p2ArrowLocation == 3)
+				{
+					if (p1ArrowLocation == 5)
+						p2ArrowLocation = 4;
+					else
+						p2ArrowLocation = 5;
+				}
+				else
+				{
+					if (p2ArrowLocation-1 == p1ArrowLocation)
+					{
+						if (p2ArrowLocation == 1 || p2ArrowLocation == 4)
+							p2ArrowLocation++;
+						else
+							p2ArrowLocation -= 2;
+					}
+					else
+						p2ArrowLocation--;
+				}
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
+				p2LeftPressed = true;
 			break;
 		case 39: //RIGHT
+			if (currentScreen == 1 && P2CharPicked == false)
+			{
+				if (p2ArrowLocation == 2)
+				{
+					if (p1ArrowLocation == 0)
+						p2ArrowLocation = 1;
+					else
+						p2ArrowLocation = 0;
+				}
+				else if (p2ArrowLocation == 5)
+				{
+					if (p1ArrowLocation == 3)
+						p2ArrowLocation = 4;
+					else
+						p2ArrowLocation = 3;
+				}
+				else
+				{
+					if (p2ArrowLocation+1 == p1ArrowLocation)
+					{
+						if (p2ArrowLocation == 1 || p2ArrowLocation == 4)
+							p2ArrowLocation--;
+						else
+							p2ArrowLocation += 2;
+					}
+					else
+						p2ArrowLocation++;
+				}
+				fip.play();
+				DrawPlayer1Char();
+			}
+			else if (currentScreen == 3)
 			p2RightPressed = true;
 			break;
 		case 76: //L
@@ -1559,7 +1780,25 @@ function p2KeyDown(event)
 				SpecialMoveP2();
 			break;
 		case 13: //ENTER
-			if (currentScreen == 4)
+			if (currentScreen == 1 && P2CharPicked == false)
+			{
+				P2CharPicked = true;
+				if (p2ArrowLocation == 5)
+				{
+					p2ArrowLocation = Math.floor(Math.random() * 5);
+					if (p2ArrowLocation == p1ArrowLocation)
+						if (p2ArrowLocation != 4)
+							p2ArrowLocation++;
+						else
+							p2ArrowLocation--;
+				}
+				setP2Character(p2ArrowLocation + 1);
+				DrawPlayer1Char();
+				menuding.play();
+				if (P1CharPicked == true)
+					startGame();
+			}
+			else if (currentScreen == 4)
 				if (arrowLocation == 0)
 					Player1Char();
 				else
@@ -1808,24 +2047,73 @@ function Player1Char()
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
 	surface.fillStyle = "black";
-	DrawPlayer1Char();
+	surface.fillStyle = "gray";
+	surface.fillRect(0,0,1280,640);
+	surface.font = "60px BoldTennisFont";
+	P1CharPicked = false;
+	P2CharPicked = false;
+	clearInterval(itemSpawnInterval);
+	drawInterval = setInterval(DrawPlayer1Char, 200);
 }
 
 function DrawPlayer1Char()
 {
+	clearInterval(drawInterval);
+	surface.fillStyle = "gray";
 	surface.fillRect(0,0,1280,640);
-	surface.fillStyle = "blue";
+	surface.fillStyle = "black";
 	surface.textAlign = "center";
-	surface.font = "30px BoldTennisFont";
+	surface.font = "60px BoldTennisFont";
+	surface.fillText("CHOOSE YOUR CHARACTER", 640, 120);
+	var pointsArrayX = [490, 640, 790, 490, 640, 790];
+	var pointsArrayY = [200, 200, 200, 400, 400, 400];
+	
+	selimg1.onload = function()
+	{surface.drawImage(selimg1, pointsArrayX[0]-64, pointsArrayY[0]);}
+	selimg2.onload = function()
+	{surface.drawImage(selimg2, pointsArrayX[1]-64, pointsArrayY[1]);}
+	selimg3.onload = function()
+	{surface.drawImage(selimg3, pointsArrayX[2]-64, pointsArrayY[2]);}
+	selimg4.onload = function()
+	{surface.drawImage(selimg4, pointsArrayX[3]-64, pointsArrayY[3]);}
+	selimg5.onload = function()
+	{surface.drawImage(selimg5, pointsArrayX[4]-64, pointsArrayY[4]);}
+	selimg6.onload = function()
+	{surface.drawImage(selimg6, pointsArrayX[5]-64, pointsArrayY[5]);}
+	
+	surface.drawImage(selimg1, pointsArrayX[0]-64, pointsArrayY[0]);
+	surface.drawImage(selimg2, pointsArrayX[1]-64, pointsArrayY[1]);
+	surface.drawImage(selimg3, pointsArrayX[2]-64, pointsArrayY[2]);
+	surface.drawImage(selimg4, pointsArrayX[3]-64, pointsArrayY[3]);
+	surface.drawImage(selimg5, pointsArrayX[4]-64, pointsArrayY[4]);
+	surface.drawImage(selimg6, pointsArrayX[5]-64, pointsArrayY[5]);
+	
+	p1Arrow.onload = function()
+	{surface.drawImage(p1Arrow, pointsArrayX[p1ArrowLocation] - 40, pointsArrayY[p1ArrowLocation] - 60, 80, 80);}
+	p2Arrow.onload = function()
+	{surface.drawImage(p2Arrow, pointsArrayX[p2ArrowLocation] - 40, pointsArrayY[p2ArrowLocation] - 60, 80, 80);}
+	
+	surface.drawImage(p1Arrow, pointsArrayX[p1ArrowLocation] - 40, pointsArrayY[p1ArrowLocation] - 60, 80, 80);
+	surface.drawImage(p2Arrow, pointsArrayX[p2ArrowLocation] - 40, pointsArrayY[p2ArrowLocation] - 60, 80, 80);
+	
+	statsimg1.src = "../characterselectboxes/charstatbox"+ (p1ArrowLocation + 1) + ".png";
+	statsimg2.src = "../characterselectboxes/charstatbox"+ (p2ArrowLocation + 1) + ".png";
+	
+	statsimg1.onload = function()
+	{surface.drawImage(statsimg1, 10, 220);}
+	statsimg2.onload = function()
+	{surface.drawImage(statsimg2, 870, 220);}
+	
+	surface.drawImage(statsimg1, 10, 220);
+	surface.drawImage(statsimg2, 870, 220);
+	/*surface.font = "30px BoldTennisFont";
 	surface.fillText("PLAYER 1", 640, 50);
 	surface.fillText("Pick Character:", 640, 100);
 	surface.fillText("1 - LEONA", 640, 200);
 	surface.fillText("2 - PENNY", 640, 250);
 	surface.fillText("3 - ARCHIE", 640, 300);
 	surface.fillText("4 - PERRY", 640, 350);
-	surface.fillText("5 - OPHELIA", 640, 400);
-	
-	
+	surface.fillText("5 - OPHELIA", 640, 400);*/
 }
 
 function Player2Char()
@@ -1852,9 +2140,9 @@ function DrawPlayer2Char()
 	
 }
 
-function setP1Character()
+function setP1Character(x)
 {
-	if (P1 == 1) //Leona
+	if (x == 1) //Leona
 	{
 		player.xhit = leonaStats.xhit;
 		player.ylighthit = leonaStats.ylighthit;
@@ -1869,7 +2157,7 @@ function setP1Character()
 		//p1Effect.src = "../sprites/leonaspecialeffectr.png";
 		console.log("Leona");
 	}
-	else if (P1 == 2) //Penny
+	else if (x == 2) //Penny
 	{
 		player.xhit = pennyStats.xhit;
 		player.ylighthit = pennyStats.ylighthit;
@@ -1883,7 +2171,7 @@ function setP1Character()
 		player.spimg = pennyStats.spimg;
 		console.log("Penny");
 	}
-	else if (P1 == 3) //Archie
+	else if (x == 3) //Archie
 	{
 		player.xhit = archieStats.xhit;
 		player.ylighthit = archieStats.ylighthit;
@@ -1897,7 +2185,7 @@ function setP1Character()
 		player.spimg = archieStats.spimg;
 		console.log("Archie");
 	}
-	else if (P1 == 4) //Perry
+	else if (x == 4) //Perry
 	{
 		player.xhit = perryStats.xhit;
 		player.ylighthit = perryStats.ylighthit;
@@ -1911,7 +2199,7 @@ function setP1Character()
 		player.spimg = perryStats.spimg;
 		console.log("Perry");
 	}
-	else if (P1 == 5) //Ophelia
+	else if (x == 5) //Ophelia
 	{
 		player.xhit = opheliaStats.xhit;
 		player.ylighthit = opheliaStats.ylighthit;
@@ -1925,7 +2213,7 @@ function setP1Character()
 		player.spimg = opheliaStats.spimg;
 		console.log("Ophelia");
 	}
-	else if (P1 == 6) //Emerald
+	else if (x == 6) //Emerald
 	{
 		player.xhit = emeraldStats.xhit;
 		player.ylighthit = emeraldStats.ylighthit;
@@ -1953,12 +2241,11 @@ function setP1Character()
 		console.log("default");
 	}
 	playerSprite.src = "../sprites/" + player.img + "r2.png";
-	Player2Char();
 }
 
-function setP2Character()
+function setP2Character(x)
 {
-	if (P2 == 1) //Leona
+	if (x == 1) //Leona
 	{
 		player2.xhit = leonaStats.xhit;
 		player2.ylighthit = leonaStats.ylighthit;
@@ -1969,10 +2256,10 @@ function setP2Character()
 		player2.shortname = leonaStats.shortname;
 		player2.colour = leonaStats.colour;
 		player2.spimg = leonaStats.spimg;
-		//p2Effect.src = "../sprites/leonaspecialeffectl.png";
+		//p2Effect.src = "../img/leonaspecialeffectl.png";
 		player2.id = leonaStats.id;
 	}
-	else if (P2 == 2) //Penny
+	else if (x == 2) //Penny
 	{
 		player2.xhit = pennyStats.xhit;
 		player2.ylighthit = pennyStats.ylighthit;
@@ -1985,7 +2272,7 @@ function setP2Character()
 		player2.spimg = pennyStats.spimg;
 		player2.id = pennyStats.id;
 	}
-	else if (P2 == 3) //Archie
+	else if (x == 3) //Archie
 	{
 		player2.xhit = archieStats.xhit;
 		player2.ylighthit = archieStats.ylighthit;
@@ -1998,7 +2285,7 @@ function setP2Character()
 		player2.spimg = archieStats.spimg;
 		player2.id = archieStats.id;		
 	}
-	else if (P2 == 4) //Perry
+	else if (x == 4) //Perry
 	{
 		player2.xhit = perryStats.xhit;
 		player2.ylighthit = perryStats.ylighthit;
@@ -2011,7 +2298,7 @@ function setP2Character()
 		player2.spimg = perryStats.spimg;
 		player2.id = perryStats.id;
 	}
-	else if (P2 == 5) //Ophelia
+	else if (x == 5) //Ophelia
 	{
 		player2.xhit = opheliaStats.xhit;
 		player2.ylighthit = opheliaStats.ylighthit;
@@ -2021,10 +2308,9 @@ function setP2Character()
 		player2.name = opheliaStats.name;
 		player2.shortname = opheliaStats.shortname;
 		player2.colour = opheliaStats.colour;
-		player2.spimg = opheliaStats.spimg;
 		player2.id = opheliaStats.id;
 	}
-	else if (P2 == 6) //Emerald
+	else if (x == 6) //Emerald
 	{
 		player2.xhit = emeraldStats.xhit;
 		player2.ylighthit = emeraldStats.ylighthit;
@@ -2036,6 +2322,7 @@ function setP2Character()
 		player2.shortname = emeraldStats.shortname;
 		player2.colour = emeraldStats.colour;
 		player2.spimg = emeraldStats.spimg;
+		console.log("Emerald");
 	}
 	else //default
 	{
@@ -2047,11 +2334,10 @@ function setP2Character()
 		player2.name = defaultStats.name;
 		player2.shortname = defaultStats.shortname;
 		player2.colour = defaultStats.colour;
+		player2.spimg = opheliaStats.spimg;
 		player2.id = defaultStats.id;
 	}
 	player2Sprite.src = "../sprites/" + player2.img + "l2.png";
-	currentScreen=3;
-	startGame();
 }
 
 function p1Wins()
