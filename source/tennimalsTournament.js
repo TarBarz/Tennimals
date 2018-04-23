@@ -278,7 +278,7 @@ function startGame()
 	cantUseSpecial = false;
 	aiInterval = setInterval(aiMotion, 300);
 	interval = setInterval(update, 33.34);
-	if (itemsOn = true)
+	if (itemsOn == true)
 		PrepareItemBox();
 }
 

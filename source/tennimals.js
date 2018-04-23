@@ -178,6 +178,9 @@ statsimg1.src = "../characterselectboxes/charstatbox1.png";
 var statsimg2 = new Image();
 statsimg2.src = "../characterselectboxes/charstatbox3.png";
 
+var itemind = new Image();
+itemind.src = "../sprites/itemson.png";
+
 var p1ArrowLocation = 0;
 var p2ArrowLocation = 2;
 
@@ -232,7 +235,7 @@ function startGame()
 	//p1ScoreText.innerHTML = "P1 Score: ";
 	//p2ScoreText.innerHTML = "P2 Score: ";
 	interval = setInterval(update, 33.34);
-	if (itemsOn = true)
+	if (itemsOn == true)
 		PrepareItemBox();
 }
 
@@ -1675,6 +1678,23 @@ function keyDown(event)
 			if (currentScreen == 1 || paused == true)
 				window.location.href = "../Tennimals.html";
 			break;
+		case 73: //I
+			if (currentScreen == 1)
+			{
+				if (itemsOn == true)
+				{
+					itemsOn = false;
+					itemind.src = "../sprites/itemsoff.png";
+				}
+				else
+				{
+					itemsOn = true;
+					itemind.src = "../sprites/itemson.png";
+				}
+				DrawPlayer1Char();
+				itemappearssound.play();
+			}
+			break;
 		case 32: //SPACE
 			if (currentScreen == 1 && P1CharPicked == false)
 			{
@@ -2197,6 +2217,10 @@ function DrawPlayer1Char()
 	
 	surface.drawImage(statsimg1, 10, 220);
 	surface.drawImage(statsimg2, 870, 220);
+	
+	itemind.onload = function()
+	{surface.drawImage(itemind, 440, 560, 200, 75);}
+	surface.drawImage(itemind, 440, 560, 200, 75);
 	/*surface.font = "30px BoldTennisFont";
 	surface.fillText("PLAYER 1", 640, 50);
 	surface.fillText("Pick Character:", 640, 100);
