@@ -1752,6 +1752,7 @@ function outOfBounds()
 
 function drawP1ScoreText()
 {
+	surface.font = "80px BoldTennisFont";
 	surface.fillStyle = "black";
 	if (p1Score < 5)
 	{
@@ -1763,12 +1764,14 @@ function drawP1ScoreText()
 
 function drawP2ScoreText()
 {
+	surface.font = "80px BoldTennisFont";
 	surface.fillStyle = "black";
 	surface.fillText(player2.shortname+" SCORED!", 640, 320);
 }
 
 function drawOobText()
 {
+	surface.font = "80px BoldTennisFont";
 	surface.fillStyle = "black";
 	surface.fillText("OUT OF BOUNDS!", 640, 320);
 }
@@ -1964,6 +1967,10 @@ function keyDown(event)
 			if (currentScreen == 3 && cantUseSpecial == false)
 				Pause();
 			break;
+		case 88: //X
+			if (currentScreen == 1 || paused == true)
+				window.location.href = "../Tennimals.html";
+			break;
 		case 32: //SPACE
 			if (currentScreen == 1)
 			{
@@ -2034,6 +2041,8 @@ function drawPause()
 	surface.font = "80px BoldTennisFont";
 	surface.fillStyle = "black";
 	surface.fillText("PAUSE", 640, 340);
+	surface.font = "30px BoldTennisFont";
+	surface.fillText("PRESS X TO QUIT", 640, 400);
 }
 
 function cycleFrame()
