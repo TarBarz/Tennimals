@@ -187,6 +187,8 @@ var shoo = document.getElementById("shoo");
 
 var charselecttheme = document.getElementById("charselecttheme");
 
+var paused = false;
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 window.addEventListener("keydown", p2KeyDown);
@@ -982,14 +984,20 @@ function PoisonPlayer2()
 
 function HealPoisonP1()
 {
-	player.speed += 2;
-	clearInterval(p2EffectInt);
+	if (paused == false)
+	{
+		player.speed += 2;
+		clearInterval(p2EffectInt);
+	}
 }
 
 function HealPoisonP2()
 {
-	player2.speed += 2;
-	clearInterval(p1EffectInt);
+	if (paused == false)
+	{
+		player2.speed += 2;
+		clearInterval(p1EffectInt);
+	}
 }
 
 function EndPhotosynecdoche()
@@ -1087,21 +1095,27 @@ function PrepareItemBox()
 
 function SpawnItemBox()
 {
-	itemSprite.src = "../sprites/powerupbox.png";
-	itemState = 1;
-	itemappearssound.play();
-	clearInterval(itemSpawnInterval);
+	if (paused == false)
+	{
+		itemSprite.src = "../sprites/powerupbox.png";
+		itemState = 1;
+		itemappearssound.play();
+		clearInterval(itemSpawnInterval);
+	}
 }
 
 function EndItem()
 {
-	if (itemOwner == 1 && itemEffectActive == true)
-		DeactivateItemP1();
-	else if (itemOwner == 2 && itemEffectActive == true)
-		DeactivateItemP2();
-	itemState = 0;
-	itemOwner = 0;
-	PrepareItemBox();
+	if (paused == false)
+	{
+		if (itemOwner == 1 && itemEffectActive == true)
+			DeactivateItemP1();
+		else if (itemOwner == 2 && itemEffectActive == true)
+			DeactivateItemP2();
+		itemState = 0;
+		itemOwner = 0;
+		PrepareItemBox();
+	}
 }
 
 function ActivateItemP1()
@@ -1633,6 +1647,10 @@ function keyDown(event)
 			if (p1SpecialPoints == 10 && cantUseSpecial == false)
 				SpecialMoveP1();
 			break;
+		case 80: //P
+			if (currentScreen == 3 && cantUseSpecial == false)
+				Pause();
+			break;
 		case 32: //SPACE
 			if (currentScreen == 1 && P1CharPicked == false)
 			{
@@ -1863,6 +1881,30 @@ function p2KeyUp(event)
 			p2RightPressed = false;
 			break;
 	} 
+}
+
+function Pause()
+{
+	if (paused == false)
+	{
+		paused = true;
+		clearInterval(interval);
+		drawInterval = setInterval(drawPause, 50);
+	}
+	else
+	{
+		paused = false;
+		interval = setInterval(update, 33.34);
+	}
+	menuding.play();
+}
+
+function drawPause()
+{
+	clearInterval(drawInterval);
+	surface.font = "80px BoldTennisFont";
+	surface.fillStyle = "black";
+	surface.fillText("PAUSE", 640, 340);
 }
 
 function P1CharKeyDown(event)

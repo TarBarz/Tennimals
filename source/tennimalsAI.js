@@ -184,7 +184,9 @@ var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
 var charselecttheme = document.getElementById("charselecttheme");
-charselecttheme.pause();
+//charselecttheme.pause();
+
+var paused = false;
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
@@ -1178,14 +1180,20 @@ function PoisonPlayer2()
 
 function HealPoisonP1()
 {
-	player.speed += 2;
-	clearInterval(p2EffectInt);
+	if (paused == false)
+	{
+		player.speed += 2;
+		clearInterval(p2EffectInt);
+	}
 }
 
 function HealPoisonP2()
 {
-	player2.speed += 2;
-	clearInterval(p1EffectInt);
+	if (paused == false)
+	{
+		player2.speed += 2;
+		clearInterval(p1EffectInt);
+	}
 }
 
 function EndPhotosynecdoche()
@@ -1283,21 +1291,27 @@ function PrepareItemBox()
 
 function SpawnItemBox()
 {
-	itemSprite.src = "../sprites/powerupbox.png";
-	itemState = 1;
-	itemappearssound.play();
-	clearInterval(itemSpawnInterval);
+	if (paused == false)
+	{
+		itemSprite.src = "../sprites/powerupbox.png";
+		itemState = 1;
+		itemappearssound.play();
+		clearInterval(itemSpawnInterval);
+	}
 }
 
 function EndItem()
 {
-	if (itemOwner == 1 && itemEffectActive == true)
-		DeactivateItemP1();
-	else if (itemOwner == 2 && itemEffectActive == true)
-		DeactivateItemP2();
-	itemState = 0;
-	itemOwner = 0;
-	PrepareItemBox();
+	if (paused == false)
+	{
+		if (itemOwner == 1 && itemEffectActive == true)
+			DeactivateItemP1();
+		else if (itemOwner == 2 && itemEffectActive == true)
+			DeactivateItemP2();
+		itemState = 0;
+		itemOwner = 0;
+		PrepareItemBox();
+	}
 }
 
 function ActivateItemP1()
