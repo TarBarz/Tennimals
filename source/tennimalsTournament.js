@@ -238,7 +238,7 @@ function startRound()
 	gameplaytheme2.currentTime = 0;
 	if (currentRound != 5)
 	{
-		document.getElementById("game").style.backgroundImage = "url('TennisCourt.png')";
+		document.getElementById("game").style.backgroundImage = "url('../backgrounds/TennisCourt.png')";
 		surface.fillText("ROUND " + currentRound, 640, 320);
 		musicSwitch = !musicSwitch;
 		if (musicSwitch == true)
@@ -251,7 +251,7 @@ function startRound()
 		bosstheme.loop = true;
 		bosstheme.currentTime = 0;
 		bosstheme.play();
-		document.getElementById("game").style.backgroundImage = "url('../sprites/TennisCourt Shadow.png')";
+		document.getElementById("game").style.backgroundImage = "url('../backgrounds/TennisCourt Shadow.png')";
 		surface.fillText("FINAL ROUND", 640, 320);
 	}
 	p1Score = 0;
