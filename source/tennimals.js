@@ -186,6 +186,8 @@ var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
 var charselecttheme = document.getElementById("charselecttheme");
+var gameplaytheme1 = document.getElementById("gameplaytheme1");
+var gameplaytheme2 = document.getElementById("gameplaytheme2");
 var victorytheme = document.getElementById("victorytheme");
 
 var paused = false;
@@ -204,6 +206,15 @@ Player1Char();
 function startGame()
 {
 	charselecttheme.pause();
+	gameplaytheme1.loop = true;
+	gameplaytheme2.loop = true;
+	gameplaytheme1.currentTime = 0;
+	gameplaytheme2.currentTime = 0;
+	var y = Math.floor(Math.random() * 2);
+	if (y == 0)
+		gameplaytheme1.play();
+	else
+		gameplaytheme2.play();
 	currentScreen = 3;
 	p1Score = 0;
 	p2Score = 0;
@@ -2438,6 +2449,9 @@ function StartVictoryScreen()
 	clearInterval(drawInterval);
 	clearInterval(textInterval);
 	clearInterval(itemSpawnInterval);
+	
+	gameplaytheme1.pause();
+	gameplaytheme2.pause();
 	
 	victorytheme.loop = true;
 	victorytheme.currentTime = 0;

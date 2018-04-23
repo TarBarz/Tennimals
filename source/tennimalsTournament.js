@@ -179,6 +179,8 @@ var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
 var charselecttheme = document.getElementById("charselecttheme");
+var gameplaytheme1 = document.getElementById("gameplaytheme1");
+var gameplaytheme2 = document.getElementById("gameplaytheme2");
 var bosstheme = document.getElementById("emeraldtheme");
 var victorytheme = document.getElementById("victorytheme");
 var gameovertheme = document.getElementById("gameover");
@@ -194,6 +196,7 @@ window.addEventListener("keyup", keyUp);
 var currentRound = 0;
 var currentOpponent = -1;
 var introInterval;
+var musicSwitch = false;
 
 var opponentArray = [2, 4, 3, 1, 5, 6];
 
@@ -227,10 +230,21 @@ function startRound()
 	p2SpecialPoints = 0;
 	surface.fillStyle = "black";
 	surface.font = "80px BoldTennisFont";
+	gameplaytheme1.loop = true;
+	gameplaytheme2.loop = true;
+	gameplaytheme1.pause();
+	gameplaytheme2.pause();
+	gameplaytheme1.currentTime = 0;
+	gameplaytheme2.currentTime = 0;
 	if (currentRound != 5)
 	{
 		document.getElementById("game").style.backgroundImage = "url('TennisCourt.png')";
 		surface.fillText("ROUND " + currentRound, 640, 320);
+		musicSwitch = !musicSwitch;
+		if (musicSwitch == true)
+			gameplaytheme1.play();
+		else
+			gameplaytheme2.play();
 	}
 	else
 	{
@@ -2173,6 +2187,9 @@ function GameOver()
 	clearInterval(textInterval);
 	clearInterval(itemSpawnInterval);
 	bosstheme.pause();
+	
+	gameplaytheme1.pause();
+	gameplaytheme2.pause();
 	
 	gameovertheme.loop = true;
 	gameovertheme.currentTime = 0;
