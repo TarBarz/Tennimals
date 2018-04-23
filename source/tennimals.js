@@ -197,7 +197,7 @@ var victorytheme = document.getElementById("victorytheme");
 
 var paused = false;
 
-var bgArray = ["TennisCourt", "TennisCourt", "TennisCourt Desert", "TennisCourt Desert", "TennisCourt Water", "TennisCourt Water", "TennisCourt Shadow", "TennisCourt Rainbow"];
+var bgArray = ["TennisCourt", "TennisCourt", "TennisCourt Desert", "TennisCourt Desert", "TennisCourt Water", "TennisCourt Water", "TennisCourt Ice", "TennisCourt Ice", "TennisCourt Fancy", "TennisCourt Shadow", "TennisCourt Rainbow"];
 
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);

@@ -202,7 +202,7 @@ var introInterval;
 var musicSwitch = false;
 
 var opponentArray = [2, 4, 3, 1, 5, 6];
-var bgArray = ["TennisCourt Water", "TennisCourt Desert", "TennisCourt Water", "TennisCourt", "TennisCourt Desert", "TennisCourt Shadow"];
+var bgArray = ["TennisCourt Ice", "TennisCourt Desert", "TennisCourt Water", "TennisCourt", "TennisCourt Fancy", "TennisCourt Shadow"];
 
 Player1Char();
 

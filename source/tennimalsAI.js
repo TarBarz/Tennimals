@@ -194,7 +194,7 @@ var gameplaytheme2 = document.getElementById("gameplaytheme2");
 var victorytheme = document.getElementById("victorytheme");
 //charselecttheme.pause();
 
-var bgArray = ["TennisCourt", "TennisCourt", "TennisCourt Desert", "TennisCourt Desert", "TennisCourt Water", "TennisCourt Water", "TennisCourt Shadow", "TennisCourt Rainbow"];
+var bgArray = ["TennisCourt", "TennisCourt", "TennisCourt Desert", "TennisCourt Desert", "TennisCourt Water", "TennisCourt Water", "TennisCourt Ice", "TennisCourt Ice", "TennisCourt Fancy", "TennisCourt Shadow", "TennisCourt Rainbow"];
 
 var paused = false;
 
