@@ -184,6 +184,7 @@ var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
 var charselecttheme = document.getElementById("charselecttheme");
+var victorytheme = document.getElementById("victorytheme");
 //charselecttheme.pause();
 
 var paused = false;
@@ -1747,6 +1748,10 @@ function StartVictoryScreen()
 	clearInterval(textInterval);
 	clearInterval(itemSpawnInterval);
 	
+	victorytheme.loop = true;
+	victorytheme.currentTime = 0;
+	victorytheme.play();
+	
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
 	
@@ -2243,6 +2248,7 @@ function Player1Char()
 	currentScreen = 1;
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
+	victorytheme.pause();
 	surface.fillStyle = "black";
 	surface.fillStyle = "gray";
 	surface.fillRect(0,0,1280,640);

@@ -180,6 +180,7 @@ var shoo = document.getElementById("shoo");
 
 var charselecttheme = document.getElementById("charselecttheme");
 var bosstheme = document.getElementById("emeraldtheme");
+var victorytheme = document.getElementById("victorytheme");
 var gameovertheme = document.getElementById("gameover");
 
 var paused = false;
@@ -1820,6 +1821,7 @@ function Player1Char()
 	currentScreen = 1;
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
+	victorytheme.pause();
 	gameovertheme.pause();
 	surface.fillStyle = "black";
 	surface.fillStyle = "gray";
@@ -2137,6 +2139,10 @@ function StartVictoryScreen()
 	clearInterval(drawInterval);
 	clearInterval(textInterval);
 	clearInterval(itemSpawnInterval);
+	
+	victorytheme.loop = true;
+	victorytheme.currentTime = 0;
+	victorytheme.play();
 	
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";

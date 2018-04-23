@@ -186,6 +186,7 @@ var fip = document.getElementById("fip");
 var shoo = document.getElementById("shoo");
 
 var charselecttheme = document.getElementById("charselecttheme");
+var victorytheme = document.getElementById("victorytheme");
 
 var paused = false;
 
@@ -2114,6 +2115,7 @@ function incrementP2SP()
 function Player1Char()
 {
 	currentScreen = 1;
+	victorytheme.pause();
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
 	surface.fillStyle = "black";
@@ -2436,6 +2438,10 @@ function StartVictoryScreen()
 	clearInterval(drawInterval);
 	clearInterval(textInterval);
 	clearInterval(itemSpawnInterval);
+	
+	victorytheme.loop = true;
+	victorytheme.currentTime = 0;
+	victorytheme.play();
 	
 	//p1ScoreText.innerHTML = "";
 	//p2ScoreText.innerHTML = "";
