@@ -199,6 +199,7 @@ var introInterval;
 var musicSwitch = false;
 
 var opponentArray = [2, 4, 3, 1, 5, 6];
+var bgArray = ["TennisCourt Water", "TennisCourt Desert", "TennisCourt Water", "TennisCourt", "TennisCourt Desert", "TennisCourt Shadow"];
 
 Player1Char();
 
@@ -238,7 +239,7 @@ function startRound()
 	gameplaytheme2.currentTime = 0;
 	if (currentRound != 5)
 	{
-		document.getElementById("game").style.backgroundImage = "url('../backgrounds/TennisCourt.png')";
+		//document.getElementById("game").style.backgroundImage = "url('../backgrounds/TennisCourt.png')";
 		surface.fillText("ROUND " + currentRound, 640, 320);
 		musicSwitch = !musicSwitch;
 		if (musicSwitch == true)
@@ -251,9 +252,10 @@ function startRound()
 		bosstheme.loop = true;
 		bosstheme.currentTime = 0;
 		bosstheme.play();
-		document.getElementById("game").style.backgroundImage = "url('../backgrounds/TennisCourt Shadow.png')";
+		//document.getElementById("game").style.backgroundImage = "url('../backgrounds/TennisCourt Shadow.png')";
 		surface.fillText("FINAL ROUND", 640, 320);
 	}
+	document.getElementById("game").style.backgroundImage = "url('../backgrounds/" + bgArray[currentOpponent] + ".png')";
 	p1Score = 0;
 	p2Score = 0;
 	p1Point.innerHTML = 0;

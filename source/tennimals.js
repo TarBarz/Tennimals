@@ -192,6 +192,8 @@ var victorytheme = document.getElementById("victorytheme");
 
 var paused = false;
 
+var bgArray = ["TennisCourt", "TennisCourt", "TennisCourt Desert", "TennisCourt Desert", "TennisCourt Water", "TennisCourt Water", "TennisCourt Shadow", "TennisCourt Rainbow"];
+
 window.addEventListener("keydown", keyDown);
 window.addEventListener("keyup", keyUp);
 window.addEventListener("keydown", p2KeyDown);
@@ -215,6 +217,9 @@ function startGame()
 		gameplaytheme1.play();
 	else
 		gameplaytheme2.play();
+	var u = bgArray.length;
+	var z = Math.floor(Math.random() * u);
+	document.getElementById("game").style.backgroundImage = "url('../backgrounds/" + bgArray[z] + ".png')";
 	currentScreen = 3;
 	p1Score = 0;
 	p2Score = 0;
