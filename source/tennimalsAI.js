@@ -1955,6 +1955,10 @@ function keyDown(event)
 			if (p1SpecialPoints == 10 && cantUseSpecial == false)
 				SpecialMoveP1();
 			break;
+		case 80: //P
+			if (currentScreen == 3 && cantUseSpecial == false)
+				Pause();
+			break;
 		case 32: //SPACE
 		if (currentScreen == 1 && P1CharPicked == false)
 			{
@@ -2024,6 +2028,32 @@ function keyUp(event)
 			rightPressed = false;
 			break;
 	}
+}
+
+function Pause()
+{
+	if (paused == false)
+	{
+		paused = true;
+		clearInterval(interval);
+		drawInterval = setInterval(drawPause, 50);
+		clearInterval(aiInterval);
+	}
+	else
+	{
+		paused = false;
+		interval = setInterval(update, 33.34);
+		aiInterval = setInterval(aiMotion, 300);
+	}
+	menuding.play();
+}
+
+function drawPause()
+{
+	clearInterval(drawInterval);
+	surface.font = "80px BoldTennisFont";
+	surface.fillStyle = "black";
+	surface.fillText("PAUSE", 640, 340);
 }
 
 function P1CharKeyDown(event)
