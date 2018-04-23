@@ -124,10 +124,12 @@ a
 	margin: 5px;
 	cursor: pointer;
 	transition-duration: 0.5s;
-	width: 150px;
+	width: 600px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	font-family: BoldTennisFont;
+	font-size: 30px;
 }
 
 #singlePlayer:hover
@@ -146,10 +148,12 @@ a
 	margin: 5px;
 	cursor: pointer;
 	transition-duration: 0.5s;
-	width: 150px;
+	width: 600px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	font-family: BoldTennisFont;
+	font-size: 30px;
 }
 
 #versus:hover
@@ -168,10 +172,12 @@ a
 	margin: 5px;
 	cursor: pointer;
 	transition-duration: 0.5s;
-	width: 150px;
+	width: 600px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	font-family: BoldTennisFont;
+	font-size: 30px;
 }
 
 #tournament:hover
@@ -190,10 +196,12 @@ a
 	margin: 5px;
 	cursor: pointer;
 	transition-duration: 0.5s;
-	width: 150px;
+	width: 600px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
+	font-family: BoldTennisFont;
+	font-size: 30px;
 }
 
 #credits:hover

@@ -181,6 +181,8 @@ var p2ArrowLocation = 1;
 
 var itemind = new Image();
 itemind.src = "../sprites/itemson.png";
+var quit = new Image();
+quit.src = "../sprites/quitbutton.png";
 
 var menuding = document.getElementById("menuding");
 var fip = document.getElementById("fip");
@@ -2357,6 +2359,10 @@ function DrawPlayer1Char()
 	itemind.onload = function()
 	{surface.drawImage(itemind, 440, 560, 200, 75);}
 	surface.drawImage(itemind, 440, 560, 200, 75);
+	
+	quit.onload = function()
+	{surface.drawImage(quit, 20, 20, 100, 33);}
+	surface.drawImage(quit, 20, 20, 100, 33);
 }
 
 function setP1Character(x)

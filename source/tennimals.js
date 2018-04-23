@@ -180,6 +180,8 @@ statsimg2.src = "../characterselectboxes/charstatbox3.png";
 
 var itemind = new Image();
 itemind.src = "../sprites/itemson.png";
+var quit = new Image();
+quit.src = "../sprites/quitbutton.png";
 
 var p1ArrowLocation = 0;
 var p2ArrowLocation = 2;
@@ -2221,6 +2223,10 @@ function DrawPlayer1Char()
 	itemind.onload = function()
 	{surface.drawImage(itemind, 440, 560, 200, 75);}
 	surface.drawImage(itemind, 440, 560, 200, 75);
+	
+	quit.onload = function()
+	{surface.drawImage(quit, 20, 20, 100, 33);}
+	surface.drawImage(quit, 20, 20, 100, 33);
 	/*surface.font = "30px BoldTennisFont";
 	surface.fillText("PLAYER 1", 640, 50);
 	surface.fillText("Pick Character:", 640, 100);

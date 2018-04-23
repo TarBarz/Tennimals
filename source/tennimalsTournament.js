@@ -171,6 +171,9 @@ statsimg1.src = "../characterselectboxes/charstatbox1.png";
 var statsimg2 = new Image();
 statsimg2.src = "../characterselectboxes/charstatbox3.png";
 
+var quit = new Image();
+quit.src = "../sprites/quitbutton.png";
+
 var p1ArrowLocation = 0;
 var p2ArrowLocation = 2;
 
@@ -1897,6 +1900,10 @@ function DrawPlayer1Char()
 	{surface.drawImage(statsimg1, 10, 220);}
 	
 	surface.drawImage(statsimg1, 10, 220);
+	
+	quit.onload = function()
+	{surface.drawImage(quit, 20, 20, 100, 33);}
+	surface.drawImage(quit, 20, 20, 100, 33);
 }
 
 function keyDown(event)
