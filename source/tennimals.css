@@ -237,7 +237,7 @@ a
 #gameCreditsContent
 {
 	width: 640px;
-	height: 500px;
+	height: 450px;
 	margin-left: auto;
 	margin-right: auto;
 	position: relative;
@@ -303,11 +303,12 @@ p.nameAnimation
 	color: black;
 	text-align: center;
 	padding: 14px 28px;
-	font-size: 16px;
+	font-family: BoldTennisFont;
+	font-size: 30px;
 	margin: 5px;
 	cursor: pointer;
 	transition-duration: 0.5s;
-	width: 150px;
+	width: 600px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
